@@ -1,19 +1,18 @@
 ﻿const express = require("express");
-const {Client} = require('pg');
+const {Pool} = require('pg');
 import {getFromConfig, handleDefault, db} from './utils';
 
 const hostname = process.env.IP_ADDRESS || '10.0.0.6';
 const port = 8081;
 const app = express();
-const saveClient = (req, res, next) => {
-    req.client = client;
+const savePool = (req, res, next) => {
+    req.pool = pool;
     next();
 };
 
-var client = null;
+var pool = null;
 const connectToDataBase = () => {
-    client = new Client(getFromConfig('postgresql'));
-    client.connect();
+    pool = new Pool(getFromConfig('postgresql'));
 }
 
 const ALLOWED_ORIGINS = [
@@ -50,7 +49,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(express.json({ extended: true }));
-app.use(saveClient);
+app.use(savePool);
 app.use('/api/user/', require('./routes/user.routes'));
 app.use('/api/user_roles/', require('./routes/user_roles.routes'));
 app.use('/api/region/', require('./routes/region.routes'));
