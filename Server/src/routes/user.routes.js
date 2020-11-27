@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const jwt = require('jsonwebtoken');
-import {db, getFromConfig, wrapResponse, wrapAccess, handleDefault} from '../utils';
+import {db, getFromConfig, wrapResponse, wrapAccess, handleDefault, handleInternal} from '../utils';
 import auth from '../middleware/auth.middleware';
 import access from './../access';
 const router = Router();
@@ -8,31 +8,45 @@ const router = Router();
 // /api/user/login
 router.get(
    '/login',
-   wrapResponse(async (request, response) => {
-      const {login, password} = request.query;
-      const client = request.client;
-      const user = await client.query(
-         db.queries.select('users', { login })
-      ).then(db.getOne).catch((e) => handleDefault(e, response));
-      if (!user) {
-         return response.status(400).json({ message: 'Пользователь не найден' });
-      }
+   (request, response) => {
+      const {login, password} = request.query || {};
+      const runChecks = (user) => {
+         if (!user) {
+            response.status(400).json({ message: 'Пользователь не найден' });
+            throw 'internal';
+         }
+   
+         if (password !== user.password) {
+            response.status(403).json({ message: 'Неверный пароль, попробуйте снова' });
+            throw 'internal';
+         }
 
-      if (password !== user.password) {
-         return response.status(403).json({ message: 'Неверный пароль, попробуйте снова' });
-      }
+         return user;
+      };
 
-      const token = jwt.sign(
-         {
-            userId: user.user_id,
-            role: user.role
-         },
-         getFromConfig("jwtsecret"),
-         { expiresIn: '1w' }
-      );
-		
-      response.json({ token, user });
-   }));
+      const saveToken = (user) => {
+         const token = jwt.sign(
+            {
+               userId: user.user_id,
+               role: user.role
+            },
+            getFromConfig("jwtsecret"),
+            { expiresIn: '1w' }
+         );
+
+         return { user, token };
+      };
+
+      request.pool
+         .query(db.queries.select('users', { login }))
+         .then(db.getOne)
+         .then(runChecks)
+         .then(saveToken)
+         .then(({user, token}) => response.json({ user, token }))
+         .catch(handleInternal)
+         .catch((e) => handleDefault(e, response));
+   }
+);
 
 // /api/user/getUserByToken
 router.get(
