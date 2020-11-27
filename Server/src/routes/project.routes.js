@@ -29,14 +29,19 @@ router.get(
          .query(db.queries.select('project', {},
          `
             COUNT(l.like_id)::int as likes_сount,
-            MIN(ph.change_date) as date_create
+            MIN(ph.change_date) as date_create,
+            u.profile_image as author_image,
+            u.firstname as author_firstname,
+            u.lastname as author_lastname,
+            (SELECT pc.class_name FROM project_classificator as pc WHERE pc.class_id = t.project_class) as classificator
          `,
          `
             LEFT JOIN likes as l ON l.project_id = t.project_id
             LEFT JOIN project_history as ph ON ph.project_id = t.project_id
+            LEFT JOIN users as u ON u.user_id = t.author
          `,
          `
-            GROUP BY t.project_id
+            GROUP BY t.project_id, u.profile_image, u.firstname, u.lastname
             ORDER BY date_create DESC
          `))
          .then(db.getAll)
