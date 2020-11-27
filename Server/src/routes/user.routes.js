@@ -80,13 +80,12 @@ router.get(
 router.get(
    '/getAll',
    wrapAccess(auth, access.user.getAll),
-   wrapResponse(async (request, response) => {
-      const allUsers = await request.client.query(
-         db.queries.select('users')
-      ).then(db.getAll).catch((e) => handleDefault(e, response));
-
-      response.json({ users: allUsers });
-   })
+   (request, response) => 
+      request.pool
+         .query(db.queries.select('users'))
+         .then(db.getAll)
+         .then((result) => response.json({ users: result }))
+         .catch((e) => handleDefault(e, response))
 );
 
 // /api/user/add
