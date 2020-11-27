@@ -36,37 +36,42 @@ router.get(
 router.post(
    '/addProject',
    wrapAccess(auth, access.project.addProject),
-   wrapResponse(async (request, response) => {
+   wrapResponse((request, response) => {
+      var project = null;
       const {
          project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit
       } = request.body;
 
-      const candidate = await request.client.query(
-         db.queries.select('project', { project_name })
-      ).then(db.getOne).catch((e) => handleDefault(e, response));
-
-      if (candidate) {
-         return response.status(400).json({ message: "Проект с таким названием уже существует" });
-      }
-
-      let projectRes = {};
-      await request.client.query(db.queries.insert('project', {
-         project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit
-      }))
-      .then(db.getOne)
-      .then(async (project) => {
-         console.log(project);
+      const checkProjectDoesNotExist = (project) => {
          if (project) {
-            projectRes = project;
-            await request.client.query(db.queries.project.setDocuments({ project_id: project.project_id }))
-               .catch(e => handleDefault(e, response));
-         } else {
-            handleDefault(new Error('Не удалось создать новый проект'), response);
+            response.status(400).json({ message: "Проект с таким названием уже существует" });
+            throw 'internal';
          }
-      })
-      .catch((e) => handleDefault(e, response));
+      };
 
-      response.status(201).json({ message: "Проект создан", projectId: projectRes['project_id'] });
+      request.pool.connect()
+         .then(client => {
+            return client
+               .query(db.queries.select('project', { project_name }))
+               .then(db.getOne)
+               .then(checkProjectDoesNotExist)
+
+               .then(() => client.query(db.queries.insert('project', {
+                  project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit
+               })))
+               .then(db.getOne)
+               .then((res) => {
+                  project = res;
+               })
+
+               .then(() => client.query(db.queries.project.setDocuments({ project_id: project.project_id })))
+               .then(() => client.release())
+               .then(() => response.status(201).json({ message: "Проект создан", projectId: project.project_id }))
+               .catch(e => {
+                  client.release();
+                  handleDefault(e, response);
+               })
+         });
    })
 );
 
