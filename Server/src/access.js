@@ -15,8 +15,11 @@ export default {
     },
     "project": {
         "getAllProjectClassificators": [1],
+        
         "getAllProjects": [1],
         "addProject": [1],
-        "updateProject": [1]
+        "updateProject": [1],
+
+        "getProjectByProjectId": [1]
     }
 }

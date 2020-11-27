@@ -41,7 +41,7 @@ router.get(
             LEFT JOIN users as u ON u.user_id = t.author
          `,
          `
-            GROUP BY t.project_id, u.profile_image, u.firstname, u.lastname
+            GROUP BY t.project_id, u.profile_image, u.firstname, u.surname
             ORDER BY date_create DESC
          `))
          .then(db.getAll)
@@ -119,6 +119,20 @@ router.post(
          })
          .catch((e) => handleDefault(e, response))
    })
+);
+
+// /api/project/getProjectByProjectId
+router.get(
+   '/getProjectByProjectId',
+   wrapAccess(auth, access.project.getProjectByProjectId),
+   (request, response) => {
+      const { projectId } = request.query;
+      request.pool
+         .query(db.queries.select('project', { project_id: projectId }))
+         .then(db.getOne)
+         .then((result) => response.json({ project: result }))
+         .catch((e) => handleDefault(e, response));
+   }
 );
 
 module.exports = router;
