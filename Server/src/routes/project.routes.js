@@ -78,23 +78,20 @@ router.post(
 // /api/project/updateProject
 router.post(
    '/updateProject',
-   // wrapAccess(auth, access.project.updateProject),
+   wrapAccess(auth, access.project.updateProject),
    wrapResponse(async (request, response) => {
       const {
          project_id, project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit, date_end
       } = request.body;
 
-      if (author) {
-         return response.status(400).json({ message: 'Нельзя изменить автора проекта' });
-      }
-
       if (!project_id) {
          return response.status(400).json({ message: 'Не задан ID проекта для модификации' });
       }
 
-      request.client.query(db.queries.update('project', {
-         project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit
-      }, { project_id }))
+      request.pool
+         .query(db.queries.update('project', {
+            project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit
+         }, { project_id: project_id }))
          .then(db.getOne)
          .then(project => {
             if (project) {
@@ -103,7 +100,7 @@ router.post(
                handleDefault(new Error('Не удалось изменить данные по проекту'), response);
             }
          })
-         .catch(e => handleDefault(e, response));
+         .catch((e) => handleDefault(e, response))
    })
 );
 
