@@ -1,0 +1,9 @@
+# Local IDE files
+.idea
+
+# node
+*/node_modules/
+*/package-lock.json
+
+#python
+venv
