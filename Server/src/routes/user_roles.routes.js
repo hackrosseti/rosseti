@@ -8,13 +8,12 @@ const router = Router();
 router.get(
     '/getAll',
     wrapAccess(auth, access.user_roles.getAll),
-    wrapResponse(async (request, response) => {
-       const roles = await request.client.query(
-          db.queries.select('users_roles')
-       ).then(db.getAll).catch((e) => handleDefault(response, e));
- 
-       response.json({ roles });
-    })
+    (request, response) =>
+      request.pool
+      .query(db.queries.select('users_roles'))
+      .then(db.getAll)
+      .then((result) => response.json({ users_roles: result }))
+      .catch((e) => handleDefault(e, response, request))
 );
 
 module.exports = router;
