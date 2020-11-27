@@ -12,5 +12,11 @@ export default {
     },
     "kanban": {
         "getAll": [1]
+    },
+    "project": {
+        "getAllProjectClassificators": [1],
+        "getAllProjects": [1],
+        "addProject": [1],
+        "updateProject": [1]
     }
 }

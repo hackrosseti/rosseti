@@ -19,6 +19,7 @@ const connectToDataBase = () => {
 const ALLOWED_ORIGINS = [
   'http://168.63.58.52:80',
   'http://localhost:63342',
+  'http://localhost:80',
   'http://ksutechrosset.northeurope.cloudapp.azure.com'
 ];
 
@@ -51,6 +52,7 @@ app.use('/api/user/', require('./routes/user.routes'));
 app.use('/api/user_roles/', require('./routes/user_roles.routes'));
 app.use('/api/region/', require('./routes/region.routes'));
 app.use('/api/kanban/', require('./routes/kanban.routes'));
+app.use('/api/project/', require('./routes/project.routes'));
 
 app.listen(port, hostname, async () => {
     try {
