@@ -92,34 +92,42 @@ router.get(
 router.post(
    '/add',
    wrapAccess(auth, access.user.add),
-   wrapResponse(async (request, response) => {
+   wrapResponse((request, response) => {
+      var user = null;
       const {
          login, role, password, firstname, lastname, surname, company, department, position, region_id, email, education, dob, experience
       } = request.body;
 
-      const candidate = await request.client.query(
-         db.queries.select('users', { login })
-      ).then(db.getOne).catch((e) => handleDefault(e, response));
-
-      if (candidate) {
-         return response.status(400).json({ message: "Такой пользователь уже существует" });
-      }
-
-      let userRes = {};
-      await request.client.query(db.queries.insert('users', {
-         login, role, password, firstname, lastname, surname, company, department, position, region_id, email, education, dob, experience
-      }))
-      .then(db.getOne)
-      .then((user) => {
+      const checkUserDoesNotExist = (user) => {
          if (user) {
-            userRes = user;
-            return request.client.query(db.queries.user.setDocuments({ user_id: user.user_id }))
+            response.status(400).json({ message: "Такой пользователь уже существует" });
+            throw 'internal';
          }
-         throw new Error('Не удалось создать пользователя');
-      })
-      .catch((e) => handleDefault(e, response));
+      };
 
-      response.status(201).json({ message: "Пользователь создан", userId: userRes['user_id'] });
+      request.pool.connect()
+         .then(client => {
+            return client
+               .query(db.queries.select('users', { login }))
+               .then(db.getOne)
+               .then(checkUserDoesNotExist)
+
+               .then(() => client.query(db.queries.insert('users', {
+                  login, role, password, firstname, lastname, surname, company, department, position, region_id, email, education, dob, experience
+               })))
+               .then(db.getOne)
+               .then((res) => {
+                  user = res;
+               })
+
+               .then(() => client.query(db.queries.user.setDocuments({ user_id: user.user_id })))
+               .then(() => client.release())
+               .then(() => response.status(201).json({ message: "Пользователь создан", userId: user.user_id }))
+               .catch(e => {
+                  client.release();
+                  handleDefault(e, response);
+               })
+         });
    })
 );
 
