@@ -20,8 +20,8 @@ addUserModal.controller('AddUserModalCtrl', function ($scope, $uibModalInstance,
 
     function getAllUserRoles(){
         userService.getAllUserRoles().then(function(response){
-            if(response && response.roles){
-                $scope.userRoles = response.roles;
+            if(response && response.users_roles){
+                $scope.userRoles = response.users_roles;
             } else {
                 setDefaultRoles();
                 infoService.infoFunction(response.message, "Ошибка");

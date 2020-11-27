@@ -2,7 +2,7 @@
 
 var createProject = angular.module('myApp.createProject', ['ngRoute']);
 
-createProject.controller('CreateProjectCtrl', function ($scope, userService,  $rootScope, projectService) {
+createProject.controller('CreateProjectCtrl', function ($scope, userService,  $rootScope, projectService, infoService) {
 
     $scope.projectStatusId = projectService.projectStatusId;
     $scope.user = userService.User;
@@ -23,16 +23,16 @@ createProject.controller('CreateProjectCtrl', function ($scope, userService,  $r
     }
 
     $scope.addProject = function(project){
-        if($scope.project.project_name && $scope.project.project_describe  && $scope.project.project_class
-            && $scope.project.author && $scope.project.conference_link && $scope.project.region_id && $scope.project.project_offer && $scope.project.project_profit){
+        if($scope.project.project_name && $scope.project.project_describe  && $scope.project.project_class && $scope.project.project_offer && $scope.project.project_profit){
             if(!$scope.project.project_status) $scope.project.project_status = 1;
             if(!$scope.project.conference_link) $scope.project.conference_link = "-";
             if(!$scope.project.region_id) $scope.project.region_id = $scope.user.region_id;
             if(!$scope.project.author) $scope.project.author = $scope.user.user_id;
-            $scope.project.project_offer = $scope.project.project_profit = "-";
-            projectService.addProject(project).then(function(response){
+            //$scope.project.project_offer = $scope.project.project_profit = "-";
+            projectService.addProject($scope.project).then(function(response){
                 if (response && response.projectId) {
                     infoService.infoFunction("Проект успешно создан", "Информация");
+                    userService.projectId = response.projectId;
                     userService.redirectTo("project");
                 } else {
                     infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");

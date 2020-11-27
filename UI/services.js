@@ -293,6 +293,7 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
 
     service.addUserModal = function () {
         var modalInstance = $uibModal.open({
+            backdrop: 'static',
             templateUrl: 'modalWindows/addUserModal/addUserModal.html',
             controller: 'AddUserModalCtrl',
             windowClass: 'info-window-modal',
@@ -304,6 +305,7 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
 
     service.editUserModal = function (user) {
         var modalInstance = $uibModal.open({
+            backdrop: 'static',
             templateUrl: 'modalWindows/editUserModal/editUserModal.html',
             controller: 'EditUserModalCtrl',
             resolve: {
@@ -329,7 +331,7 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
     service.addUser = function (user) {
         var deferred = $q.defer();
         $http.post(ipAdress + "/api/user/add", user).success(function (response, headers) {
-            console.log(headers)
+            //console.log(headers)
             deferred.resolve(response);
         }).error(function () {
             deferred.reject('Error in addUser in userService function');
