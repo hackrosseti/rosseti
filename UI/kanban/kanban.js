@@ -28,7 +28,6 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
 
     var boards = [];
     function createCanban(){
-
         angular.forEach($scope.kanbanStatuses, function (status, index){
             var projects = [];
             angular.forEach($scope.projects, function (project, index) {
@@ -177,10 +176,14 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
         });
     }
 
+    $scope.projectClassificator = 1;
+
     function getAllProjectClassificators(){
         projectService.getAllProjectClassificators().then(function(response){
             if (response && response.classificators) {
                 $scope.projectClassificators = response.classificators;
+                $scope.projectClassificator = $scope.projectClassificators[0];
+                tryDigest();
             } else {
                 infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
             }
@@ -188,6 +191,12 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
             console.log(response)
             infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
         });
+    }
+
+    function tryDigest() {
+        if (!$rootScope.$$phase) {
+            $rootScope.$apply();
+        }
     }
 
     function getAllProjects(){
@@ -227,10 +236,14 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
     }
 
     function getProjectById(projectId){
-        console.log(projectId)
+        //console.log(projectId)
+        userService.projectId = projectId;
+        userService.redirectTo("project");
     }
 
-
+    $scope.getAllProjectsWithClassif = function(classifId){
+        console.log(classifId);
+    }
 
    /* var toDoButton = document.getElementById("addToDo");
     toDoButton.addEventListener("click", function() {

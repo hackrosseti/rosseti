@@ -125,6 +125,9 @@ html{
 .width100px{
     width:100px
 }
+.width500px{
+    width:500px
+}
 .loginButton{
     opacity: 1;
     background-color: rgba(255,255,255,0);

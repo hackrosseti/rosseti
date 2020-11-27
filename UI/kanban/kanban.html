@@ -9,6 +9,13 @@
             </div>
         </div>
     </div>
+    <label class="ml-2 mb-0">Выберите классификатор</label>
+    <select placeholder="Поиск по классификаторам" ng-change="getAllProjectsWithClassif(projectClassificator)" class="form-control my-2  mx-1 width500px" ng-model="projectClassificator">
+        <option  ng-repeat="clasif in projectClassificators"
+                value="{{clasif.class_id}}">
+            {{clasif.class_name}}
+        </option>
+    </select>
     <div class="row">
         <div class="col-12 overflow-auto">
             <div id="myKanban"></div>
