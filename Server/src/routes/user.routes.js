@@ -95,7 +95,8 @@ router.post(
    wrapResponse((request, response) => {
       var user = null;
       const {
-         login, role, password, firstname, lastname, surname, company, department, position, region_id, email, education, dob, experience
+         login, role, password, firstname, lastname, surname, company, department,
+         position, region_id, email, education, dob, experience, profile_image
       } = request.body;
 
       const checkUserDoesNotExist = (user) => {
@@ -113,7 +114,8 @@ router.post(
                .then(checkUserDoesNotExist)
 
                .then(() => client.query(db.queries.insert('users', {
-                  login, role, password, firstname, lastname, surname, company, department, position, region_id, email, education, dob, experience
+                  login, role, password, firstname, lastname, surname, company, department,
+                  position, region_id, email, education, dob, experience, profile_image
                })))
                .then(db.getOne)
                .then((res) => {

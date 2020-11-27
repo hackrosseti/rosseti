@@ -56,7 +56,8 @@ router.post(
    wrapResponse((request, response) => {
       var project = null;
       const {
-         project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit
+         project_name, project_describe, project_status, project_class, author, conference_link,
+         region_id, project_offer, project_profit, date_end, image
       } = request.body;
 
       const checkProjectDoesNotExist = (project) => {
@@ -74,7 +75,8 @@ router.post(
                .then(checkProjectDoesNotExist)
 
                .then(() => client.query(db.queries.insert('project', {
-                  project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit
+                  project_name, project_describe, project_status, project_class, author, conference_link,
+                  region_id, project_offer, project_profit, date_end, image
                })))
                .then(db.getOne)
                .then((res) => {
@@ -97,27 +99,40 @@ router.post(
    '/updateProject',
    wrapAccess(auth, access.project.updateProject),
    wrapResponse(async (request, response) => {
+      var project = null;
       const {
-         project_id, project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit, date_end
+         project_id, project_name, project_describe, project_status, project_class, author,
+         conference_link, region_id, project_offer, project_profit, date_end, image
       } = request.body;
 
       if (!project_id) {
          return response.status(400).json({ message: 'Не задан ID проекта для модификации' });
       }
 
-      request.pool
-         .query(db.queries.update('project', {
-            project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit
-         }, { project_id: project_id }))
-         .then(db.getOne)
-         .then(project => {
-            if (project) {
-               response.json({ projectId: project.project_id });
-            } else {
-               handleDefault(new Error('Не удалось изменить данные по проекту'), response);
-            }
-         })
-         .catch((e) => handleDefault(e, response))
+      request.pool.connect()
+         .then(client => {
+            return client
+               .query(db.queries.update('project', {
+                  project_name, project_describe, project_status, project_class, author, conference_link,
+                  region_id, project_offer, project_profit, date_end, image
+               }, { project_id: project_id }))
+               .then(db.getOne)
+               .then(res => {
+                  console.log(res);
+                  if (res) {
+                     project = res;
+                     return client.query(db.queries.project.setDocuments({ project_id: res.project_id }))
+                  } else {
+                     handleDefault(new Error('Не удалось изменить данные по проекту'), response);
+                  }
+               })
+               .then(() => client.release())
+               .then(() => response.json({ projectId: project.project_id }))
+               .catch(e => {
+                  client.release();
+                  handleDefault(e, response);
+               })
+         });
    })
 );
 
