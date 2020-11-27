@@ -6,9 +6,9 @@ var serverUrlIndex = 0;
 setIpAddress();
 
 function setIpAddress() {
-    if (serverUrlIndex == 0) ipAdress = "http://168.63.58.52:8080";
+    if (serverUrlIndex == 0) ipAdress = "http://168.63.58.52:8081";
     //local
-    if (serverUrlIndex == 1) ipAdress = "http://127.0.0.1:8080";
+    if (serverUrlIndex == 1) ipAdress = "http://127.0.0.1:8081";
 };
 
 var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.select', 'myApp.services', 'myApp.confirmationModal','myApp.loginPage',
