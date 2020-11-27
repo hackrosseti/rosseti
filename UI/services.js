@@ -410,6 +410,54 @@ myApp.factory('regionService', function ($http, $window, $q) {
     return service;
 });
 
+myApp.factory('projectService', function ($http, $window, $q) {
+
+    var service = {};
+
+    service.getAllKanbanStatuses = function () {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/kanban/getAll" ).success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in getAllKanbanStatuses in projectService function');
+        });
+        return deferred.promise;
+    };
+
+    service.getAllProjects = function () {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/project/getAllProjects" ).success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in getAllProjects in projectService function');
+        });
+        return deferred.promise;
+    };
+
+    service.addProject = function (project) {
+        var deferred = $q.defer();
+        $http.post(ipAdress + "/api/project/addProject", project).success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in addProject in projectService function');
+        });
+        return deferred.promise;
+    };
+
+    service.getAllProjectClassificators = function () {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/project/getAllProjectClassificators").success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in getAllProjectClassificators in projectService function');
+        });
+        return deferred.promise;
+    };
+
+
+    return service;
+});
+
 myApp.factory('mainService', function ($http, $window, $q) {
 
     var service = {};
