@@ -1,4 +1,4 @@
-Ui:
+UI:
  - npm install http-server
  - cd C:\Users\ksutech\Desktop\testCase\Ui
  - http-server -p 80
