@@ -32,7 +32,7 @@ router.get(
             MIN(ph.change_date) as date_create,
             u.profile_image as author_image,
             u.firstname as author_firstname,
-            u.lastname as author_lastname,
+            u.surname as author_surname,
             (SELECT pc.class_name FROM project_classificator as pc WHERE pc.class_id = t.project_class) as classificator
          `,
          `
