@@ -1,6 +1,6 @@
 ﻿const express = require("express");
 const {Client} = require('pg');
-import {getFromConfig} from './utils';
+import {getFromConfig, handleDefault, db} from './utils';
 
 const hostname = process.env.IP_ADDRESS || '10.0.0.6';
 const port = 8081;
@@ -20,7 +20,15 @@ const ALLOWED_ORIGINS = [
   'http://168.63.58.52:80',
   'http://localhost:63342',
   'http://ksutechrosset.northeurope.cloudapp.azure.com'
-]
+];
+
+const testServer = () => {
+    // DB
+    console.log(db.queries.select('users', { login: 'Петя', role: 1 }));
+    console.log(db.queries.insert('users', { login: 'Петя', ddd: 1 }));
+    console.log(db.queries.update('users', { login: 'Петя', ddd: 1 }, { user_id: 1 }));
+    console.log(db.queries.delete('users', { login: 'Петя', ddd: 1 }));
+}
 
 app.use(function (req, res, next) {
 	if(ALLOWED_ORIGINS.indexOf(req.headers.origin) > -1) {
@@ -44,6 +52,10 @@ app.use('/api/user_roles/', require('./routes/user_roles.routes'));
 app.use('/api/region/', require('./routes/region.routes'));
 
 app.listen(port, hostname, async () => {
-    await connectToDataBase();
-    console.log(`Server running at http://${hostname}:${port}/`);
+    try {
+        await connectToDataBase();
+        console.log(`Server running at http://${hostname}:${port}/`);
+    } catch(error) {
+        handleDefault(error);
+    }
 });
