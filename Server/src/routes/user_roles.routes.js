@@ -13,7 +13,7 @@ router.get(
       .query(db.queries.select('users_roles'))
       .then(db.getAll)
       .then((result) => response.json({ users_roles: result }))
-      .catch((e) => handleDefault(e, response, request))
+      .catch((e) => handleDefault(e, response))
 );
 
 module.exports = router;

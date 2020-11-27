@@ -13,7 +13,7 @@ router.get(
         .query(db.queries.select('regions'))
         .then(db.getAll)
         .then((result) => response.json({ regions: result }))
-        .catch((e) => handleDefault(e, response, request))
+        .catch((e) => handleDefault(e, response))
 );
 
 module.exports = router;
