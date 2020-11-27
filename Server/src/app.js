@@ -28,6 +28,9 @@ const testServer = () => {
     console.log(db.queries.insert('users', { login: 'Петя', ddd: 1 }));
     console.log(db.queries.update('users', { login: 'Петя', ddd: 1 }, { user_id: 1 }));
     console.log(db.queries.delete('users', { login: 'Петя', ddd: 1 }));
+
+    console.log(db.queries.user.setDocuments({ user_id: 1 }));
+    console.log(db.queries.project.setDocuments({ project_id: 1 }));
 }
 
 app.use(function (req, res, next) {
@@ -57,6 +60,7 @@ app.listen(port, hostname, async () => {
     try {
         await connectToDataBase();
         console.log(`Server running at http://${hostname}:${port}/`);
+        // testServer();
     } catch(error) {
         handleDefault(error);
     }

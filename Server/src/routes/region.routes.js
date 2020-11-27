@@ -13,7 +13,7 @@ router.get(
           db.queries.select('regions')
        ).then(db.getAll).catch((e) => handleDefault(response, e));
  
-       response.json({ regions: regions });
+       response.json({ regions });
     })
 );
 
