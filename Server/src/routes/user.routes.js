@@ -43,7 +43,6 @@ router.get(
          .then(runChecks)
          .then(saveToken)
          .then(({user, token}) => response.json({ user, token }))
-         .catch(handleInternal)
          .catch((e) => handleDefault(e, response));
    }
 );
@@ -51,7 +50,7 @@ router.get(
 // /api/user/getUserByToken
 router.get(
    '/getUserByToken',
-   wrapResponse(async (request, response) => {
+   wrapResponse((request, response) => {
       const token = request.headers.authorization;
       if (!token) {
          return response.status(403).json({ message: 'Пользователь не был автризован' });
@@ -60,15 +59,21 @@ router.get(
       const decoded = jwt.verify(token, getFromConfig('jwtsecret'));
       const user_id = decoded.userId;
 
-      const user = await request.client.query(
-         db.queries.select('users', { user_id })
-      ).then(db.getOne).catch((e) => handleDefault(e, response));
+      const checkUserExists = (user) => {
+         if (!user) {
+            response.status(400).json({ message: 'Пользователь не найден' });
+            throw 'internal';
+         }
 
-      if (!user) {
-         return response.status(400).json({ message: 'Пользователь не найден' });
+         return user;
       }
 
-      response.json({ user: user });
+      request.pool
+         .query(db.queries.select('users', { user_id }))
+         .then(db.getOne)
+         .then(checkUserExists)
+         .then((user) => response.json({ user: user }))
+         .catch((e) => handleDefault(e, response));
    }));
 
 // /api/user/getAll
