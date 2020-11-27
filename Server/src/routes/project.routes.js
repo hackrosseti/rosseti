@@ -26,7 +26,19 @@ router.get(
    wrapAccess(auth, access.project.getAllProjects),
    (request, response) =>
       request.pool
-         .query(db.queries.select('project'))
+         .query(db.queries.select('project', {},
+         `
+            COUNT(l.like_id)::int as likes_сount,
+            MIN(ph.change_date) as date_create
+         `,
+         `
+            LEFT JOIN likes as l ON l.project_id = t.project_id
+            LEFT JOIN project_history as ph ON ph.project_id = t.project_id
+         `,
+         `
+            GROUP BY t.project_id
+            ORDER BY date_create DESC
+         `))
          .then(db.getAll)
          .then((result) => response.json({ projects: result }))
          .catch((e) => handleDefault(e, response))
@@ -78,23 +90,20 @@ router.post(
 // /api/project/updateProject
 router.post(
    '/updateProject',
-   // wrapAccess(auth, access.project.updateProject),
+   wrapAccess(auth, access.project.updateProject),
    wrapResponse(async (request, response) => {
       const {
          project_id, project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit, date_end
       } = request.body;
 
-      if (author) {
-         return response.status(400).json({ message: 'Нельзя изменить автора проекта' });
-      }
-
       if (!project_id) {
          return response.status(400).json({ message: 'Не задан ID проекта для модификации' });
       }
 
-      request.client.query(db.queries.update('project', {
-         project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit
-      }, { project_id }))
+      request.pool
+         .query(db.queries.update('project', {
+            project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit
+         }, { project_id: project_id }))
          .then(db.getOne)
          .then(project => {
             if (project) {
@@ -103,7 +112,7 @@ router.post(
                handleDefault(new Error('Не удалось изменить данные по проекту'), response);
             }
          })
-         .catch(e => handleDefault(e, response));
+         .catch((e) => handleDefault(e, response))
    })
 );
 

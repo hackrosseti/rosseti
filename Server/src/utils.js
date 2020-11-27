@@ -35,7 +35,7 @@ export const wrapAccess = (func, accessArray) => {
 };
 export const getWhere = (data, tableAlias) => 
    data && typeof data === 'object' && Object.keys(data).length
-      ? `WHERE ${Object.keys(data).map((key) => `${tableAlias || 't'}.${key} = :${key}`).join(' AND ')}`
+      ? `WHERE ${Object.keys(data).map((key) => `${tableAlias ? `${tableAlias}.` : ''}${key} = :${key}`).join(' AND ')}`
       : '';
 
 // DB HELPERS
@@ -44,8 +44,10 @@ export const db = {
    getAll: (result) => result.rows,
    queries: {
       // SELECT
-      select: (table, data) => {
-         const queryString = `SELECT t.* FROM ${table} as t ${getWhere(data)}`;
+      select: (table, data, additionalSelect, joins, endQuery) => {
+         const queryString = `SELECT t.* ${additionalSelect ? ', ' : ''}${additionalSelect || ''}
+                              FROM ${table} as t ${joins || ''} ${getWhere(data, 't')} ${endQuery || ''}`;
+         console.log(queryString);
          return wrapSql(queryString, data);
       },
       // INSERT
@@ -57,16 +59,17 @@ export const db = {
       },
       // UPDATE
       update: (table, data, whereData) => {
-         const queryString = `UPDATE ${table} as t SET ${
-            Object.keys(data).map((key) => `t.${key} = :${key}`).join(', ')
+         const queryString = `UPDATE ${table} SET ${
+            Object.keys(data).map((key) => `${key} = :${key}`).join(', ')
          } ${getWhere(whereData)} RETURNING *`;
          const wrapData = {...data, ...whereData};
          console.log(queryString);
+         console.log(wrapData);
          return wrapSql(queryString, wrapData);
       },
       // DELETE
       delete: (table, data) => {
-         const queryString = `DELETE FROM ${table} ${getWhere(data)}`;
+         const queryString = `DELETE FROM ${table} ${getWhere(data, 't')}`;
          return wrapSql(queryString, data);
       },
 
