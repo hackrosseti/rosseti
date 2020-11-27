@@ -13,7 +13,7 @@ function setIpAddress() {
 
 var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.select', 'myApp.services', 'myApp.confirmationModal','myApp.loginPage',
         'myApp.infoModal',  'myApp.mainPage', 'myApp.users', 'myApp.addUserModalModal', 'myApp.editUserModalModal', 'myApp.profile', 'myApp.settings',
-        'myApp.chat', 'myApp.kanban']);
+        'myApp.chat', 'myApp.kanban', 'myApp.mySuggestion']);
 
 
 myApp.config(function ($httpProvider) {
@@ -64,6 +64,11 @@ myApp.config(function ($routeProvider) {
         })
         .when('/notFound404', {
             templateUrl: 'notFound404/404.html',
+        })
+        .when('/mySuggestion', {
+            templateUrl: 'mySuggestion/mySuggestion.html',
+            controller: 'MySuggestionCtrl',
+            resolve: UserResolve
         })
         .when('/chat', {
             templateUrl: 'chat/chat.html',
