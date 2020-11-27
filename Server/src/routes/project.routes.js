@@ -26,7 +26,19 @@ router.get(
    wrapAccess(auth, access.project.getAllProjects),
    (request, response) =>
       request.pool
-         .query(db.queries.select('project'))
+         .query(db.queries.select('project', {},
+         `
+            COUNT(l.like_id)::int as likes_сount,
+            MIN(ph.change_date) as date_create
+         `,
+         `
+            LEFT JOIN likes as l ON l.project_id = t.project_id
+            LEFT JOIN project_history as ph ON ph.project_id = t.project_id
+         `,
+         `
+            GROUP BY t.project_id
+            ORDER BY date_create DESC
+         `))
          .then(db.getAll)
          .then((result) => response.json({ projects: result }))
          .catch((e) => handleDefault(e, response))
