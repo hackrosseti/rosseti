@@ -82,7 +82,13 @@ router.get(
    wrapAccess(auth, access.user.getAll),
    (request, response) => 
       request.pool
-         .query(db.queries.select('users'))
+         .query(db.queries.select('users', {}, 
+         `
+            r.region_name
+         `,
+         `
+            LEFT JOIN regions as r ON r.region_id = t.region_id
+         `))
          .then(db.getAll)
          .then((result) => response.json({ users: result }))
          .catch((e) => handleDefault(e, response))
