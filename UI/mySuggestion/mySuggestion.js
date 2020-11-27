@@ -1,8 +1,8 @@
 'use strict';
 
-var chat = angular.module('myApp.chat', ['ngRoute']);
+var mySuggestion = angular.module('myApp.mySuggestion', ['ngRoute']);
 
-chat.controller('ChatCtrl', function ($scope, mainService,  $rootScope) {
+mySuggestion.controller('MySuggestionCtrl', function ($scope, mainService,  $rootScope) {
 
 
 

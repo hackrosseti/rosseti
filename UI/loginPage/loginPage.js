@@ -26,7 +26,8 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
                     $scope.user = userService.User = null;
                     $rootScope.$broadcast('user:isActive', true);
                 }
-            }, function () {
+            }, function (error) {
+                infoService.infoFunction(error.error, "Ошибка");
                 $scope.user = userService.User = null;
                 $rootScope.$broadcast('user:isActive', true);
             });
@@ -53,6 +54,9 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
                 } else {
                     infoService.infoFunction(response.message, "Ошибка")
                 }
+            }, function (error) {
+                infoService.infoFunction(error.error, error.message);
+                $scope.user = userService.User = null;
             });
             //toMain();
         } else {
