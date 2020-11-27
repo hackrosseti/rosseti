@@ -14,7 +14,7 @@ export const wrapSql = (queryString, data) => sql(queryString)(data);
 export const handleDefault = (error, response) => {
    console.log(error, error.stack);
    if (response) {
-      response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error, stack: error.stack });
+      response.status(500).json({ message: `Ошибка на сервере '${error.message}'`, error, stack: error.stack });
    }
 };
 export const wrapResponse = (func) => {
@@ -33,7 +33,7 @@ export const wrapAccess = (func, accessArray) => {
 };
 export const getWhere = (data, tableAlias) => 
    data && typeof data === 'object' && Object.keys(data).length
-      ? `WHERE ${Object.keys(data).map((key) => `${tableAlias}.${key} = :${key}`).join(' AND ')}`
+      ? `WHERE ${Object.keys(data).map((key) => `${tableAlias || 't'}.${key} = :${key}`).join(' AND ')}`
       : '';
 
 // DB HELPERS
@@ -43,7 +43,7 @@ export const db = {
    queries: {
       // SELECT
       select: (table, data) => {
-         const queryString = `SELECT t.* FROM ${table} as t ${getWhere(data, 't')}`;
+         const queryString = `SELECT t.* FROM ${table} as t ${getWhere(data)}`;
          return wrapSql(queryString, data);
       },
       // INSERT
@@ -57,12 +57,12 @@ export const db = {
       update: (table, data, whereData) => {
          const queryString = `UPDATE ${table} as t SET ${
             Object.keys(data).map((key) => `t.${key} = :${key}`).join(', ')
-         } ${getWhere(whereData, 't')} RETURNING t.*`;
+         } ${getWhere(whereData)} RETURNING t.*`;
          return wrapSql(queryString, {...data, ...whereData});
       },
       // DELETE
       delete: (table, data) => {
-         const queryString = `DELETE FROM ${table} ${getWhere(data, 't')}`;
+         const queryString = `DELETE FROM ${table} ${getWhere(data)}`;
          return wrapSql(queryString, data);
       },
 
@@ -77,9 +77,15 @@ export const db = {
          `)({}),
          
          setDocuments: (user_id) => sql(`
-            UPDATE users
-            SET document = to_tsvector(firstname || '. ' || lastname || '. ' || surname || '. ' || company || '. ' || department || '. ' || position) WHERE user_id = :user_id
-         `)({ user_id: user_id })
+            UPDATE users as u
+            SET document = to_tsvector(firstname || '. ' || lastname || '. ' || surname || '. ' || company || '. ' || department || '. ' || position) ${getWhere(user_id, 'u')}
+         `)(user_id)
+      },
+      project: {
+         setDocuments: (project_id) => sql(`
+            UPDATE project as p
+            SET document = to_tsvector(project_name || '. ' || project_describe) ${getWhere(project_id, 'p')}
+         `)(project_id)
       }
    }
 };

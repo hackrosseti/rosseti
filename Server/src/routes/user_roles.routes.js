@@ -13,7 +13,7 @@ router.get(
           db.queries.select('users_roles')
        ).then(db.getAll).catch((e) => handleDefault(response, e));
  
-       response.json({ roles: roles });
+       response.json({ roles });
     })
 );
 

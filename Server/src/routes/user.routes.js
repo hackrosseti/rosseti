@@ -76,7 +76,7 @@ router.post(
    wrapAccess(auth, access.user.add),
    wrapResponse(async (request, response) => {
       const {
-         login, role, password, firstname, lastname, surname, company, department, position, region_id
+         login, role, password, firstname, lastname, surname, company, department, position, region_id, email, education, dob, experience
       } = request.body;
 
       const candidate = await request.client.query(
@@ -89,13 +89,13 @@ router.post(
 
       let userRes = {};
       await request.client.query(db.queries.insert('users', {
-         login, role, password, firstname, lastname, surname, company, department, position, region_id
+         login, role, password, firstname, lastname, surname, company, department, position, region_id, email, education, dob, experience
       }))
       .then(db.getOne)
       .then((user) => {
          if (user) {
             userRes = user;
-            return request.client.query(db.queries.user.setDocuments(user.user_id))
+            return request.client.query(db.queries.user.setDocuments({ user_id: user.user_id }))
          }
          throw new Error('Не удалось создать пользователя');
       })
