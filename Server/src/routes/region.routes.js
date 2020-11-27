@@ -8,13 +8,12 @@ const router = Router();
 router.get(
     '/getAll',
     wrapAccess(auth, access.region.getAll),
-    wrapResponse(async (request, response) => {
-       const regions = await request.client.query(
-          db.queries.select('regions')
-       ).then(db.getAll).catch((e) => handleDefault(response, e));
- 
-       response.json({ regions });
-    })
+    (request, response) =>
+      request.pool
+        .query(db.queries.select('regions'))
+        .then(db.getAll)
+        .then((result) => response.json({ regions: result }))
+        .catch((e) => handleDefault(e, response, request))
 );
 
 module.exports = router;

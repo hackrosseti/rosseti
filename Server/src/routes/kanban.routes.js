@@ -8,13 +8,12 @@ const router = Router();
 router.get(
     '/getAll',
     wrapAccess(auth, access.kanban.getAll),
-    wrapResponse(async (request, response) => {
-       const statuses = await request.client.query(
-          db.queries.select('kanban_statuses')
-       ).then(db.getAll).catch((e) => handleDefault(response, e));
- 
-       response.json({ statuses: statuses });
-    })
+    (request, response) =>
+      request.pool
+         .query(db.queries.select('kanban_statuses'))
+         .then(db.getAll)
+         .then((statuses) => response.json({ statuses: statuses }))
+         .catch((e) => handleDefault(e, response, request))
 );
 
 module.exports = router;
