@@ -12,9 +12,11 @@ export const getFromConfig = (query) => {
 // WRAPPERS
 export const wrapSql = (queryString, data) => sql(queryString)(data);
 export const handleDefault = (error, response) => {
-   console.log(error, error.stack);
-   if (response) {
-      response.status(500).json({ message: `Ошибка на сервере '${error.message}'`, error, stack: error.stack });
+   if (error !== 'internal') {
+      console.log(error);
+      if (response) {
+         response.status(500).json({ message: `Ошибка на сервере '${error.message}'`, error, stack: error.stack });
+      }
    }
 };
 export const wrapResponse = (func) => {
@@ -50,15 +52,17 @@ export const db = {
       insert: (table, data) => {
          const queryString = `INSERT INTO ${table} as t (${Object.keys(data).join(', ')}) VALUES (${
             Object.keys(data).map((key) => `:${key}`).join(', ')
-         }) RETURNING t.*`;
+         }) RETURNING *`;
          return wrapSql(queryString, data);
       },
       // UPDATE
       update: (table, data, whereData) => {
          const queryString = `UPDATE ${table} as t SET ${
             Object.keys(data).map((key) => `t.${key} = :${key}`).join(', ')
-         } ${getWhere(whereData)} RETURNING t.*`;
-         return wrapSql(queryString, {...data, ...whereData});
+         } ${getWhere(whereData)} RETURNING *`;
+         const wrapData = {...data, ...whereData};
+         console.log(queryString);
+         return wrapSql(queryString, wrapData);
       },
       // DELETE
       delete: (table, data) => {
