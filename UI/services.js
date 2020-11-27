@@ -230,29 +230,36 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
                     if (response && response.user) {
                         service.User = response.user;
                         $rootScope.$broadcast('user:isActive', true);
+                        defered.resolve(true);
                     } else {
                         service.User = null;
                         service.redirectTo("login");
                         $rootScope.$broadcast('user:isActive', true);
                         console.log(response.message);
+                        defered.resolve(true);
                     }
                 }, function () {
                     service.User = null;
                     service.redirectTo("login");
                     $rootScope.$broadcast('user:isActive', true);
+                    defered.resolve(false);
                 });
+            } else {
+                defered.resolve(true);
             }
         } else {
             service.redirectTo("login");
             $rootScope.$broadcast('user:isActive', true);
+            defered.resolve(false);
         }
         tryDigest();
-        defered.resolve(true);
+
         return defered.promise;
     }
 
     service.redirectTo = function(redirectTo){
         $location.path('/'+redirectTo);
+        tryDigest()
     }
 
      service.setCookie = function(name,value,expiration){

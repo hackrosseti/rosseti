@@ -133,7 +133,7 @@ var dragula = require("dragula");
 
             el.classList.add("is-moving");
             var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
-            if (boardJSON.dragTo !== undefined) {
+            if (boardJSON && boardJSON.dragTo !== undefined) {
               self.options.boards.map(function(board) {
                 if (
                   boardJSON.dragTo.indexOf(board.id) === -1 &&
@@ -157,7 +157,7 @@ var dragula = require("dragula");
             self.enableAllBoards();
 
             var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
-            if (boardJSON.dragTo !== undefined) {
+            if (boardJSON && boardJSON.dragTo !== undefined) {
               if (
                 boardJSON.dragTo.indexOf(target.parentNode.dataset.id) === -1 &&
                 target.parentNode.dataset.id !== source.parentNode.dataset.id
@@ -294,6 +294,7 @@ var dragula = require("dragula");
             "class",
             "btn btn-outline-light rounded px-3 py-1 ml-2"
           );
+          btn.id = board.id;
           btn.appendChild(t);
           //var buttonHtml = '<button class="kanban-title-button btn btn-default btn-xs">'+buttonContent+'</button>'
           headerBoard.appendChild(btn);

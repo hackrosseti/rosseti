@@ -2,26 +2,23 @@
     <div>Недостаточно учетных данных <a href="#/login">Войти</a> </div>
 </div>
 <div ng-show="user && user.user_id" class="container-fluid" style="margin-top: 50px;">
-    <div class="row mt-2" style="margin-bottom: 20px;">
-        <div class="col-9">
-            <div class="d-inline-block">
-                <h1 style="font-family: Montserrat, sans-serif;" class="mb-0">Мои предложения</h1>
-                <br>
-                <h5 style="font-family: Montserrat, sans-serif;" class="mb-0">В разработке</h5>
-            </div>
-        </div>
-    </div>
     <div class="row" style="margin-bottom: 30px;">
         <div class="col-12 d-xl-flex justify-content-between align-items-xl-center">
-            <h1 style="font-family: Montserrat, sans-serif;margin-left: -4px;">Создать идею| ИЛИ СОХРАНИТЬ ИДЕЮ</h1><button class="btn" type="button" style="height: 55px;background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;width: 257px;font-size: 20px;box-shadow: 0px 5px 20px rgba(0,0,0,0.25);"><i class="fas fa-plus" style="margin-right: 9px;"></i>Сохранить</button></div>
+            <h1 style="font-family: Montserrat, sans-serif;margin-left: -4px;">Создать идею</h1><button class="btn" type="button" style="height: 55px;background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;width: 257px;font-size: 20px;box-shadow: 0px 5px 20px rgba(0,0,0,0.25);"><i class="fas fa-plus" style="margin-right: 9px;"></i>Сохранить</button></div>
     </div>
     <div class="row">
         <div class="col-5" style="margin-right: 25px;">
             <div class="card" style="box-shadow: 0px 0px rgba(33,37,41,0.05);border-style: none;margin-bottom: 32px;">
                 <div class="card-body" style="box-shadow: 0px 5px 20px rgba(33,37,41,0.25);border-radius: 11px;">
-                    <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: #707C97;">Наименование предложения</p><input class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-width: 1px;border-bottom-color: rgb(0,0,0);border-left-style: none;">
-                    <p
-                            style="font-family: Montserrat, sans-serif;color: #707C97;margin-bottom: 0px;">Категория предложения</p><select class="form-control-lg" style="width: 100%;border-top-style: none;border-right-style: none;border-bottom-color: rgb(0,0,0);border-left-style: none;margin-bottom: 40px;"><optgroup label="This is a group"><option value="12" selected="">This is item 1</option><option value="13">This is item 2</option><option value="14">This is item 3</option></optgroup></select>
+                    <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: #707C97;">Название идеи</p>
+                    <input ng-model="project.project_name" class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-width: 1px;border-bottom-color: rgb(0,0,0);border-left-style: none;">
+                    <p style="font-family: Montserrat, sans-serif;color: #707C97;margin-bottom: 0px;">Категория идеи</p>
+                    <select placeholder="Регион" class="form-control my-2 mx-1" ng-model="project.project_class">
+                        <option ng-repeat="clasif in projectClassificators"
+                                value="{{clasif.class_id}}">
+                            {{clasif.class_name}}
+                        </option>
+                    </select>
                     <div
                             class="row" style="margin-bottom: 10px;">
                         <div class="col">
@@ -70,34 +67,19 @@
             </div>
             <div class="card" style="box-shadow: 0px 0px rgba(33,37,41,0.05);border-style: none;margin-bottom: 30px;">
                 <div class="card-body" style="box-shadow: 0px 5px 20px rgba(33,37,41,0.25);border-radius: 11px;">
-                    <p class="d-flex justify-content-between align-items-xl-center" style="margin-bottom: 20px;font-family: Montserrat, sans-serif;color: #707C97;">Авторы<button class="btn" type="button" style="background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;font-size: 20px;box-shadow: 0px 4px 20px rgba(0,0,0,0.25);"><i class="fas fa-plus" style="margin-right: 9px;"></i>Добавить автора</button></p>
-                    <div
-                            class="row" style="margin-right: 0px;margin-left: 0px;">
-                        <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);margin-bottom: 20px;width: 100%;">
-                            <div class="card-body" style="padding-right: 15px;padding-left: 15px;">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center"><img class="rounded-circle" src="assets/img/24.png" style="width: 70px;"></div>
-                                            <div class="col d-flex flex-column justify-content-around">
-                                                <h4 style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">Мужик</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center"><i class="fas fa-times" style="color: rgb(234,14,0);font-size: 30px;"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <p class="d-flex justify-content-between align-items-xl-center" style="margin-bottom: 20px;font-family: Montserrat, sans-serif;color: #707C97;">Автор<button class="btn" type="button" style="background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;font-size: 20px;box-shadow: 0px 4px 20px rgba(0,0,0,0.25);"><i class="fas fa-plus" style="margin-right: 9px;"></i>Добавить автора</button></p>
                     <div class="row" style="margin-right: 0px;margin-left: 0px;">
                         <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);margin-bottom: 20px;width: 100%;">
                             <div class="card-body" style="padding-right: 15px;padding-left: 15px;">
                                 <div class="row">
                                     <div class="col">
                                         <div class="row">
-                                            <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center"><img class="rounded-circle" src="assets/img/24.png" style="width: 70px;"></div>
+                                            <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center">
+                                                <img ng-if="!user || !user.user_id || (user && user.user_id>5)"  src="images/icons/default-user.jpg" class="rounded-circle" style="margin-bottom: 18px;width: 90px;height: 90px;"  >
+                                                <img ng-if="user && user.user_id && user.user_id<=5" ng-src="{{'images/icons/user-icons/'+user.user_id+'.png'}}" class="rounded-circle" style="margin-bottom: 18px;width: 90px;height: 90px;">
+                                            </div>
                                             <div class="col d-flex flex-column justify-content-around">
-                                                <h4 style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">Мужик</h4>
+                                                <h4 style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">{{user.lastname + ' ' + user.firstname}}</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -116,15 +98,13 @@
                         <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);margin-bottom: 20px;width: 100%;">
                             <div class="card-body" style="padding-right: 15px;padding-left: 15px;">
                                 <div class="row">
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center"><img class="rounded-circle" src="assets/img/24.png" style="width: 70px;"></div>
-                                            <div class="col d-flex flex-column justify-content-around">
-                                                <h4 style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">Мужик</h4>
-                                            </div>
-                                        </div>
+                                    <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center">
+                                        <img ng-if="!user || !user.user_id || (user && user.user_id>5)"  src="images/icons/default-user.jpg" class="rounded-circle" style="margin-bottom: 18px;width: 90px;height: 90px;"  >
+                                        <img ng-if="user && user.user_id && user.user_id<=5" ng-src="{{'images/icons/user-icons/'+user.user_id+'.png'}}" class="rounded-circle" style="margin-bottom: 18px;width: 90px;height: 90px;">
                                     </div>
-                                    <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center"><i class="fas fa-times" style="color: rgb(234,14,0);font-size: 30px;"></i></div>
+                                    <div class="col d-flex flex-column justify-content-around">
+                                        <h4 style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">{{user.lastname + ' ' + user.firstname}}</h4>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -137,10 +117,12 @@
                 <div class="col">
                     <div class="card" style="box-shadow: 0px 0px rgba(33,37,41,0.05);border-style: none;">
                         <div class="card-body" style="box-shadow: 0px 5px 20px rgba(33,37,41,0.25);border-radius: 11px;">
-                            <p style="margin-bottom: 9px;font-family: Montserrat, sans-serif;color: #707C97;">Название идеи</p><textarea class="form-control-lg" style="width: 100%;height: 166px;margin-bottom: 25px;"></textarea>
-                            <p style="margin-bottom: 9px;font-family: Montserrat, sans-serif;color: #707C97;">Описание действительного положения с указанием существующих недостатков:<br></p><textarea class="form-control-lg" style="width: 100%;height: 166px;margin-bottom: 25px;"></textarea>
-                            <p style="margin-bottom: 9px;font-family: Montserrat, sans-serif;color: #707C97;">Описание предлагаемого решения:<br></p><textarea class="form-control-lg" style="width: 100%;height: 166px;margin-bottom: 25px;"></textarea>
-                            <p style="margin-bottom: 9px;font-family: Montserrat, sans-serif;color: #707C97;">Ожидаемый положительный эффект от использования (технический, организационный, управленческий или иной):<br></p><textarea class="form-control-lg" style="width: 100%;height: 166px;"></textarea></div>
+                            <p style="margin-bottom: 9px;font-family: Montserrat, sans-serif;color: #707C97;">Описание действительного положения с указанием существующих недостатков:<br></p>
+                            <textarea ng-model="project.project_describe" class="form-control-lg" style="width: 100%;height: 166px;margin-bottom: 25px;"></textarea>
+                            <p style="margin-bottom: 9px;font-family: Montserrat, sans-serif;color: #707C97;">Описание предлагаемого решения:<br></p>
+                            <textarea ng-model="project.project_offer" class="form-control-lg" style="width: 100%;height: 166px;margin-bottom: 25px;"></textarea>
+                            <p style="margin-bottom: 9px;font-family: Montserrat, sans-serif;color: #707C97;">Ожидаемый положительный эффект от использования (технический, организационный, управленческий или иной):<br></p>
+                            <textarea ng-model="project.project_profit" class="form-control-lg" style="width: 100%;height: 166px;"></textarea></div>
                     </div>
                 </div>
             </div>

@@ -2,8 +2,9 @@
 
 var kanban = angular.module('myApp.kanban', ['ngRoute']);
 
-kanban.controller('KanbanCtrl', function ($scope, mainService,  $rootScope, infoService, projectService, userService ) {
+kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootScope, infoService, userService, projectService ) {
 
+    $scope.user = userService.User;
     $scope.kanbanStatuses = null;
     $scope.projectClassificators = null;
     $scope.projects = null;
@@ -52,53 +53,87 @@ kanban.controller('KanbanCtrl', function ($scope, mainService,  $rootScope, info
             };
             boards.push(board);
         })
+        setTimeout(function (){
+            /*var projects = [
+                { id:"_text", projectId: 123, title: "Идея у меня есть такая то", click: openProject, drop: changeProjectStatus, class: [itemsColors[0]]},
+                { id:"_text", projectId: 1234, title: "Как это сделать? а хз как", click: openProject, drop: changeProjectStatus, class: [itemsColors[1]] }
+            ];
 
-        var KanbanTest = new jKanban({
-            element: "#myKanban",
-            gutter: "10px",
-            widthBoard: "450px",
-            itemHandleOptions:{
-                enabled: true,
-            },
-            click: function(el) {
-                //console.log("Trigger on all items click!");
-            },
-            dropEl: function(el, target, source, sibling){
-                //console.log(target.parentElement.getAttribute('data-id'));
-                //console.log(el, target, source, sibling)
-            },
-            buttonClick: function(el, boardId) {
-                console.log(el);
-                console.log(boardId);
-                // create a form to enter element
-                var formItem = document.createElement("form");
-                formItem.setAttribute("class", "itemform");
-                formItem.innerHTML =
-                    '<div class="form-group">' +
-                    '<textarea class="form-control" rows="2" autofocus></textarea>' +
-                    '</div><div class="form-group">' +
-                    '<button type="submit" ng-click="createProject()" class="btn btn-primary btn-xs pull-right p-2">Сохранить</button>' +
-                    '<button type="button" ng-click="" id="CancelBtn" class="btn btn-default btn-xs pull-right p-2">Отмена</button></div>';
+            var boards = [
+                {
+                    id: "_problem", title: "Проблема", class: "text-light,pointer,bg-secondary",
+                    item: [projects[0]]
+                }, {
+                    id: "_idea", title: "Идея проекта", class: "text-light,pointer,bg-info",
+                    item: [projects[1]]
+                }, {
+                    id: "_hadi", title: "HADI", class: "text-light,pointer,bg-dark",
+                    item: []
+                }, {
+                    id: "_working", title: "Разработка", class: "text-light,pointer,bg-warning",
+                    item: []
+                }, {
+                    id: "_in_review", title: "Внедрение", class: "text-light,pointer,bg-danger",
+                    item: []
+                }, {
+                    id: "_done", title: "Внедрено", class: "text-light,pointer,bg-success",
+                    item: []
+                }
+            ];*/
+            var KanbanTest = new jKanban({
+                element: "#myKanban",
+                gutter: "10px",
+                widthBoard: "450px",
+                itemHandleOptions:{
+                    enabled: true,
+                },
+                click: function(el) {
+                    //console.log("Trigger on all items click!");
+                },
+                dropEl: function(el, target, source, sibling){
+                    //console.log(target.parentElement.getAttribute('data-id'));
+                    //console.log(el, target, source, sibling)
+                },
+                buttonClick: function(el, boardId) {
 
-                KanbanTest.addForm(boardId, formItem);
-                formItem.addEventListener("submit", function(e) {
-                    e.preventDefault();
-                    var text = e.target[0].value;
-                    if(text) {
-                        KanbanTest.addElement(boardId, {
-                            title: text
-                        });
+                    createProjectWithKanbanStatus(boardId);
+
+                    // create a form to enter element
+                    /*var formItem = document.createElement("form");
+                    formItem.setAttribute("class", "itemform");
+                    formItem.innerHTML =
+                        '<div class="form-group">' +
+                        '<textarea class="form-control" rows="2" autofocus></textarea>' +
+                        '</div><div class="form-group">' +
+                        '<button type="submit" ng-click="createProject()" class="btn btn-primary btn-xs pull-right p-2">Сохранить</button>' +
+                        '<button type="button" ng-click="" id="CancelBtn" class="btn btn-default btn-xs pull-right p-2">Отмена</button></div>';
+
+                    KanbanTest.addForm(boardId, formItem);
+                    formItem.addEventListener("submit", function(e) {
+                        e.preventDefault();
+                        var text = e.target[0].value;
+                        if(text) {
+                            KanbanTest.addElement(boardId, {
+                                title: text
+                            });
+                            formItem.parentNode.removeChild(formItem);
+                        }
+                    });
+                    document.getElementById("CancelBtn").onclick = function() {
                         formItem.parentNode.removeChild(formItem);
-                    }
-                });
-                document.getElementById("CancelBtn").onclick = function() {
-                    formItem.parentNode.removeChild(formItem);
-                };
-            },
-            addItemButton: true,
-            boards:  boards
-        });
+                    };*/
+                },
+                addItemButton: true,
+                boards:  boards
+            });
+        },500)
 
+
+    }
+
+    function createProjectWithKanbanStatus(projectStatusId){
+        projectService.projectStatusId = projectStatusId;
+        userService.redirectTo("createProject");
     }
 
 
