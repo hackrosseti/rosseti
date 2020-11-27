@@ -143,13 +143,7 @@ router.get(
    (request, response) => {
       const { projectId } = request.query;
       request.pool
-         .query(db.queries.select('project', { project_id: projectId },
-         `
-            
-         `,
-         `
-
-         `))
+         .query(db.queries.select('project', { project_id: projectId }))
          .then(db.getOne)
          .then((result) => response.json({ project: result }))
          .catch((e) => handleDefault(e, response));
