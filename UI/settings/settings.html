@@ -1,4 +1,7 @@
-<div class="container-fluid" style="margin-top: 50px;">
+<div class="container-fluid p-3" ng-show="!user || !user.user_id">
+    <div>Недостаточно учетных данных <a href="#/login">Войти</a> </div>
+</div>
+<div ng-show="user && user.user_id" class="container-fluid" style="margin-top: 50px;">
     <div class="row mt-2" style="margin-bottom: 20px;">
         <div class="col-9">
             <div class="d-inline-block">

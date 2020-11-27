@@ -1,14 +1,114 @@
-<div class="container-fluid" style="margin-top: 50px;">
+<div class="container-fluid p-3" ng-show="!user || !user.user_id">
+    <div>Недостаточно учетных данных <a href="#/login">Войти</a> </div>
+</div>
+<div ng-show="user && user.user_id" class="container-fluid" style="margin-top: 50px;">
     <div class="row mt-2" style="margin-bottom: 20px;">
         <div class="col-9">
             <div class="d-inline-block">
                 <h1 style="font-family: Montserrat, sans-serif;" class="mb-0">Мои предложения</h1>
+                <br>
+                <h5 style="font-family: Montserrat, sans-serif;" class="mb-0">В разработке</h5>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-9">
-            <div id="myKanban"></div>
+        <div class="col-12 d-xl-flex justify-content-between align-items-xl-center">
+            <h1 style="font-family: Montserrat, sans-serif;margin-left: -4px;">Мои идеи</h1><button class="btn" type="button" style="height: 55px;background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;width: 257px;font-size: 20px;box-shadow: 0px 4px 20px rgba(0,0,0,0.25);"><i class="fas fa-plus" style="margin-right: 9px;"></i>Новая идея</button></div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p style="color: #707c97;">Новые</p>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 60px;">
+        <div ng-repeat="idea in myIdeas" class="col-4 d-xl-flex justify-content-xl-start align-items-xl-center" style="padding-left: 15px;" >
+            <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);width: 445px;">
+                <div class="card-body" style="padding-top: 0px;padding-right: 15px;padding-left: 15px;">
+                    <div class="row">
+                        <div class="col d-xl-flex justify-content-xl-center align-items-xl-center" style="height: 200px;margin-bottom: 10px;padding-right: 0px;padding-left: 0px;"><img style="width: 100%;height: 100%;border-top-left-radius: 10px;border-top-right-radius: 10px;"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex justify-content-between">
+                            <h4 style="margin-bottom: 30px;font-family: Montserrat, sans-serif;font-size: 20px;color: #707c97;">Категория</h4>
+                            <h4 style="margin-bottom: 30px;font-family: Montserrat, sans-serif;font-size: 20px;color: #707c97;">Дата</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h4 style="font-family: Montserrat, sans-serif;font-weight: bold;">Заголовок</h4>
+                        </div>
+                    </div>
+                    <p class="card-text" style="margin-bottom: 30px;">ТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТИ...&nbsp;<a href="#">Читать далее...</a><br></p>
+                    <div class="row">
+                        <div class="col"><img class="rounded-circle" src="assets/img/24.png" style="margin-right: 15px;"><a href="#" style="color: rgb(0,0,0);">ФИ автора</a></div>
+                        <div class="col d-flex justify-content-xl-end align-items-xl-center"><img src="assets/img/thumb_up.svg" style="margin-right: 15px;">
+                            <p style="margin-right: 15px;margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(18,132,0);font-weight: bold;">+100</p><img src="assets/img/thumb_up.png" style="width: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 60px;">
+        <div class="col">
+            <div style="height: 1px;background: #7cb8f7;"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 style="font-family: Montserrat, sans-serif;margin-left: -4px;">Идеи</h1>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 37px;">
+        <div class="col-1 d-flex d-xl-flex align-items-xl-center">
+            <p style="color: #707c97;margin-bottom: 0px;">Новые</p>
+        </div>
+        <div class="col d-xl-flex align-items-xl-center"><button class="btn btn-outline-dark btn-sm" type="button" style="margin-right: 30px;">Button</button><button class="btn btn-outline-dark btn-sm" type="button" style="margin-right: 30px;">Button</button><button class="btn btn-outline-dark btn-sm"
+                                                                                                                                                                                                                                                                           type="button" style="margin-right: 30px;">Button</button><button class="btn btn-outline-dark btn-sm" type="button" style="margin-right: 30px;">Button</button></div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="row" style="margin-bottom: 35px;">
+                <div class="col-12 d-flex d-xl-flex align-items-xl-center">
+                    <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);width: 100%;">
+                        <div class="card-body"><input class="form-control-lg" type="search" style="width: 100%;border-radius: 20px;background: rgb(247,247,247);border-width: 0px;" placeholder="Найти..."></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);margin-bottom: 60px;">
+                <div class="card-body" style="padding-top: 0px;padding-right: 15px;padding-left: 15px;">
+                    <div class="row">
+                        <div class="col d-xl-flex justify-content-xl-center align-items-xl-center" style="height: 200px;margin-bottom: 10px;padding-right: 0px;padding-left: 0px;border-top-left-radius: 10px;border-top-right-radius: 10px;"><img style="width: 100%;height: 100%;border-top-left-radius: 10px;border-top-right-radius: 10px;"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex justify-content-between">
+                            <h4 style="margin-bottom: 30px;font-family: Montserrat, sans-serif;font-size: 20px;color: #707c97;">Категория</h4>
+                            <h4 style="margin-bottom: 30px;font-family: Montserrat, sans-serif;font-size: 20px;color: #707c97;">Дата</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h4 style="font-family: Montserrat, sans-serif;font-weight: bold;">Заголовок</h4>
+                        </div>
+                    </div>
+                    <p class="card-text" style="margin-bottom: 30px;">ТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТИКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕККСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕККСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕККСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕККСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКСТТЕКAA...&nbsp;
+                        <a
+                                href="#">Читать далее...</a><br></p>
+                    <div class="row">
+                        <div class="col"><img class="rounded-circle" style="margin-right: 15px;" src="assets/img/24.png"><a href="#" style="color: rgb(0,0,0);">ФИ автора</a></div>
+                        <div class="col d-flex justify-content-xl-end align-items-xl-center"><img src="assets/img/thumb_up.svg" style="margin-right: 15px;">
+                            <p style="margin-right: 15px;margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(18,132,0);font-weight: bold;">+100</p><img src="assets/img/thumb_up.png" style="width: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Title</h4>
+                    <h6 class="text-muted card-subtitle mb-2">Subtitle</h6>
+                    <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><a class="card-link" href="#">Link</a><a class="card-link"
+                                                                                                                                                                                                                                                           href="#">Link</a></div>
+            </div>
         </div>
     </div>
 </div>

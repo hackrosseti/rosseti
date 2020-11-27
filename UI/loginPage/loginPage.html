@@ -1,15 +1,16 @@
 <div class="container-fluid px-0">
     <div class="row h-100 vh-100" style="max-width: 100%;">
-        <div class="col d-xl-flex">
-            <img class="img-fluid d-flex" src="images/background.png" ></div>
+        <div ng-show="width > 720" class="col d-xl-flex">
+            <img class="img-fluid d-flex" src="images/background.png" >
+        </div>
         <div class="col d-xl-flex mx-2 justify-content-xl-center align-items-xl-center">
-            <div class="card" style="min-width:55% !important; background: rgba(255,255,255,0);border-color: rgba(33,37,41,0);">
+            <div class="card ml-2 mt-2" style="min-width:55% !important; background: rgba(255,255,255,0);border-color: rgba(33,37,41,0);">
                 <div class="card-body flex-column justify-content-xl-center align-items-xl-center">
                     <h1 class="card-title" style="font-family: Montserrat, sans-serif;font-weight: normal;margin-bottom: 51px;font-size: 36px;letter-spacing: 1%;">Войти в систему</h1>
                     <p class="justify-content-xl-start" style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(0,0,0);font-weight: normal;">Логин</p>
-                    <input ng-model="login" ng-class="{'ng-invalids':!login && isLoginError}" class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-color: rgb(0,0,0);border-top-style: none;border-right-style: none;border-bottom-width: 1px;border-bottom-color: rgb(0,0,0);border-left-style: none;">
+                    <input required ng-model="login" ng-class="{'ng-invalids':!login && isLoginError}" class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-color: rgb(0,0,0);border-top-style: none;border-right-style: none;border-bottom-width: 1px;border-bottom-color: rgb(0,0,0);border-left-style: none;">
                     <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(0,0,0);font-weight: normal;">Пароль</p>
-                    <input ng-model="password" ng-class="{'ng-invalids':!password && isLoginError}" class="form-control-lg" type="password" style="width: 100%;margin-bottom: 75px;padding-left: 0px;background: rgba(255,255,255,0);border-color: rgb(0,0,0);border-top-style: none;border-right-style: none;border-bottom-width: 1px;border-bottom-color: rgb(0,0,0);border-left-style: none;">
+                    <input required ng-model="password" ng-class="{'ng-invalids':!password && isLoginError}" class="form-control-lg" type="password" style="width: 100%;margin-bottom: 75px;padding-left: 0px;background: rgba(255,255,255,0);border-color: rgb(0,0,0);border-top-style: none;border-right-style: none;border-bottom-width: 1px;border-bottom-color: rgb(0,0,0);border-left-style: none;">
                     <div class="row text-center d-flex flex-column justify-content-xl-center align-items-xl-center">
                         <div class="col">
                             <button ng-click="auth()" class="btn btn-lg w-100 text-nowrap" type="button" style="height: 60px;background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif; font-size: 22px;">
@@ -19,6 +20,7 @@
                 </div>
             </div>
         </div>
+
     </div>
     <!--<div class="row mh-100vh">
         <div class="col-10 col-sm-8 col-md-6 col-lg-6 offset-1 offset-sm-2 offset-md-3 offset-lg-0 align-self-center d-lg-flex align-items-lg-center align-self-lg-stretch bg-white p-5 rounded rounded-lg-0 my-5 my-lg-0" id="login-block">

@@ -4,6 +4,11 @@ var kanban = angular.module('myApp.kanban', ['ngRoute']);
 
 kanban.controller('KanbanCtrl', function ($scope, mainService,  $rootScope, infoService) {
 
+    getAllProjectClassificators();
+    function getAllProjectClassificators(){
+
+    }
+
     var openProject = function(el){
        if($(el)[0].getAttribute("data-projectid")) {
            getProjectById($(el)[0].getAttribute("data-projectid"));

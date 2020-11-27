@@ -218,6 +218,7 @@ services.filter('orderObjectBy', function () {
 services.factory('userService', function ($location, $http, $uibModal, $sce, $q, $rootScope ) {
     var service = {};
 
+    service.defaultError = "Сервер недоступен. Неизвестная ошибка сервера";
     service.User = null;
 
     service.resolveCheck = function(){
