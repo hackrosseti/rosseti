@@ -51,6 +51,7 @@ app.use('/api/user/', require('./routes/user.routes'));
 app.use('/api/user_roles/', require('./routes/user_roles.routes'));
 app.use('/api/region/', require('./routes/region.routes'));
 app.use('/api/kanban/', require('./routes/kanban.routes'));
+app.use('/api/project/', require('./routes/project.routes'));
 
 app.listen(port, hostname, async () => {
     try {
