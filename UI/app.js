@@ -1,6 +1,6 @@
 'use strict';
 var ipAdress;
-// FOR LOCAL
+// FOR LOCAL USAGE
 var serverUrlIndex = 0;
 
 setIpAddress();
@@ -13,7 +13,7 @@ function setIpAddress() {
 
 var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.select', 'myApp.services', 'myApp.confirmationModal','myApp.loginPage',
         'myApp.infoModal',  'myApp.mainPage', 'myApp.users', 'myApp.addUserModalModal', 'myApp.editUserModalModal', 'myApp.profile', 'myApp.settings',
-        'myApp.chat', 'myApp.kanban', 'myApp.mySuggestion']);
+        'myApp.chat', 'myApp.kanban', 'myApp.mySuggestion', 'myApp.createProject', 'myApp.project']);
 
 
 myApp.config(function ($httpProvider) {
@@ -26,7 +26,7 @@ myApp.factory('authInterceptor', function ($rootScope, $q) {
 
     service.request = function (config) {
         config.headers = config.headers || {};
-
+        //валидация пользователя (проверка авторизации) по хэдеру Authorization
         if(getCookieByName("token") != undefined) config.headers.Authorization = getCookieByName("token");
         return config;
     };
@@ -46,6 +46,7 @@ myApp.config(function ($routeProvider) {
 
     var UserResolve = {
         authorizeCheck: function(userService) {
+            //валидация пользователя (проверка авторизации)
             return userService.resolveCheck();
         }
     };
@@ -73,6 +74,16 @@ myApp.config(function ($routeProvider) {
         .when('/chat', {
             templateUrl: 'chat/chat.html',
             controller: 'ChatCtrl',
+            resolve: UserResolve
+        })
+        .when('/createProject', {
+            templateUrl: 'createProject/createProject.html',
+            controller: 'CreateProjectCtrl',
+            resolve: UserResolve
+        })
+        .when('/project', {
+            templateUrl: 'project/project.html',
+            controller: 'ProjectCtrl',
             resolve: UserResolve
         })
         .when('/settings', {

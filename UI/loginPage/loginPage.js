@@ -2,7 +2,7 @@
 
 var loginPage = angular.module('myApp.loginPage', ['ngRoute']);
 
-loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, infoService) {
+loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, infoService, $window) {
 
     $scope.login = null;
     $scope.password = null;
@@ -20,21 +20,21 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
                     $scope.user = response.user;
                     userService.User = $scope.user;
                     $rootScope.$broadcast('user:isActive', true);
-                    userService.redirectTo("users");
+                    userService.redirectTo("main");
                 } else {
                     infoService.infoFunction(response.message, "Ошибка")
                     $scope.user = userService.User = null;
                     $rootScope.$broadcast('user:isActive', true);
                 }
             }, function (error) {
-                infoService.infoFunction(error.error, "Ошибка");
+                console.log(error)
                 $scope.user = userService.User = null;
                 $rootScope.$broadcast('user:isActive', true);
             });
         } else {
             $scope.user = userService.User;
             $rootScope.$broadcast('user:isActive', true);
-            userService.redirectTo("users");
+            userService.redirectTo("main");
         }
     }
 
@@ -50,12 +50,12 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
                     $scope.user = response.user;
                     userService.User = $scope.user;
                     $rootScope.$broadcast('user:isActive', true);
-                    userService.redirectTo("users");
+                    userService.redirectTo("main");
                 } else {
-                    infoService.infoFunction(response.message, "Ошибка")
+                    infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
                 }
             }, function (error) {
-                infoService.infoFunction(error.error, error.message);
+                infoService.infoFunction(error.message ? error.message : userService.defaultError, "Ошибка");
                 $scope.user = userService.User = null;
             });
             //toMain();
@@ -68,10 +68,16 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
         }
     }
 
+    //проверка ширины экрана
+    $scope.width = $window.innerWidth;
+    setInterval(function (){
+        $scope.width = $window.innerWidth;
+        tryDigest();
+    },1000);
 
     /********** FOR TESTING ***********/
 
-    $scope.infoModal = function(){
+    /*$scope.infoModal = function(){
         infoService.infoFunction("тест 12 тест тест", "тест тест")
     }
 
@@ -88,7 +94,7 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
     $scope.editUser = function (){
         userService.editUserModal($scope.user).then(function (){
         })
-    }
+    }*/
 
     function tryDigest() {
         if (!$rootScope.$$phase) {
