@@ -13,7 +13,7 @@ router.get(
           db.queries.select('kanban_statuses')
        ).then(db.getAll).catch((e) => handleDefault(response, e));
  
-       response.json({ statuses });
+       response.json({ statuses: statuses });
     })
 );
 

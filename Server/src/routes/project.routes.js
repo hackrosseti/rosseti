@@ -15,7 +15,7 @@ router.get(
           db.queries.select('project_classificator')
        ).then(db.getAll).catch((e) => handleDefault(response, e));
  
-       response.json({ classificators });
+       response.json({ classificators: classificators });
     })
 );
 
@@ -30,7 +30,7 @@ router.get(
          db.queries.select('project')
       ).then(db.getAll).catch((e) => handleDefault(response, e));
 
-      response.json({ projects });
+      response.json({ projects: projects });
    })
 );
 
