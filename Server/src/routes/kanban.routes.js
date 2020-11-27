@@ -4,16 +4,16 @@ import auth from '../middleware/auth.middleware';
 import access from './../access';
 const router = Router();
 
-// /api/region/getAll
+// /api/kanban/getAll
 router.get(
     '/getAll',
-    wrapAccess(auth, access.region.getAll),
+    wrapAccess(auth, access.kanban.getAll),
     wrapResponse(async (request, response) => {
-       const regions = await request.client.query(
-          db.queries.select('regions')
+       const statuses = await request.client.query(
+          db.queries.select('kanban_statuses')
        ).then(db.getAll).catch((e) => handleDefault(response, e));
  
-       response.json({ regions: regions });
+       response.json({ statuses: statuses });
     })
 );
 

@@ -12,8 +12,8 @@ router.get(
       const {login, password} = request.query;
       const client = request.client;
       const user = await client.query(
-         db.queries.getByFields('users', { login })
-      ).then(db.getOne).catch((e) => handleDefault(response, e));
+         db.queries.select('users', { login })
+      ).then(db.getOne).catch((e) => handleDefault(e, response));
       if (!user) {
          return response.status(400).json({ message: 'Пользователь не найден' });
       }
@@ -46,10 +46,9 @@ router.get(
       const decoded = jwt.verify(token, getFromConfig('jwtsecret'));
       const user_id = decoded.userId;
 
-      console.log(db.queries.getByFields('users', { user_id }));
       const user = await request.client.query(
-         db.queries.getByFields('users', { user_id })
-      ).then(db.getOne).catch((e) => handleDefault(response, e));
+         db.queries.select('users', { user_id })
+      ).then(db.getOne).catch((e) => handleDefault(e, response));
 
       if (!user) {
          return response.status(400).json({ message: 'Пользователь не найден' });
@@ -64,8 +63,8 @@ router.get(
    wrapAccess(auth, access.user.getAll),
    wrapResponse(async (request, response) => {
       const allUsers = await request.client.query(
-         db.queries.getByFields('users')
-      ).then(db.getAll).catch((e) => handleDefault(response, e));
+         db.queries.select('users')
+      ).then(db.getAll).catch((e) => handleDefault(e, response));
 
       response.json({ users: allUsers });
    })
@@ -81,8 +80,8 @@ router.post(
       } = request.body;
 
       const candidate = await request.client.query(
-         db.queries.getByFields('users', { login })
-      ).then(db.getOne).catch((e) => handleDefault(response, e));
+         db.queries.select('users', { login })
+      ).then(db.getOne).catch((e) => handleDefault(e, response));
 
       if (candidate) {
          return response.status(400).json({ message: "Такой пользователь уже существует" });
@@ -100,7 +99,7 @@ router.post(
          }
          throw new Error('Не удалось создать пользователя');
       })
-      .catch((e) => handleDefault(response, e));
+      .catch((e) => handleDefault(e, response));
 
       response.status(201).json({ message: "Пользователь создан", userId: userRes['user_id'] });
    })
@@ -125,7 +124,7 @@ router.post(
 //             }
 //          })
 //          .then(db.getOne)
-//          .catch((e) => handleDefault(response, e));
+//          .catch((e) => handleDefault(e, response));
       
 //       console.log(user);
 //       response.status(201).json({ message: "Пользователь изменен", user });

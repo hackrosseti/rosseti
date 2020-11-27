@@ -9,5 +9,8 @@ export default {
     },
     "user_roles": {
         "getAll": [1]
+    },
+    "kanban": {
+        "getAll": [1]
     }
 }

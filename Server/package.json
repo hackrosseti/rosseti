@@ -5,7 +5,7 @@
     "start": "npm run compile && node dist\\app.js",
     "compile": "babel src --out-dir dist --source-maps inline --copy-files",
     "server": "nodemon --exec babel-node src\\app.js",
-    "server:local": "cross-env IP_ADDRESS=\"127.0.0.1\" TOKEN=\"query\" npm run server"
+    "server:local": "cross-env IP_ADDRESS=\"127.0.0.1\" npm run server"
   },
   "dependencies": {
     "config": "^3.3.2",
