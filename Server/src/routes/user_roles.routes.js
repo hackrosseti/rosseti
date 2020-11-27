@@ -10,7 +10,7 @@ router.get(
     wrapAccess(auth, access.user_roles.getAll),
     wrapResponse(async (request, response) => {
        const roles = await request.client.query(
-          db.queries.getByFields('users_roles')
+          db.queries.select('users_roles')
        ).then(db.getAll).catch((e) => handleDefault(response, e));
  
        response.json({ roles: roles });
