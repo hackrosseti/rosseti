@@ -10,7 +10,7 @@ const router = Router();
 router.post(
     '/upload',
     wrapAccess(auth, access.document.upload),
-    (request, response) => {
+    wrapResponse((request, response) => {
         const { projectId } = request.query;
         let filedata = request.file;
         
@@ -28,7 +28,7 @@ router.post(
             .then(db.getOne)
             .then(res => response.json({ document: res }))
             .catch(e => handleDefault(e, response));
-    }
+    })
 );
 
 // /api/document/download
