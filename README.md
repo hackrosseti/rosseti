@@ -13,6 +13,7 @@
 
 ## Ссылки
 
+<h3><a href="https://github.com/hackrosseti/rosseti/blob/main/terms%20of%20reference.docx">Техническое задание</a></h2>
 <h3><a href="http://ksutechrosset.northeurope.cloudapp.azure.com/#/login">Демо версия web сайта</a></h2>
 <h3><a href="https://github.com/hackrosseti/rosseti/tree/main/hack.api">Swagger (API)</a></h2>
 <h3><a href="https://www.canva.com/design/DAEOv0bVuoU/fDnHxa4vARkVnt152h9HHA/view?utm_content=DAEOv0bVuoU&utm_campaign=designshare&utm_medium=link&utm_source=publishpresent">Презентация проекта </a> </h3>
