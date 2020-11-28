@@ -170,8 +170,9 @@ router.get(
                .query(db.queries.select('project', { project_id: projectId },
                `
                   pc.class_name,
-                  u.firstname, u.surname,
+                  u.firstname, u.surname, u.lastname, u.company, u.position, u.department,
                   u.profile_image as author_image,
+                  (SELECT r.region_name FROM regions as r WHERE r.region_id = u.region_id) as author_region,
                   (SELECT SUM(l.weight) FROM likes as l WHERE l.project_id = :project_id)::int as totalweight,
                   (SELECT COUNT(*) FROM project_comments as c WHERE c.project = :project_id)::int as comments
                `, 
@@ -180,7 +181,8 @@ router.get(
                   LEFT JOIN users as u ON u.user_id = t.author
                `,
                `
-                  GROUP BY t.project_id, pc.class_name, u.firstname, u.surname, u.profile_image
+                  GROUP BY t.project_id, pc.class_name, u.firstname, u.surname, u.profile_image,
+                           u.company, u.position, u.department, u.lastname, u.region_id
                `)).then(db.getOne).then(res => { project = res; })
                .then(() => 
                   client.query(db.queries.select('project_comments', { project: projectId },

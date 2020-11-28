@@ -31,5 +31,8 @@ export default {
     },
     "like": {
         "add": [1]
+    },
+    "comment": {
+        "add": [1]
     }
 }
