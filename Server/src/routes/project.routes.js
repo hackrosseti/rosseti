@@ -88,6 +88,10 @@ router.post(
                })
 
                .then(() => client.query(db.queries.project.setDocuments({ project_id: project.project_id })))
+
+               // .then(() => client.query(db.queries.insert('project_history', {
+
+               // })))
                .then(() => client.release())
                .then(() => response.status(201).json({ message: "Проект создан", projectId: project.project_id }))
                .catch(e => {
@@ -139,6 +143,8 @@ router.post(
          });
    })
 );
+
+/******************************************* ПРОЕКТЫ: ПОЛУЧЕНИЕ ПО ПОЛЯМ ***********************************/
 
 // /api/project/getProjectByProjectId
 router.get(
@@ -192,7 +198,7 @@ router.get(
                .then(() => client.release())
                .then(() => response.json({
                   project: project,
-                  likes: likes,
+                  likes: {...likes, totalweight: project.totalweight},
                   comments: comments
 
                }))
