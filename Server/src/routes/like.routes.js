@@ -23,12 +23,12 @@ router.get(
             }
         };
 
-        let weight = 0;
+        let weight = 1;
         var like = null;
         switch (likeTypeId) {
             case 1: weight = 1; break;
-            case 0: weight = -1; break;
-            default: weight = 0
+            case 2: weight = -1; break;
+            default: weight = 1
         }
 
         request.pool.connect()
