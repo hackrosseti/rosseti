@@ -216,7 +216,7 @@ router.get(
                   client.query(db.queries.select('likes', { project_id: projectId },
                   `
                      u.surname, u.firstname, u.profile_image as like_author_profile_image,
-                     ll.link, ll.likelink_id
+                     ll.expert_link, ll.likelink_id
                   `,
                   `
                      LEFT JOIN users as u ON u.user_id = t.user_id
