@@ -90,6 +90,7 @@ createProject.controller('CreateProjectCtrl', function ($scope, userService,  $r
             if(!$scope.project.conference_link) $scope.project.conference_link = "-";
             if(!$scope.project.region_id) $scope.project.region_id = $scope.user.region_id;
             if(!$scope.project.author) $scope.project.author = $scope.user.user_id;
+            if($scope.projectStatusId) $scope.project.project_status = $scope.projectStatusId;
             //$scope.project.project_offer = $scope.project.project_profit = "-";
             projectService.addProject($scope.project).then(function(response){
                 if (response && response.projectId) {
