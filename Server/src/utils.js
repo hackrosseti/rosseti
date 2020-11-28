@@ -108,8 +108,8 @@ export const db = {
       dashboard: {
          getProjects: () => sql(`
             SELECT 	B.project_id, B.project_status,
-                     (NOW() - A.start_date) as project_time,
-                     (NOW() - A.last_date) as status_time
+                     A.start_date as start_date,
+                     A.last_date as last_date
             FROM project as B
             INNER JOIN
                (SELECT project_id, MIN(change_date) as start_date, MAX(change_date) as last_date
