@@ -13,7 +13,7 @@ function setIpAddress() {
 
 var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.select', 'myApp.services', 'myApp.confirmationModal','myApp.loginPage',
         'myApp.infoModal',  'myApp.mainPage', 'myApp.users', 'myApp.addUserModalModal', 'myApp.editUserModalModal', 'myApp.profile', 'myApp.settings',
-        'myApp.chat', 'myApp.kanban', 'myApp.mySuggestion', 'myApp.createProject', 'myApp.project']);
+        'myApp.chat', 'myApp.kanban', 'myApp.mySuggestion', 'myApp.createProject', 'myApp.project', 'myApp.statistic']);
 
 
 myApp.config(function ($httpProvider) {
@@ -79,6 +79,11 @@ myApp.config(function ($routeProvider) {
         .when('/createProject', {
             templateUrl: 'createProject/createProject.html',
             controller: 'CreateProjectCtrl',
+            resolve: UserResolve
+        })
+        .when('/statistic', {
+            templateUrl: 'statistic/statistic.html',
+            controller: 'StatisticCtrl',
             resolve: UserResolve
         })
         .when('/project', {

@@ -6,7 +6,7 @@ createProject.controller('CreateProjectCtrl', function ($scope, userService,  $r
 
     $scope.projectStatusId = projectService.projectStatusId;
     if(!$scope.projectStatusId) userService.redirectTo("main");
-    console.log($scope.projectStatusId)
+
     $scope.user = userService.User;
     $scope.kanbanStatus = null;
 
@@ -63,16 +63,15 @@ createProject.controller('CreateProjectCtrl', function ($scope, userService,  $r
         if($scope.uploadFiles.length>0){
             angular.forEach($scope.uploadFiles, function (file) {
                 var uploadFormData = new FormData();
-                uploadFormData.append("files", file);
-
+                uploadFormData.append("file", file);
                 projectService.uploadFileToProject(uploadFormData, projectId).then(function(response){
-                    if (response && response.doc_id) {
-                        console.log("Файл загружен:"+doc_id, "Информация");
+                    if (response && response.document) {
+                        console.log("Файл загружен:"+document.doc_id, "Информация");
                     } else {
                         console.log("Файл НЕ загружен:" + response.message ? response.message : userService.defaultError);
                     }
                 }, function (response) {
-                    console.log(response)
+                    console.log(response);
                     infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
                 });
             })

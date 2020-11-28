@@ -25,7 +25,7 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
     }
 
     var itemsColors = ['text-secondary', 'text-secondary', 'text-info', 'text-dark', 'text-warning', 'text-success', 'text-danger', 'text-success', 'text-danger', 'text-info', 'text-info']
-    var borderColors = ['bg-secondary', 'bg-secondary', 'bg-info', 'bg-dark', 'bg-warning', 'bg-success', 'bg-danger', 'bg-success', 'bg-danger', 'bg-info', 'bg-info']
+    var borderColors = ['bg-secondary', 'bg-info', 'bg-success', 'bg-danger', 'bg-warning', 'bg-success', 'bg-danger', 'bg-success', 'bg-danger', 'bg-info', 'bg-info']
 
     var boards = [];
     function createCanban(){

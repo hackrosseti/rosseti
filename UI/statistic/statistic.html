@@ -1,0 +1,37 @@
+<div class="container-fluid p-3" ng-show="!user || !user.user_id">
+    <div>Недостаточно учетных данных <a href="#/login">Войти</a> </div>
+</div>
+<div ng-show="user && user.user_id" class="container-fluid" style="margin-top: 50px;">
+    <div class="row">
+        <div class="col-12 d-xl-flex justify-content-between align-items-xl-center">
+            <h1 style="font-family: Montserrat, sans-serif;margin-left: -4px;">Статистика</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col ml-2">
+            <p style="color: #707c97;">Фильтры</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col ">
+            <label class="ml-2 mb-0">Выберите классификатор</label>
+            <select placeholder="Поиск по классификаторам" ng-change="selectProjectWithClassificator(projectClassificator)" class="form-control my-2  mx-1 width500px" ng-model="projectClassificator">
+                <option ng-repeat="clasif in projectClassificators"
+                         value="{{clasif.class_id}}">
+                    {{clasif.class_name}}
+                </option>
+            </select>
+
+            <input class="ml-2" ng-click="startStage=false;fromStart=true;checkRadio();" ng-checked="fromStart" id="startProject" type="radio" name="projectDate">
+            <label class="mr-3 mt-2" for="startProject">От начала проекта</label>
+
+            <input class="ml-2" ng-click="fromStart=false;startStage=true;checkRadio()" ng-checked="startStage" id="startStage" type="radio" name="projectDate">
+            <label class="mr-3 mt-2" for="startStage">От этапа</label>
+        </div>
+    </div>
+    <div id="container px-5" style="width: 100%;  ">
+        <canvas id="canvas"></canvas>
+    </div>
+
+
+</div>

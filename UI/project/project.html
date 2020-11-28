@@ -31,7 +31,7 @@
                                         <div style="color: #2A8BF2;font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px; ">
                                             <img ng-if="!user || !user.user_id || !user.profile_image "  src="images/icons/default-user.jpg" class="rounded-circle"  >
                                             <img ng-if="user && user.user_id && user.profile_image" ng-src="{{user.profile_image}}" class="rounded-circle"  >
-                                            <a href="#/users"  class="href-style" style="color: rgb(0,0,0);">{{user.surname + " " + user.firstname}}</a>
+                                            <a href="#/users"  class="text-nowrap href-style" style="color: rgb(0,0,0);">{{user.surname + " " + user.firstname}}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -66,6 +66,9 @@
                                 <div class="row" style="padding-left: 15px;margin-bottom: 10px;">
                                     <h6 style="color: #2A8BF2;font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px;font-size: 18px;">Прикрепления</h6>
                                 </div>
+                                <div style="padding-left: 30px;margin-bottom: 10px;" ng-if="!documents.length>0">
+                                    Нет прикреплений
+                                </div>
                                 <div ng-repeat="doc in documents" class="row" style="padding-left: 15px;">
                                     <button ng-click="downloadFile(doc)" title="Загружен от {{doc.upload_date | date:'dd.MM.yyyy mm:HH'}}" class="btn btn-sm" type="button" style="margin-right: 30px;margin-left: 30px;background: rgba(42,139,242,0.25);border-radius: 15px;color: #2A8BF2;padding-right: 15px;padding-left: 15px;padding-top: 5px;padding-bottom: 5px;">
                                         <i class="far fa-file-alt" style="margin-right: 10px;color: #2A8BF2;"></i>{{doc.document_name}}</button></div>
@@ -83,18 +86,21 @@
                                                 <div class="col">
                                                     <div class="row">
                                                         <div class="col">
-                                                            <div class="row">
+                                                            <div ng-if="!expertLikes.length>0">
+                                                                Нет экспертных мнений
+                                                            </div>
+                                                            <div class="row" ng-repeat="expertLike in expertLikes">
                                                                 <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center">
                                                                     <img class="rounded-circle" src="images/icons/default-user.jpg" style="width: 50px;"></div>
                                                                 <div class="col d-flex flex-column justify-content-around">
                                                                     <div style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">Петров Илья</div>
                                                                 </div>
                                                             </div>
-                                                            <div class="row" style="padding-right: 15px;padding-left: 15px;">
+                                                           <!-- <div class="row" style="padding-right: 15px;padding-left: 15px;">
                                                                 <button ng-click="downloadFile()" class="btn btn-sm" type="button" style="margin-right: 30px;background: rgba(42,139,242,0.25);border-radius: 15px;
                                                                 color: #2A8BF2;padding-right: 15px;padding-left: 15px;padding-top: 5px;padding-bottom: 5px;">
                                                                     <i class="far fa-file-alt" style="margin-right: 10px;color: #2A8BF2;"></i>файл.doc</button>
-                                                            </div>
+                                                            </div>-->
                                                         </div>
                                                     </div>
 

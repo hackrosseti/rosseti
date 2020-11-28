@@ -566,6 +566,26 @@ myApp.factory('projectService', function ($http, $window, $q) {
         return deferred.promise;
     };
 
+    service.getDashBoardStats = function () {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/dashboard/getProjects").success(function (response) {
+            deferred.resolve(response);
+        }).error(function (error) {
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    };
+
+    service.getClassificators = function (classificatorId) {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/dashboard/getClassificators?classificatorId="+classificatorId).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (error) {
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    };
+
     return service;
 });
 
