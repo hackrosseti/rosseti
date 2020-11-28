@@ -5,10 +5,10 @@
     <div class="row" style="margin-bottom: 30px;">
         <div class="col-12 d-xl-flex justify-content-between align-items-xl-center">
             <h1 style="font-family: Montserrat, sans-serif;margin-left: -4px;">Создать идею</h1>
-            <button ng-click="addProject()" class="btn text-nowrap" type="button" style="height: 55px;background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;width: 257px;font-size: 20px;box-shadow: 0px 5px 20px rgba(0,0,0,0.25);"><i class="fas fa-plus" style="margin-right: 9px;"></i>Добавить идею</button></div>
+
     </div>
     <div class="row">
-        <div class="col-5" style="margin-right: 25px;">
+        <div class="col-5 mb-2" style="margin-right: 25px;">
             <div class="card" style="box-shadow: 0px 0px rgba(33,37,41,0.05);border-style: none;margin-bottom: 32px;">
                 <div class="card-body" style="box-shadow: 0px 5px 20px rgba(33,37,41,0.25);border-radius: 11px;">
                     <p ng-if="kanbanStatus" style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: #707C97;">Будет добавлено в стадию: <b>{{kanbanStatus.status_name}}</b></p>
@@ -42,7 +42,8 @@
                         <div class="col">
 
                             <p  class="d-flex justify-content-between align-items-xl-center" style="margin-bottom: 10px;font-family: Montserrat, sans-serif;color: #707C97;">Прикрепления</p>
-                            <label class="btn-info   border rounded  p-2"  style="margin-bottom: 20px;font-family: Montserrat, sans-serif;color: #707C97;" ng-class="{'disabled':uploadFiles.length>=5}"><i style="color: lightgray;" class="fa fa-plus">
+                            <label class="btn-info   border rounded  p-2"  style="margin-bottom: 20px;font-family: Montserrat, sans-serif;color: #707C97;" ng-class="{'disabled':uploadFiles.length>=5}">
+                                <i  class="fa fa-plus text-success">
                             </i>&nbsp;Добавить файл<input id="attachFiles" name="file" multiple type="file" style="display: none;" onchange="angular.element(this).scope().attachFile()"></label>
                         </div>
                     </div>
@@ -127,6 +128,10 @@
                     </div>
                 </div>
             </div>
+            <div class="row float-right">
+                <button ng-click="addProject()" class="btn text-nowrap" type="button" style="height: 55px; width: 300px;background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;font-size: 25px;box-shadow: 0px 5px 20px rgba(0,0,0,0.25);"><i class="fas fa-plus" style="margin-right: 9px;"></i>Добавить идею</button>
+            </div>
         </div>
+
     </div>
 </div>

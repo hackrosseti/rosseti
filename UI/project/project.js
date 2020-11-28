@@ -31,18 +31,30 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
 
 
 
-    $scope.downloadFile = function(){
-        var fileName = "ФАЙЛ.doc";
-        var save = document.createElement('a');
-        save.target = "_blank";
-        save.href = "http://168.63.58.52/files/%D0%A4%D0%90%D0%99%D0%9B.docx";
-        save.download = fileName;
-        var event = document.createEvent("MouseEvents");
-        event.initMouseEvent(
-            "click", false, true, window, 0, 0, 0, 0, 0
-            , false, false, false, false, 0, null
-        );
-        save.dispatchEvent(event);
+    $scope.downloadFile = function(doc){
+        projectService.downloadFileByDocId(doc.doc_id).then(function(response){
+            if (response && response.result && response.result.data) {
+                var fileName = "file.doc";
+                var save = document.createElement('a');
+                save.target = "_blank";
+                var bytes = new Uint8Array(response.result.data);
+                var file = new File([bytes], fileName , {type:  'application/octet-stream'});
+                save.href = window.URL.createObjectURL(file);
+                save.download = fileName;
+                var event = document.createEvent("MouseEvents");
+                event.initMouseEvent(
+                    "click", false, true, window, 0, 0, 0, 0, 0
+                    , false, false, false, false, 0, null
+                );
+                save.dispatchEvent(event);
+
+            } else {
+                infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+            }
+        }, function (response) {
+            console.log(response);
+            infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+        });
     }
 
     function getProjectByProjectId(){
@@ -55,6 +67,7 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
                     if(response.comments && response.comments) {
                         $scope.comments = response.comments.sort(function (a, b) {if (a.comment_id < b.comment_id) {return 1;}if (a.comment_id > b.comment_id) {return -1;}return 0;});;
                     }
+                    getProjectFiles($scope.project.project_id);
                     tryDigest();
                 } else {
                     infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
@@ -66,6 +79,20 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
         } else{
             console.log("projectId is null")
         }
+    }
+
+    function getProjectFiles(){
+        projectService.getAllProjectDocument(projectId).then(function(response){
+            if (response && response.documents) {
+                $scope.documents = response.documents;
+                tryDigest();
+            } else {
+                infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+            }
+        }, function (response) {
+            console.log(response);
+            infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+        });
     }
 
     $scope.sendComment = function(comment){

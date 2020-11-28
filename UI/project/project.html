@@ -56,7 +56,7 @@
                                 <div class="row mb-2">
                                     <div class="col" style="padding-left: 10px;margin-bottom: 10px;">
                                         <button ng-click="getProjectReport()" class="btn text-nowrap" type="button" style="margin-left: 30px;margin-bottom: 10px; background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);font-size: 16px; color: rgb(255,255,255);font-family: Montserrat, sans-serif;  box-shadow: 0px 4px 20px rgba(0,0,0,0.25);">
-                                            <i class="fas fa-download" style="margin-right: 9px;"></i>Выгрузить документ</button>
+                                            <i class="fas fa-download" style="margin-right: 9px;"></i>Загрузить шаблон заявления</button>
                                     </div>
                                 </div>
                             </div>
@@ -66,8 +66,9 @@
                                 <div class="row" style="padding-left: 15px;margin-bottom: 10px;">
                                     <h6 style="color: #2A8BF2;font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px;font-size: 18px;">Прикрепления</h6>
                                 </div>
-                                <div class="row" style="padding-left: 15px;">
-                                    <button ng-click="downloadFile()" class="btn btn-sm" type="button" style="margin-right: 30px;margin-left: 30px;background: rgba(42,139,242,0.25);border-radius: 15px;color: #2A8BF2;padding-right: 15px;padding-left: 15px;padding-top: 5px;padding-bottom: 5px;"><i class="far fa-file-alt" style="margin-right: 10px;color: #2A8BF2;"></i>файл.doc</button></div>
+                                <div ng-repeat="doc in documents" class="row" style="padding-left: 15px;">
+                                    <button ng-click="downloadFile(doc)" title="Загружен от {{doc.upload_date | date:'dd.MM.yyyy mm:HH'}}" class="btn btn-sm" type="button" style="margin-right: 30px;margin-left: 30px;background: rgba(42,139,242,0.25);border-radius: 15px;color: #2A8BF2;padding-right: 15px;padding-left: 15px;padding-top: 5px;padding-bottom: 5px;">
+                                        <i class="far fa-file-alt" style="margin-right: 10px;color: #2A8BF2;"></i>{{doc.document_name}}</button></div>
                             </div>
                         </div>
                         <div class="row">
