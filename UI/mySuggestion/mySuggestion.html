@@ -39,7 +39,7 @@
                         <div class="col">
                             <img ng-if="!user || !user.user_id || !user.profile_image "  src="images/icons/default-user.jpg" class="rounded-circle"  >
                             <img ng-if="user && user.user_id && user.profile_image" ng-src="{{user.profile_image}}" class="rounded-circle"  >
-                            <a href="#/users"  class="href-style" style="color: rgb(0,0,0);">{{user.surname + " " + user.firstname}}
+                            <a href="#/users"  class="text-nowrap href-style" style="color: rgb(0,0,0);">{{user.surname + " " + user.firstname}}
                         </a>
                         </div>
                         <div class="col d-flex justify-content-xl-end align-items-xl-center">
