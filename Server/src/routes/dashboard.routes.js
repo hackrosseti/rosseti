@@ -20,7 +20,7 @@ router.get(
 // /api/dashboard/getClassificators
 router.get(
     '/getClassificators',
-    // wrapAccess(auth, access.dashboard.getClassificators),
+    wrapAccess(auth, access.dashboard.getClassificators),
     (request, response) =>
       request.pool
          .query(db.queries.dashboard.getClassificators(request.query.classificatorId))

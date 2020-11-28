@@ -14,7 +14,6 @@
 	wrapResponse((request, response) => {
 		const { projectId } = request.query;
         const projectDir = `uploads/${projectId}`;
-        const upload = multer({ storage: storageConfig }).single("file");
 		const storageConfig = multer.diskStorage({
 			destination: (req, file, cb) => {
 				cb(null, `uploads/${projectId}`);
@@ -22,7 +21,8 @@
 			filename: (req, file, cb) => {
 				cb(null, file.originalname);
 			}
-		});
+        });
+        const upload = multer({ storage: storageConfig }).single("file");
 
         if (!fs.existsSync(projectDir)){
 			fs.mkdirSync(projectDir);
