@@ -196,7 +196,7 @@ router.post(
 // /api/user/getUserProfile
 router.get(
    '/getUserProfile',
-   // wrapAccess(auth, access.user.getUserProfile),
+   wrapAccess(auth, access.user.getUserProfile),
    (request, response) => {
       var awards = null;
       var likes_amount = null;
@@ -211,7 +211,7 @@ router.get(
                   a.medal_name, a.medal_url
                `,
                `
-                  LEFT JOIN awards as a ON a.medal_id = t.award_id
+                  LEFT JOIN awards as a ON a.medal_id = t.medal_id
                `)).then(db.getAll).then(res => { awards = res; })
                .then(() =>
                   client.query(db.queries.select('likes', { user_id: userId }))
