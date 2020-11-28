@@ -10,9 +10,9 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
     $scope.projects = null;
 
     getAllKanbanInfo();
-    function getAllKanbanInfo(){
+    function getAllKanbanInfo(classificatorId){
         getAllKanbanStatuses();
-        getAllProjects();
+        getAllProjects(classificatorId);
         getAllProjectClassificators();
         var infoInterval = setInterval(function (){
             if($scope.kanbanStatuses && $scope.projectClassificators && $scope.projects){
@@ -28,6 +28,7 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
 
     var boards = [];
     function createCanban(){
+        boards = [];
         angular.forEach($scope.kanbanStatuses, function (status, index){
             var projects = [];
             angular.forEach($scope.projects, function (project, index) {
@@ -40,10 +41,10 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
                         drop: changeProjectStatus,
                         class: [itemsColors[project.project_status]]
                     };
-
                     projects.push(project)
                 }
             });
+
             var board = {
                 id: status.table_id,
                 title: status.status_name,
@@ -54,32 +55,7 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
             boards.push(board);
         })
         setTimeout(function (){
-            /*var projects = [
-                { id:"_text", projectId: 123, title: "Идея у меня есть такая то", click: openProject, drop: changeProjectStatus, class: [itemsColors[0]]},
-                { id:"_text", projectId: 1234, title: "Как это сделать? а хз как", click: openProject, drop: changeProjectStatus, class: [itemsColors[1]] }
-            ];
 
-            var boards = [
-                {
-                    id: "_problem", title: "Проблема", class: "text-light,pointer,bg-secondary",
-                    item: [projects[0]]
-                }, {
-                    id: "_idea", title: "Идея проекта", class: "text-light,pointer,bg-info",
-                    item: [projects[1]]
-                }, {
-                    id: "_hadi", title: "HADI", class: "text-light,pointer,bg-dark",
-                    item: []
-                }, {
-                    id: "_working", title: "Разработка", class: "text-light,pointer,bg-warning",
-                    item: []
-                }, {
-                    id: "_in_review", title: "Внедрение", class: "text-light,pointer,bg-danger",
-                    item: []
-                }, {
-                    id: "_done", title: "Внедрено", class: "text-light,pointer,bg-success",
-                    item: []
-                }
-            ];*/
             var KanbanTest = new jKanban({
                 element: "#myKanban",
                 gutter: "10px",
@@ -95,37 +71,12 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
                     //console.log(el, target, source, sibling)
                 },
                 buttonClick: function(el, boardId) {
-
                     createProjectWithKanbanStatus(boardId);
-
-                    // create a form to enter element
-                    /*var formItem = document.createElement("form");
-                    formItem.setAttribute("class", "itemform");
-                    formItem.innerHTML =
-                        '<div class="form-group">' +
-                        '<textarea class="form-control" rows="2" autofocus></textarea>' +
-                        '</div><div class="form-group">' +
-                        '<button type="submit" ng-click="createProject()" class="btn btn-primary btn-xs pull-right p-2">Сохранить</button>' +
-                        '<button type="button" ng-click="" id="CancelBtn" class="btn btn-default btn-xs pull-right p-2">Отмена</button></div>';
-
-                    KanbanTest.addForm(boardId, formItem);
-                    formItem.addEventListener("submit", function(e) {
-                        e.preventDefault();
-                        var text = e.target[0].value;
-                        if(text) {
-                            KanbanTest.addElement(boardId, {
-                                title: text
-                            });
-                            formItem.parentNode.removeChild(formItem);
-                        }
-                    });
-                    document.getElementById("CancelBtn").onclick = function() {
-                        formItem.parentNode.removeChild(formItem);
-                    };*/
                 },
                 addItemButton: true,
                 boards:  boards
             });
+
         },500)
 
 
@@ -150,13 +101,11 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
         });
     }
 
-    $scope.projectClassificator = 1;
 
     function getAllProjectClassificators(){
         projectService.getAllProjectClassificators().then(function(response){
             if (response && response.classificators) {
                 $scope.projectClassificators = response.classificators;
-                $scope.projectClassificator = $scope.projectClassificators[0];
                 tryDigest();
             } else {
                 infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
@@ -173,8 +122,10 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
         }
     }
 
-    function getAllProjects(){
-        if($scope.projectClassificators){
+    function getAllProjects(classificatorId){
+        if(!classificatorId){
+            const myNode = document.getElementById("myKanban");
+            myNode.textContent = '';
             projectService.getAllProjects().then(function(response){
                 if (response && response.projects) {
                     $scope.projects = response.projects;
@@ -186,7 +137,11 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
                 infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
             });
         } else {
-            projectService.getProjectsByClassificator($scope.projectClassificators).then(function(response){
+            const myNode = document.getElementById("myKanban");
+            myNode.textContent = '';
+            console.log("Get project by classificatorId:"+classificatorId)
+            $scope.projects = [];
+            projectService.getProjectsByClassificator(classificatorId).then(function(response){
                 if (response && response.projects) {
                     $scope.projects = response.projects;
                 } else {
@@ -230,7 +185,7 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
     }
 
     $scope.getAllProjectsWithClassif = function(classifId){
-        console.log(classifId);
+        getAllKanbanInfo(classifId);
     }
 
    /* var toDoButton = document.getElementById("addToDo");

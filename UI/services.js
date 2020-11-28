@@ -401,6 +401,23 @@ myApp.factory('userProfile', function ($http, $window, $q) {
     return service;
 });
 
+myApp.factory('likeService', function ($http, $window, $q) {
+
+    var service = {};
+
+    service.addLike = function (projectId, likeTypeId) {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/like/add?projectId"+projectId+"&likeTypeId="+likeTypeId ).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (error) {
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    };
+
+    return service;
+});
+
 
 myApp.factory('regionService', function ($http, $window, $q) {
 
