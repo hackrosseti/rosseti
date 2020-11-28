@@ -88,6 +88,18 @@ router.post(
                })
 
                .then(() => client.query(db.queries.project.setDocuments({ project_id: project.project_id })))
+
+               .then(() => client.query(db.queries.insert('project_history', {
+                  project_id: project.project_id,
+                  changemaker: request.user.userId
+               })))
+               .then(db.getOne)
+               .then(res => {
+                  if (!res) {
+                     response.status(400).json({ message: 'Не удалось назначить статус проекту' });
+                     throw 'internal';
+                  }
+               })
                .then(() => client.release())
                .then(() => response.status(201).json({ message: "Проект создан", projectId: project.project_id }))
                .catch(e => {
@@ -140,6 +152,8 @@ router.post(
    })
 );
 
+/******************************************* ПРОЕКТЫ: ПОЛУЧЕНИЕ ПО ПОЛЯМ ***********************************/
+
 // /api/project/getProjectByProjectId
 router.get(
    '/getProjectByProjectId',
@@ -181,7 +195,7 @@ router.get(
                .then(() =>
                   client.query(db.queries.select('likes', { project_id: projectId },
                   `
-                     u.surname, u.firstname
+                     u.surname, u.firstname, u.profile_image as like_author_profile_image
                   `,
                   `
                      LEFT JOIN users as u ON u.user_id = t.user_id
@@ -192,7 +206,10 @@ router.get(
                .then(() => client.release())
                .then(() => response.json({
                   project: project,
-                  likes: likes,
+                  likes: {
+                     data: likes, 
+                     totalweight: project.totalweight
+                  },
                   comments: comments
 
                }))
