@@ -24,6 +24,11 @@ export default {
 
         "getByField": [1],
         "getProjectByProjectId": [1],
+        "getProjectsByClassificator": [1],
+
         "generateReportByProjectId": [1]
+    },
+    "like": {
+        "add": [1]
     }
 }
