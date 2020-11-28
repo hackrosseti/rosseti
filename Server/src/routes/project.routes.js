@@ -157,15 +157,16 @@ router.get(
                `
                   pc.class_name,
                   u.firstname, u.surname,
+                  u.profile_image as author_image,
                   (SELECT SUM(l.weight) FROM likes as l WHERE l.project_id = :project_id)::int as totalweight,
                   (SELECT COUNT(*) FROM project_comments as c WHERE c.project = :project_id)::int as comments
-               `,
+               `, 
                `
                   LEFT JOIN project_classificator as pc ON pc.class_id = t.project_class
                   LEFT JOIN users as u ON u.user_id = t.author
                `,
                `
-                  GROUP BY t.project_id, pc.class_name, u.firstname, u.surname
+                  GROUP BY t.project_id, pc.class_name, u.firstname, u.surname, u.profile_image
                `)).then(db.getOne).then(res => { project = res; })
                .then(() => 
                   client.query(db.queries.select('project_comments', { project: projectId },
