@@ -141,12 +141,53 @@ router.get(
    '/getProjectByProjectId',
    wrapAccess(auth, access.project.getProjectByProjectId),
    (request, response) => {
+      var project = null;
+      var comments = null;
+      var likes = null;
       const { projectId } = request.query;
-      request.pool
-         .query(db.queries.select('project', { project_id: projectId }))
-         .then(db.getOne)
-         .then((result) => response.json({ project: result }))
-         .catch((e) => handleDefault(e, response));
+
+      request.pool.connect()
+         .then(client => {
+            return client
+               .query(db.queries.select('project', { project_id: projectId },
+               `
+                  pc.class_name,
+                  u.firstname, u.surname
+               `,
+               `
+                  LEFT JOIN project_classificator as pc ON pc.class_id = t.project_class
+                  LEFT JOIN users as u ON u.user_id = t.author
+               `,
+               `
+                  GROUP BY t.project_id, pc.class_name, u.firstname, u.surname
+               `)).then(db.getOne).then(res => { project = res; })
+               .then(() =>
+                  client.query(db.queries.select('project_comments', { project: projectId },
+                  `
+                     u.lastname, u.firstname, u.profile_image
+                  `,
+                  `
+                     LEFT JOIN users as u ON u.user_id = t.user
+                  `
+                  )).then(db.getAll).then(res => { comments = res; })
+               )
+               .then(() =>
+                  client.query(db.queries.select('likes', { project_id: projectId }))
+                  .then(db.getAll)
+                  .then(res => { likes = res; })
+               )
+               .then(() => client.release())
+               .then(() => response.json({
+                  project: project,
+                  likes: likes,
+                  comments: comments
+
+               }))
+               .catch(e => {
+                  client.release();
+                  handleDefault(e, response);
+               })
+         });
    }
 );
 
