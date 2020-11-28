@@ -473,6 +473,16 @@ myApp.factory('projectService', function ($http, $window, $q) {
         return deferred.promise;
     };
 
+    service.getProjectReportByProjectId = function (projectId) {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/project/generateReportByProjectId?projectId="+projectId).success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in generateReportByProjectId in projectService function');
+        });
+        return deferred.promise;
+    };
+
     return service;
 });
 
