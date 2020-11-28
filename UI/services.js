@@ -534,6 +534,18 @@ myApp.factory('projectService', function ($http, $window, $q) {
         return deferred.promise;
     }
 
+
+    service.getAllProjectDocument = function(projectId){
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/document/getAllProjectDocument?projectId="+projectId).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (error) {
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+
     service.getProjectByProjectId = function (projectId) {
         var deferred = $q.defer();
         $http.get(ipAdress + "/api/project/getProjectByProjectId?projectId="+projectId).success(function (response) {
