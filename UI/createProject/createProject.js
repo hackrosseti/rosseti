@@ -6,6 +6,7 @@ createProject.controller('CreateProjectCtrl', function ($scope, userService,  $r
 
     $scope.projectStatusId = projectService.projectStatusId;
     if(!$scope.projectStatusId) userService.redirectTo("main");
+    console.log($scope.projectStatusId)
     $scope.user = userService.User;
     $scope.kanbanStatus = null;
 

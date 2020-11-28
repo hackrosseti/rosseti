@@ -29,6 +29,20 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
         });
     }
 
+    $scope.downloadFile = function(){
+        var fileName = "ФАЙЛ.doc";
+        var save = document.createElement('a');
+        save.target = "_blank";
+        save.href = "http://168.63.58.52/files/%D0%A4%D0%90%D0%99%D0%9B.docx";
+        save.download = fileName;
+        var event = document.createEvent("MouseEvents");
+        event.initMouseEvent(
+            "click", false, true, window, 0, 0, 0, 0, 0
+            , false, false, false, false, 0, null
+        );
+        save.dispatchEvent(event);
+    }
+
     function getProjectByProjectId(){
         if(projectId){
             projectService.getProjectByProjectId(projectId).then(function(response){
