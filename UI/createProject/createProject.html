@@ -11,6 +11,7 @@
         <div class="col-5" style="margin-right: 25px;">
             <div class="card" style="box-shadow: 0px 0px rgba(33,37,41,0.05);border-style: none;margin-bottom: 32px;">
                 <div class="card-body" style="box-shadow: 0px 5px 20px rgba(33,37,41,0.25);border-radius: 11px;">
+                    <p ng-if="!kanbanStatus" style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: #707C97;">Будет добавлено в стадию: <b>{{kanbanStatus.status_name}}</b></p>
                     <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: #707C97;">Название идеи</p>
                     <input ng-model="project.project_name" class="form-control" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0); ">
                     <p style="font-family: Montserrat, sans-serif;color: #707C97;margin-bottom: 0px;">Категория идеи</p>
