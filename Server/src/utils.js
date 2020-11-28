@@ -107,7 +107,7 @@ export const db = {
       },
       dashboard: {
          getProjects: () => sql(`
-            SELECT 	B.project_id, B.project_status, B.project_class
+            SELECT 	B.project_id, B.project_status, B.project_class,
                      A.start_date as start_date,
                      A.last_date as last_date
             FROM project as B
