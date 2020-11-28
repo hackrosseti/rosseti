@@ -44,8 +44,8 @@ router.post(
 	
 			request.pool
 				.query(db.queries.insert('project_documents'), {
-					document_name: filedata.filename,
-					document_link: `./uploads/${request.query.projectId}/`,
+					document_name: filedata.originalname,
+					document_link: `./uploads`,
 					project_id: projectId
 				})
 				.then(db.getOne)
