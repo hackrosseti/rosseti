@@ -190,7 +190,7 @@ router.get(
                      u.surname, u.firstname, u.lastname, u.profile_image
                   `,
                   `
-                     LEFT JOIN users as u ON u.user_id = t.user
+                     LEFT JOIN users as u ON u.user_id = t.user_id
                   `
                   )).then(db.getAll).then(res => { comments = res; })
                )
