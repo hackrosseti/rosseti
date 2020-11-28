@@ -25,6 +25,12 @@
                         </div>
                         <div class="row" style="margin-bottom: 50px;">
                             <div class="col text-nowrap">
+                                <div class="row mb-2" ng-show="project.projectStatus">
+                                    <div class="col"  style="padding-left: 15px;margin-bottom: 10px;">
+                                        <h6 style="color: #2A8BF2;font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px;font-size: 18px;">Стадия проекта</h6>
+                                        <p style="font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px; ">{{ project.projectStatus.status_name }}</p>
+                                    </div>
+                                </div>
                                 <div class="row mb-2">
                                     <div class="col text-nowrap" style="padding-left: 15px;margin-bottom: 10px;">
                                         <h6 style="color: #2A8BF2;font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px;font-size: 18px;">Автор</h6>
@@ -35,16 +41,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mb-2" ng-show="project.projectStatus">
-                                    <div class="col"  style="padding-left: 15px;margin-bottom: 10px;">
-                                        <h6 style="color: #2A8BF2;font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px;font-size: 18px;">Стадия проекта</h6>
-                                        <p style="font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px; ">{{ project.projectStatus.status_name }}</p>
-                                    </div>
-                                </div>
+
                                 <div class="row mb-2">
                                     <div class="col"  style="padding-left: 15px;margin-bottom: 10px;">
-                                        <h6 style="color: #2A8BF2;font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px;font-size: 18px;white-space: break-spaces;">Описание</h6>
-                                        <p style=" font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px; ">{{ project.project_describe }}</p>
+                                        <h6 style="color: #2A8BF2;font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px;font-size: 18px;">Описание</h6>
+                                        <p style=" font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px; white-space: break-spaces;">{{ project.project_describe }}</p>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
@@ -89,18 +90,27 @@
                                                             <div ng-if="!expertLikes.length>0">
                                                                 Нет экспертных мнений
                                                             </div>
-                                                            <div class="row" ng-repeat="expertLike in expertLikes">
-                                                                <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center">
-                                                                    <img class="rounded-circle" src="images/icons/default-user.jpg" style="width: 50px;"></div>
-                                                                <div class="col d-flex flex-column justify-content-around">
-                                                                    <div style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">Петров Илья</div>
+                                                            <div ng-repeat="expertLike in expertLikes" class="border-bottom text-info py-2">
+                                                                <div class="row " >
+                                                                    <div class="col-1 d-xl-flex justify-content-xl-center align-items-xl-center">
+                                                                        <img ng-if="!expertLike.like_author_profile_image "   src="images/icons/default-user.jpg" class="rounded-circle"  style="width: 50px; height: 50px;" >
+                                                                        <img ng-if=" expertLike.like_author_profile_image"  ng-src="{{expertLike.like_author_profile_image}}" class="rounded-circle"  style="width: 50px; height: 50px;" >
+                                                                    </div>
+                                                                    <div class="col d-flex flex-column justify-content-around">
+                                                                        <a href="#/users"  class="href-style" style="color: rgb(0,0,0);">{{expertLike.surname + " " + expertLike.firstname}}</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="offset-1 col d-flex flex-column justify-content-around">
+                                                                        <a href=""  class="href-style" style="color: rgb(0,0,0);">{{expertLike.expert_link}}</a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                           <!-- <div class="row" style="padding-right: 15px;padding-left: 15px;">
-                                                                <button ng-click="downloadFile()" class="btn btn-sm" type="button" style="margin-right: 30px;background: rgba(42,139,242,0.25);border-radius: 15px;
-                                                                color: #2A8BF2;padding-right: 15px;padding-left: 15px;padding-top: 5px;padding-bottom: 5px;">
-                                                                    <i class="far fa-file-alt" style="margin-right: 10px;color: #2A8BF2;"></i>файл.doc</button>
-                                                            </div>-->
+                                                            <!-- <div class="row" style="padding-right: 15px;padding-left: 15px;">
+                                                                 <button ng-click="downloadFile()" class="btn btn-sm" type="button" style="margin-right: 30px;background: rgba(42,139,242,0.25);border-radius: 15px;
+                                                                 color: #2A8BF2;padding-right: 15px;padding-left: 15px;padding-top: 5px;padding-bottom: 5px;">
+                                                                     <i class="far fa-file-alt" style="margin-right: 10px;color: #2A8BF2;"></i>файл.doc</button>
+                                                             </div>-->
                                                         </div>
                                                     </div>
 

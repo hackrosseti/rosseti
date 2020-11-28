@@ -11,7 +11,7 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
     $scope.comments = [];
     $scope.expertLikes = [];
 
-        tryDigest();
+    tryDigest();
     var projectId = projectService.projectId;
     if(!projectId) userService.redirectTo("kanban");
 
@@ -63,16 +63,18 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
             projectService.getProjectByProjectId(projectId).then(function(response){
                 if (response && response.project) {
                     $scope.project = response.project;
+                    getProjectFiles($scope.project.project_id);
                     $scope.kanbanStatuses.map(function(f){ if(response.project.project_status == f.table_id){$scope.project.projectStatus = f;}})
                     if(response.likes && response.likes.data) $scope.likes = response.likes.data;
                     if(response.comments && response.comments) {
                         $scope.comments = response.comments.sort(function (a, b) {if (a.comment_id < b.comment_id) {return 1;}if (a.comment_id > b.comment_id) {return -1;}return 0;});;
                     }
-                    if(response.expertLikes && response.expertLikes) {
-                        $scope.expertLikes = response.expertLikes.sort(function (a, b) {if (a.like_id < b.like_id) {return 1;}if (a.like_id > b.like_id) {return -1;}return 0;});;
+                    if($scope.likes) {
+                        $scope.likes = response.likes.data.filter(function(e){return !e.expert_link });;
+                        $scope.expertLikes = response.likes.data.filter(function(e){return e.expert_link!=null});;
                     }
 
-                    getProjectFiles($scope.project.project_id);
+
                     tryDigest();
                 } else {
                     infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
@@ -86,7 +88,7 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
         }
     }
 
-    function getProjectFiles(){
+    function getProjectFiles(projectId){
         projectService.getAllProjectDocument(projectId).then(function(response){
             if (response && response.documents) {
                 $scope.documents = response.documents;
