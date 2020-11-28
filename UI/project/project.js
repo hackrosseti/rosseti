@@ -34,11 +34,11 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
         var projectId = $scope.project.project_id;
         if(projectId){
             projectService.getProjectReportByProjectId(projectId).then(function(response){
-                if (response && response.buf && response.buf.data) {
+                if (response && response.result && response.result.data) {
                     var fileName = "template.doc";
                     var save = document.createElement('a');
                     save.target = "_blank";
-                    var bytes = new Uint8Array(response.buf.data);
+                    var bytes = new Uint8Array(response.result.data);
                     var file = new File([bytes], fileName , {type:  'application/msword'});
                     save.href = window.URL.createObjectURL(file);
                     save.download = fileName;

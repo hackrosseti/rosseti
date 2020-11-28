@@ -41,7 +41,7 @@
             <div class="d-flex flex-column justify-content-between justify-content-xl-center align-items-xl-center brand-line" style="margin-top: 70px;margin-left: -23px;">
                 <img ng-if="!user || !user.user_id || !user.profile_image "  src="images/icons/default-user.jpg" class="rounded-circle" style="margin-bottom: 18px;width: 90px;height: 90px;"  >
                 <img ng-if="user && user.user_id && user.profile_image" ng-src="{{user.profile_image}}" class="rounded-circle" style="margin-bottom: 18px;width: 90px;height: 90px;">
-                <a href="#/profile" class="href-style" style="color: #0D1C2E;">{{user.lastname + ' ' + user.firstname}}</p>
+                <a href="#/profile" class="href-style" style="color: #0D1C2E;">{{user.surname + ' ' + user.firstname}}</p>
             </div>
             <ul class="nav navbar-nav flex-column drawer-menu" style="margin-top: 45px;">
                 <li class="nav-item ml-2"><a class="nav-link text-nowrap" href="#/main" style="margin-bottom: 30px;color: #707C97;"><i class="fab fa-buromobelexperte text-primary" style="margin-right: 20px;"></i>ГЛАВНАЯ</a></li>

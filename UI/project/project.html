@@ -25,22 +25,26 @@
                         </div>
                         <div class="row" style="margin-bottom: 50px;">
                             <div class="col">
-                                <div class="row">
+                                <div class="row mb-2">
                                     <div class="col" style="padding-left: 15px;margin-bottom: 10px;">
                                         <h6 style="color: #2A8BF2;font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px;font-size: 18px;">Автор</h6>
-                                        <p style=" font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px; ">{{project.surname + ' ' + project.firstname}}</p>
+                                        <div style="color: #2A8BF2;font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px; ">
+                                            <img ng-if="!user || !user.user_id || !user.profile_image "  src="images/icons/default-user.jpg" class="rounded-circle"  >
+                                            <img ng-if="user && user.user_id && user.profile_image" ng-src="{{user.profile_image}}" class="rounded-circle"  >
+                                            <a href="#/users"  class="href-style" style="color: rgb(0,0,0);">{{user.surname + " " + user.firstname}}</a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row mb-2">
                                     <div class="col"  style="padding-left: 15px;margin-bottom: 10px;">
                                         <h6 style="color: #2A8BF2;font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px;font-size: 18px;">Описание</h6>
                                         <p style=" font-family: Montserrat, sans-serif;padding-left: 30px;padding-right: 30px; ">{{ project.project_describe }}</p>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row mb-2">
                                     <div class="col" style="padding-left: 10px;margin-bottom: 10px;">
                                         <button ng-click="getProjectReport()" class="btn text-nowrap" type="button" style="margin-left: 30px;margin-bottom: 10px; background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);font-size: 16px; color: rgb(255,255,255);font-family: Montserrat, sans-serif;  box-shadow: 0px 4px 20px rgba(0,0,0,0.25);">
-                                            <i class="fas fa-download" style="margin-right: 9px;"></i>Выгрузить данные в word документ</button>
+                                            <i class="fas fa-download" style="margin-right: 9px;"></i>Выгрузить документ</button>
                                     </div>
                                 </div>
                             </div>
@@ -63,42 +67,25 @@
                                         <div class="card-body" style="padding-right: 15px;padding-left: 15px;">
                                             <div class="row">
                                                 <div class="col">
-                                                    <div class="row" ng-repeat="comment in project.comments">
-                                                        <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center"><img class="rounded-circle" src="assets/img/24.png" style="width: 70px;"></div>
-                                                        <div class="col d-flex flex-column justify-content-around">
-                                                            <div class="row">
-                                                                <div class="col">
-                                                                    <h4 style="font-family: Montserrat, sans-serif;">
-                                                                        {{comment}}</h4>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row" style="padding-right: 15px;padding-left: 15px;"><button class="btn btn-sm" type="button" style="margin-right: 30px;background: rgba(42,139,242,0.25);border-radius: 15px;color: #2A8BF2;padding-right: 15px;padding-left: 15px;padding-top: 5px;padding-bottom: 5px;"><i class="far fa-file-alt" style="margin-right: 10px;color: #2A8BF2;"></i>файл.doc</button></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center"><img src="images/thumb_up.svg" style="width: 51px;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" style="margin-left: 30px;margin-right: 30px;">
-                                    <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);margin-bottom: 20px;width: 100%;">
-                                        <div class="card-body" style="padding-right: 15px;padding-left: 15px;">
-                                            <div class="row">
-                                                <div class="col">
                                                     <div class="row">
-                                                        <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center"><img class="rounded-circle" src="assets/img/24.png" style="width: 70px;"></div>
-                                                        <div class="col d-flex flex-column justify-content-around">
+                                                        <div class="col">
                                                             <div class="row">
-                                                                <div class="col">
-                                                                    <h4 style="font-family: Montserrat, sans-serif;">Мужик</h4>
+                                                                <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center">
+                                                                    <img class="rounded-circle" src="images/icons/default-user.jpg" style="width: 50px;"></div>
+                                                                <div class="col d-flex flex-column justify-content-around">
+                                                                    <div style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">Петров Илья</div>
                                                                 </div>
                                                             </div>
-                                                            <div class="row" style="padding-right: 15px;padding-left: 15px;"><button class="btn btn-sm" type="button" style="margin-right: 30px;background: rgba(42,139,242,0.25);border-radius: 15px;color: #2A8BF2;padding-right: 15px;padding-left: 15px;padding-top: 5px;padding-bottom: 5px;"><i class="far fa-file-alt" style="margin-right: 10px;color: #2A8BF2;"></i>файл.doc</button></div>
+                                                            <div class="row" style="padding-right: 15px;padding-left: 15px;">
+                                                                <button class="btn btn-sm" type="button" style="margin-right: 30px;background: rgba(42,139,242,0.25);border-radius: 15px;
+                                                                color: #2A8BF2;padding-right: 15px;padding-left: 15px;padding-top: 5px;padding-bottom: 5px;">
+                                                                    <i class="far fa-file-alt" style="margin-right: 10px;color: #2A8BF2;"></i>файл.doc</button>
+                                                            </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
-                                                <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center"><img src="images/thumb_up.png" style="width: 51px;"></div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -112,8 +99,8 @@
         <div class="col-5">
             <div>
                 <ul class="nav nav-tabs nav-justified" role="tablist">
-                    <li class="nav-item" role="presentation"><a ng-class="{'active': selectedPage == 1}"  ng-click=" selectedPageF(1)" class="nav-link text-black-50" role="tab" data-toggle="tab" href="" style="font-family: Montserrat, sans-serif;font-size: 36px;">Комментарии</a></li>
-                    <li class="nav-item" role="presentation" ><a  ng-class="{'active': selectedPage == 2}" ng-click=" selectedPageF(2)" class="nav-link text-black-50" role="tab" data-toggle="tab" href="" style="font-size: 36px;font-family: Montserrat, sans-serif;">Оценки</a></li>
+                    <li class="nav-item" role="presentation"><a ng-class="{'active': selectedPage == 1}" ng-click=" selectedPageF(1)" class="nav-link text-black-50" role="tab" data-toggle="tab" href="" style="font-family: Montserrat, sans-serif;font-size: 36px;">Комментарии</a></li>
+                    <li class="nav-item" role="presentation"><a ng-class="{'active': selectedPage == 2}" ng-click=" selectedPageF(2)" class="nav-link text-black-50" role="tab" data-toggle="tab" href="" style="font-size: 36px;font-family: Montserrat, sans-serif;">Оценки</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" ng-show="selectedPage == 1" role="tabpanel" id="tab-1">
@@ -131,7 +118,7 @@
                                                         <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center"><img class="rounded-circle" src="{{comment.profile_image}}" style="width: 70px;"></div>
                                                         <div class="col d-flex flex-column justify-content-around">
                                                             <h4 class="d-flex d-xl-flex flex-row" style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">
-                                                                {{comment.last_name + ' ' + comment_first_name}}</h4>
+                                                                {{comment.surname + ' ' + comment_first_name}}</h4>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -390,7 +390,7 @@ myApp.factory('userProfile', function ($http, $window, $q) {
 
     service.getUserInfo = function (userId) {
         var deferred = $q.defer();
-        $http.get(ipAdress + "/userProfile/getUserInfo?userId="+userId ).success(function (response) {
+        $http.get(ipAdress + "/userProfile/getUserProfile?userId="+userId ).success(function (response) {
             deferred.resolve(response);
         }).error(function () {
             deferred.reject('Error in getUserInfo in userProfile function');

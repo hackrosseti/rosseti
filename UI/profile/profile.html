@@ -15,19 +15,19 @@
                     <h4 class="card-title" style="font-family: Montserrat, sans-serif;margin-bottom: 27px;color: rgb(255,255,255);margin-top: 11px;">Персональные данные</h4>
 
                     <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(255,255,255);">Фамилия</p>
-                    <input ng-model="user.lastname" class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(255,255,255);border-left-style: none;">
+                    <input ng-model="user.surname" class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(255,255,255);border-left-style: none;">
 
                     <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;">Имя</p>
                     <input ng-model="user.firstname" class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(255,255,255);border-left-style: none;">
 
                     <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;">Отчество</p>
-                    <input ng-model="user.birthDay" class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(255,255,255);border-left-style: none;">
+                    <input ng-model="user.lastname" class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(255,255,255);border-left-style: none;">
 
                     <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;">Дата рождения</p>
-                    <input ng-model="user.lastname" class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-style: none;border-bottom-style: solid;border-bottom-color: rgb(255,255,255);">
+                    <input ng-model="user.dob" class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-style: none;border-bottom-style: solid;border-bottom-color: rgb(255,255,255);">
 
                     <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;">Город</p>
-                    <input ng-model="user.city" class="form-control-lg" type="text" style="width: 100%;padding-left: 0px;background: rgba(255,255,255,0);border-style: none;border-bottom-style: solid;border-bottom-color: rgb(255,255,255);">
+                    <input ng-model="user.region.region_name" class="form-control-lg" type="text" style="width: 100%;padding-left: 0px;background: rgba(255,255,255,0);border-style: none;border-bottom-style: solid;border-bottom-color: rgb(255,255,255);">
                 </div>
             </div>
         </div>
@@ -54,13 +54,13 @@
                             <div class="row">
                                 <div class="col d-xl-flex justify-content-between align-items-xl-center">
                                     <h4 style="font-family: Montserrat, sans-serif;margin-top: 10px;margin-bottom: 27px;">Пароль</h4>
-                                    <button class="btn btn-primary" type="button" style="margin-top: -22px;">Сохранить</button>
+                                    <button ng-click="savePasswordForUser()" class="btn btn-primary" type="button" style="margin-top: -22px;">Сохранить</button>
                                 </div>
                             </div>
                             <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(0,0,0);">Пароль</p>
                             <input ng-model="user.password" class="form-control-lg" type="password" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(0,0,0);border-left-style: none;">
                             <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(0,0,0);">Подтвердите пароль</p>
-                            <input ng-model="user.passwordRepeat" class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(0,0,0);border-left-style: none;">
+                            <input ng-model="user.passwordRepeat" class="form-control-lg" type="password" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(0,0,0);border-left-style: none;">
                         </div>
                     </div>
                 </div>
@@ -70,11 +70,11 @@
             <div class="card" style="border-radius: 10px;">
                 <div class="card-body" style="height: 577px;">
                     <h4 class="card-title" style="font-family: Montserrat, sans-serif;margin-top: 10px;margin-bottom: 27px;">Компания</h4>
-                    <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(0,0,0);">Адрес электронной почты</p><input class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(0,0,0);border-left-style: none;">
-                    <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(0,0,0);">Адрес электронной почты</p><input class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(0,0,0);border-left-style: none;">
-                    <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(0,0,0);">Адрес электронной почты</p><input class="form-control-lg" type="text" style="width: 100%;margin-bottom: 31px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(0,0,0);border-left-style: none;">
-                    <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(0,0,0);">Адрес электронной почты</p><input class="form-control-lg" type="text" style="width: 100%;margin-bottom: 28px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(0,0,0);border-left-style: none;">
-                    <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(0,0,0);">Адрес электронной почты</p><input class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(0,0,0);border-left-style: none;"></div>
+                    <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(0,0,0);">Образование</p><input ng-model="user.education" class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(0,0,0);border-left-style: none;">
+                    <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(0,0,0);">Дополнительные данные</p><input class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(0,0,0);border-left-style: none;">
+                    <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(0,0,0);">Документ</p><input class="form-control-lg" type="text" style="width: 100%;margin-bottom: 31px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(0,0,0);border-left-style: none;">
+                    <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(0,0,0);">Данные 1</p><input class="form-control-lg" type="text" style="width: 100%;margin-bottom: 28px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(0,0,0);border-left-style: none;">
+                    <p style="margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(0,0,0);">Данные 2</p><input class="form-control-lg" type="text" style="width: 100%;margin-bottom: 25px;padding-left: 0px;background: rgba(255,255,255,0);border-top-style: none;border-right-style: none;border-bottom-color: rgb(0,0,0);border-left-style: none;"></div>
             </div>
         </div>
     </div>
@@ -83,10 +83,8 @@
             <div class="card" style="height: 262px;border-radius: 10px;">
                 <div class="card-body">
                     <h4 class="card-title" style="margin-bottom: 29px;font-family: Montserrat, sans-serif;">Награды</h4>
-                    <div class="row">
-                        <div class="col d-flex justify-content-center align-items-center"><img></div>
-                        <div class="col d-xl-flex justify-content-xl-center align-items-xl-center"><img></div>
-                        <div class="col d-xl-flex justify-content-xl-center align-items-xl-center"><img></div>
+                    <div class="row" >
+                        <div ng-repeat="award in userAwards" class="col d-flex justify-content-center align-items-center"><img ng-src="award.medal_url"/>{{award.medal_name}}</div>
                     </div>
                 </div>
             </div>
@@ -96,8 +94,8 @@
                 <div class="card-body">
                     <h4 class="card-title" style="font-family: Montserrat, sans-serif;margin-bottom: 20px;">Достижения</h4>
                     <ul class="list-unstyled">
-                        <li style="font-family: Montserrat, sans-serif;font-style: normal;margin-bottom: 20px;"><i class="fas fa-dot-circle" style="margin-right: 24px;color: #2a8bf2;"></i>обратил внимание на Х проблем</li>
-                        <li style="font-family: Montserrat, sans-serif;font-style: normal;margin-bottom: 20px;"><i class="fas fa-dot-circle" style="margin-right: 24px;color: #2a8bf2;"></i>является автором Х идей</li>
+                        <li style="font-family: Montserrat, sans-serif;font-style: normal;margin-bottom: 20px;"><i class="fas fa-dot-circle" style="margin-right: 24px;color: #2a8bf2;"></i>обратил внимание на {{problemsCount}} проблем</li>
+                        <li style="font-family: Montserrat, sans-serif;font-style: normal;margin-bottom: 20px;"><i class="fas fa-dot-circle" style="margin-right: 24px;color: #2a8bf2;"></i>является автором {{ideasCount}} идей</li>
                         <li style="font-family: Montserrat, sans-serif;font-style: normal;margin-bottom: 20px;"><i class="fas fa-dot-circle" style="margin-right: 24px;color: #2a8bf2;"></i>участвовал в 20 проектах (10 внедрено)</li>
                         <li style="font-family: Montserrat, sans-serif;font-style: normal;"><i class="fas fa-dot-circle" style="margin-right: 24px;color: #2a8bf2;"></i>награждён 10 наградами</li>
                     </ul>
