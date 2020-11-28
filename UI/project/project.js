@@ -33,8 +33,8 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
 
     $scope.downloadFile = function(doc){
         projectService.downloadFileByDocId(doc.doc_id).then(function(response){
-            if (response && response.result && response.result.data) {
-                var fileName = "file.doc";
+            if (response && response.result && response.result.data && response.document) {
+                var fileName = response.document.document_name;
                 var save = document.createElement('a');
                 save.target = "_blank";
                 var bytes = new Uint8Array(response.result.data);
