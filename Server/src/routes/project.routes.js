@@ -32,7 +32,7 @@ router.get(
       request.pool
          .query(db.queries.select('project', {},
          `
-            COUNT(l.like_id)::int as likes_сount,
+            COUNT(l.like_id)::int as likes_count,
             MIN(ph.change_date) as date_create,
             u.profile_image as author_image,
             u.firstname as author_firstname,
@@ -202,6 +202,35 @@ router.get(
                })
          });
    })
+);
+
+// /api/project/getProjectsByClassificator
+router.get(
+   '/getProjectsByClassificator',
+   wrapAccess(auth, access.project.getProjectsByClassificator),
+   (request, response) =>
+      request.pool
+         .query(db.queries.select('project', { classId: request.query.classificatorId },
+         `
+            (SELECT COUNT(*)::int FROM likes as l WHERE l.project_id = t.project_id) as likes_count,
+            (SELECT MIN(ph.change_date) FROM project_history as ph WHERE ph.project_id = t.project_id) as date_create,
+            u.profile_image as author_image,
+            u.firstname as author_firstname,
+            u.surname as author_surname,
+            pc.class_name as classificator
+         `,
+         `
+            LEFT JOIN users as u ON u.user_id = t.author
+            LEFT JOIN project_classificator as pc ON pc.class_id = t.project_class
+         `,
+         `
+            WHERE t.project_class in (SELECT * FROM g1(:classId))
+            GROUP BY t.project_id, u.profile_image, u.firstname, u.surname, pc.class_name
+            ORDER BY date_create DESC
+         `, false))
+         .then(db.getAll)
+         .then((result) => response.json({ projects: result }))
+         .catch((e) => handleDefault(e, response))
 );
  
 // /api/project/getByField

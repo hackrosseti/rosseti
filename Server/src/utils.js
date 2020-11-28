@@ -44,10 +44,9 @@ export const db = {
    getAll: (result) => result.rows,
    queries: {
       // SELECT
-      select: (table, data, additionalSelect, joins, endQuery) => {
+      select: (table, data, additionalSelect, joins, endQuery, needWhere) => {
          const queryString = `SELECT t.* ${additionalSelect ? ', ' : ''}${additionalSelect || ''}
-                              FROM ${table} as t ${joins || ''} ${getWhere(data, 't')} ${endQuery || ''}`;
-         // console.log(queryString);
+                              FROM ${table} as t ${joins || ''} ${needWhere === false ? '' : getWhere(data, 't')} ${endQuery || ''}`;
          return wrapSql(queryString, data);
       },
       // INSERT
