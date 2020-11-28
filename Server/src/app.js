@@ -43,7 +43,7 @@ const testServer = () => {
     console.log(db.queries.project.setDocuments({ project_id: 1 }));
 }
 
-app.use(multer({storage:storageConfig}).single("file"));
+var upload = multer({storage:storageConfig}).single("file") ;
 app.use(function (req, res, next) {
 	if(ALLOWED_ORIGINS.indexOf(req.headers.origin) > -1) {
 		res.set('Access-Control-Allow-Credentials', 'true')
