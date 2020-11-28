@@ -57,7 +57,7 @@ router.post(
 );
 
 // /api/document/download
-router.post(
+router.get(
     '/download',
     wrapAccess(auth, access.document.download),
     (request, response) => 
@@ -69,12 +69,13 @@ router.post(
             .then(document => {
                 const content = fs.readFileSync(path.resolve(
                     __dirname,
-                    `./uploads/${document.project_id}/${document.document_link}${document.document_name}`),
+                    `../../uploads/${document.project_id}/${document.document_name}`),
                     'binary'
                 );
-				return Buffer.from(content);
+				 
+				return {result:  Buffer.from(content), document: document };
             })
-            .then(data => repsponse.json({ data }))
+            .then(data => response.json(data))
             .catch(e => handleDefault(e, response))
 );
 
