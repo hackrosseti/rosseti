@@ -40,6 +40,51 @@ createProject.controller('CreateProjectCtrl', function ($scope, userService,  $r
         });
     }
 
+    $scope.uploadFiles = [];
+
+    $scope.attachFile = function() {
+        $scope.showAlert = false;
+        var fileElement = document.getElementById('attachFiles');
+        if (fileElement && fileElement.files && fileElement.files.length>0) {
+            angular.forEach(fileElement.files, function (file) {
+                if ($scope.uploadFiles.map(function (e) {return e.name;}).indexOf(file.name)<0) {
+                    var uploadFormData;
+                    uploadFormData = new FormData();
+                    uploadFormData.append("file", file);
+
+                    $scope.uploadFiles.push(file);
+                    tryDigest();
+                };
+            })
+        };
+    };
+
+    function uploadAllFiles(projectId){
+        if($scope.uploadFiles.length>0){
+            angular.forEach($scope.uploadFiles, function (file) {
+                var uploadFormData = new FormData();
+                uploadFormData.append("files", file);
+
+                projectService.uploadFileToProject(uploadFormData, projectId).then(function(response){
+                    if (response && response.doc_id) {
+                        console.log("Файл загружен:"+doc_id, "Информация");
+                    } else {
+                        console.log("Файл НЕ загружен:" + response.message ? response.message : userService.defaultError);
+                    }
+                }, function (response) {
+                    console.log(response)
+                    infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+                });
+            })
+        }
+    }
+
+    function tryDigest() {
+        if (!$scope.$$phase) {
+            $scope.$apply();
+        }
+    }
+
     $scope.addProject = function(project){
         if($scope.project.project_name && $scope.project.project_describe  && $scope.project.project_class && $scope.project.project_offer && $scope.project.project_profit){
             if(!$scope.project.project_status) $scope.project.project_status = 1;
@@ -50,6 +95,7 @@ createProject.controller('CreateProjectCtrl', function ($scope, userService,  $r
             projectService.addProject($scope.project).then(function(response){
                 if (response && response.projectId) {
                     infoService.infoFunction("Проект успешно создан", "Информация");
+                    uploadAllFiles(response.projectId);
                     userService.projectId = response.projectId;
                     userService.redirectTo("project");
                 } else {

@@ -13,7 +13,7 @@ mySuggestion.controller('MySuggestionCtrl', function ($scope, projectService, in
             if (response && response.projects) {
 
                 $scope.myIdeas = response.projects.filter(function(e){return e.author == $scope.user.user_id});
-
+                $scope.myIdeasShort = $scope.myIdeas.slice(0,3)
             } else {
                 infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
             }

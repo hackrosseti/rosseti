@@ -502,7 +502,31 @@ myApp.factory('projectService', function ($http, $window, $q) {
 
     service.addCommentToProject = function(comment){
         var deferred = $q.defer();
-        $http.post(ipAdress + "/api/comment/addCommentToProject", comment).success(function (response) {
+        $http.post(ipAdress + "/api/comment/add ", comment).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (error) {
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+    service.uploadFileToProject = function(file, projectId){
+        var deferred = $q.defer();
+        $http.post(ipAdress + "/api/document/upload?projectId="+projectId, file, {
+                withCredentials: true,
+                headers: {'Content-type': undefined},
+                transformRequest: angular.identity
+        }).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (error) {
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
+
+    service.downloadFileByDocId = function(documentId){
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/document/download?documentProjectId="+documentId).success(function (response) {
             deferred.resolve(response);
         }).error(function (error) {
             deferred.reject(error);

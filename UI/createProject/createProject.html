@@ -21,54 +21,53 @@
                             {{clasif.class_name}}
                         </option>
                     </select>
-                    <div class="row" style="margin-bottom: 10px;">
+                    <!--<div class="row" style="margin-bottom: 10px;">
                         <div class="col">
                             <p class="d-flex flex-row justify-content-between align-items-xl-center" style="margin-bottom: 10px;font-family: Montserrat, sans-serif;color: #707C97;">Фотография<i class="fas fa-plus" style="font-size: 25px;color: #128A10;"></i></p>
                         </div>
-                    </div>
-                    <div class="row" style="margin-right: 0px;margin-left: 0px;margin-bottom: 20px;">
+                    </div>-->
+                    <!--<div class="row" style="margin-right: 0px;margin-left: 0px;margin-bottom: 20px;">
                         <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);margin-bottom: 20px;width: 100%;">
                             <div class="card-body" style="padding-right: 15px;padding-left: 15px;">
                                 <div class="row d-xl-flex align-items-xl-center">
                                     <div class="col">
-                                        <div class="row" style="padding-right: 15px;padding-left: 15px;"><button ng-click="downloadFile()" class="btn btn-sm" type="button" style="margin-right: 30px;background: rgba(42,139,242,0.25);border-radius: 15px;color: #2A8BF2;padding-right: 15px;padding-left: 15px;padding-top: 5px;padding-bottom: 5px;"><i class="far fa-file-alt" style="margin-right: 10px;color: #2A8BF2;"></i>файл.jpg</button></div>
+                                        <div class="row" style="padding-right: 15px;padding-left: 15px;"><button ng-click="downloadFile()" class="btn btn-sm" type="button" style="margin-right: 30px;background: rgba(42,139,242,0.25);border-radius: 15px;color: #2A8BF2;padding-right: 15px;padding-left: 15px;padding-top: 5px;padding-bottom: 5px;">
+                                            <i class="far fa-file-alt" style="margin-right: 10px;color: #2A8BF2;"></i>файл.jpg</button></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="row d-xl-flex" style="padding-bottom: 10px;">
                         <div class="col">
-                            <p class="d-flex justify-content-between align-items-xl-center" style="margin-bottom: 10px;font-family: Montserrat, sans-serif;color: #707C97;">Прикрепления<i class="fas fa-plus" style="font-size: 25px;color: #128A10;"></i></p>
+
+                            <p  class="d-flex justify-content-between align-items-xl-center" style="margin-bottom: 10px;font-family: Montserrat, sans-serif;color: #707C97;">Прикрепления</p>
+                            <label class="btn-info   border rounded  p-2"  style="margin-bottom: 20px;font-family: Montserrat, sans-serif;color: #707C97;" ng-class="{'disabled':uploadFiles.length>=5}"><i style="color: lightgray;" class="fa fa-plus">
+                            </i>&nbsp;Добавить файл<input id="attachFiles" name="file" multiple type="file" style="display: none;" onchange="angular.element(this).scope().attachFile()"></label>
                         </div>
                     </div>
-                    <div class="row" style="margin-right: 0px;margin-left: 0px;">
+                    <div class="row" ng-show="uploadFiles.length>0" style="margin-right: 0px;margin-left: 0px;">
                         <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);margin-bottom: 20px;width: 100%;">
                             <div class="card-body" style="padding-right: 15px;padding-left: 15px;">
                                 <div class="row d-xl-flex align-items-xl-center">
                                     <div class="col">
-                                        <div class="row" ng-click="downloadFile()" style="padding-right: 15px;padding-left: 15px;"><button class="btn btn-sm" type="button" style="margin-right: 30px;background: rgba(42,139,242,0.25);border-radius: 15px;color: #2A8BF2;padding-right: 15px;padding-left: 15px;padding-top: 5px;padding-bottom: 5px;"><i class="far fa-file-alt" style="margin-right: 10px;color: #2A8BF2;"></i>файл.doc</button></div>
+                                        <div class="row mb-2" ng-repeat="lectureAttachment in uploadFiles" style="padding-right: 15px;padding-left: 15px;">
+                                            <button class="btn btn-sm" type="button" style="margin-right: 30px;background: rgba(42,139,242,0.25);border-radius: 15px;color: #2A8BF2;padding-right: 15px;padding-left: 15px;padding-top: 5px;padding-bottom: 5px;" ng-click="downloadFile()">
+                                            <i class="far fa-file-alt" style="margin-right: 10px;color: #2A8BF2;"></i>{{lectureAttachment.name}}</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="margin-right: 0px;margin-left: 0px;">
-                        <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);margin-bottom: 20px;width: 100%;">
-                            <div class="card-body" style="padding-right: 15px;padding-left: 15px;">
-                                <div class="row d-xl-flex align-items-xl-center">
-                                    <div class="col">
-                                        <div class="row" style="padding-right: 15px;padding-left: 15px;"><button class="btn btn-sm" type="button" style="margin-right: 30px;background: rgba(42,139,242,0.25);border-radius: 15px;color: #2A8BF2;padding-right: 15px;padding-left: 15px;padding-top: 5px;padding-bottom: 5px;" ng-click="downloadFile()"><i class="far fa-file-alt" style="margin-right: 10px;color: #2A8BF2;"></i>файл.doc</button></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
             <div class="card" style="box-shadow: 0px 0px rgba(33,37,41,0.05);border-style: none;margin-bottom: 30px;">
                 <div class="card-body" style="box-shadow: 0px 5px 20px rgba(33,37,41,0.25);border-radius: 11px;">
-                    <p class="d-flex justify-content-between align-items-xl-center" style="margin-bottom: 20px;font-family: Montserrat, sans-serif;color: #707C97;">Авторы<button class="btn" type="button" style="background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;font-size: 20px;box-shadow: 0px 4px 20px rgba(0,0,0,0.25);"><i class="fas fa-plus" style="margin-right: 9px;"></i>Добавить автора</button></p>
+                    <p class="d-flex justify-content-between align-items-xl-center" style="margin-bottom: 20px;font-family: Montserrat, sans-serif;color: #707C97;">Авторы
+                        <!--<button class="btn" type="button" style="background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;font-size: 20px;box-shadow: 0px 4px 20px rgba(0,0,0,0.25);"><i class="fas fa-plus" style="margin-right: 9px;"></i>Добавить автора</button>-->
+                    </p>
                     <div class="row" style="margin-right: 0px;margin-left: 0px;">
                         <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);margin-bottom: 20px;width: 100%;">
                             <div class="card-body" style="padding-right: 15px;padding-left: 15px;">
@@ -76,11 +75,11 @@
                                     <div class="col">
                                         <div class="row">
                                             <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center">
-                                                <img ng-if="!user || !user.user_id || (user && user.user_id>5)"  src="images/icons/default-user.jpg" class="rounded-circle" style="margin-bottom: 18px;width: 65px;height: 65px;"  >
-                                                <img ng-if="user && user.user_id && user.user_id<=5" ng-src="{{'images/icons/user-icons/'+user.user_id+'.png'}}" class="rounded-circle" style="margin-bottom: 18px;width: 65px;height: 65px;">
+                                                <img style="margin-bottom: 18px;width: 65px;height: 65px;" ng-if="!user || !user.user_id || !user.profile_image "  src="images/icons/default-user.jpg" class="rounded-circle"  >
+                                                <img style="margin-bottom: 18px;width: 65px;height: 65px;" ng-if="user && user.user_id && user.profile_image" ng-src="{{user.profile_image}}" class="rounded-circle"  >
                                             </div>
                                             <div class="col d-flex flex-column justify-content-around">
-                                                <h4 style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">{{user.lastname + ' ' + user.firstname}}</h4>
+                                                <h4 style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">{{user.surname + ' ' + user.firstname}}</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -93,18 +92,19 @@
             </div>
             <div class="card" style="box-shadow: 0px 0px rgba(33,37,41,0.05);border-style: none;">
                 <div class="card-body" style="box-shadow: 0px 5px 20px rgba(33,37,41,0.25);border-radius: 11px;">
-                    <p class="d-flex justify-content-between align-items-xl-center" style="margin-bottom: 20px;font-family: Montserrat, sans-serif;color: #707C97;">Руководитель<button class="btn" type="button" style="background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;font-size: 20px;box-shadow: 0px 4px 20px rgba(0,0,0,0.25);"><i class="fas fa-plus" style="margin-right: 9px;"></i>Добавить руководителя</button></p>
-                    <div
-                            class="row" style="margin-right: 0px;margin-left: 0px;">
+                    <p class="d-flex justify-content-between align-items-xl-center" style="margin-bottom: 20px;font-family: Montserrat, sans-serif;color: #707C97;">Руководитель
+                        <button ng-click="createTeamLeader=true" class="btn" type="button" style="background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;font-size: 20px;box-shadow: 0px 4px 20px rgba(0,0,0,0.25);"><i class="fas fa-plus" style="margin-right: 9px;"></i>Добавить руководителя</button>
+                    </p>
+                    <div ng-show="createTeamLeader==true" class="row" style="margin-right: 0px;margin-left: 0px;">
                         <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);margin-bottom: 20px;width: 100%;">
                             <div class="card-body" style="padding-right: 15px;padding-left: 15px;">
                                 <div class="row">
                                     <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center">
-                                        <img ng-if="!user || !user.user_id || (user && user.user_id>5)"  src="images/icons/default-user.jpg" class="rounded-circle" style="margin-bottom: 18px;width: 65px;height: 65px;"  >
-                                        <img ng-if="user && user.user_id && user.user_id<=5" ng-src="{{'images/icons/user-icons/'+user.user_id+'.png'}}" class="rounded-circle" style="margin-bottom: 18px;width: 65px;height: 65px;">
+                                        <img style="margin-bottom: 18px;width: 65px;height: 65px;" ng-if="!user || !user.user_id || !user.profile_image "  src="images/icons/default-user.jpg" class="rounded-circle"  >
+                                        <img style="margin-bottom: 18px;width: 65px;height: 65px;" ng-if="user && user.user_id && user.profile_image" ng-src="{{user.profile_image}}" class="rounded-circle"  >
                                     </div>
                                     <div class="col d-flex flex-column justify-content-around">
-                                        <h4 style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">{{user.lastname + ' ' + user.firstname}}</h4>
+                                        <h4 style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">{{user.surname + ' ' + user.firstname}}</h4>
                                     </div>
                                 </div>
                             </div>

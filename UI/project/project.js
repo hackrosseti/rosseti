@@ -29,6 +29,8 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
         });
     }
 
+
+
     $scope.downloadFile = function(){
         var fileName = "ФАЙЛ.doc";
         var save = document.createElement('a');
@@ -50,7 +52,9 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
                     $scope.project = response.project;
                     $scope.kanbanStatuses.map(function(f){ if(response.project.project_status == f.table_id){$scope.project.projectStatus = f;}})
                     if(response.likes && response.likes.data) $scope.likes = response.likes.data;
-                    if(response.comments && response.comments) $scope.comments = response.comments;
+                    if(response.comments && response.comments) {
+                        $scope.comments = response.comments.sort(function (a, b) {if (a.comment_id < b.comment_id) {return 1;}if (a.comment_id > b.comment_id) {return -1;}return 0;});;
+                    }
                     tryDigest();
                 } else {
                     infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
@@ -67,13 +71,14 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
     $scope.sendComment = function(comment){
         var projectId = $scope.project.project_id;
         if(projectId && comment){
-            var comment = {
+            var commentObject = {
                 comment: comment,
                 projectId: projectId,
             }
-            projectService.addCommentToProject(comment).then(function(response){
+            projectService.addCommentToProject(commentObject).then(function(response){
                 if (response ) {
                     getProjectByProjectId();
+                    $scope.userComment = comment = null;
                 } else {
                     infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
                 }

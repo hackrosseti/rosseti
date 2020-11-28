@@ -145,7 +145,7 @@
                                                         <div class="row">
                                                             <div class="col text-nowrap mt-2">
                                                                 <a  href="#/users" style="color: rgb(0,0,0);" class="href-style d-flex d-xl-flex flex-row" style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">
-                                                                    {{comment.surname + ' ' + comment.firstname}}</a> <span>{{comment.date?comment.date:'28.11.2020'}}</span>
+                                                                    {{comment.surname + ' ' + comment.firstname}}</a> <span>{{comment.date?comment.date:'28.11.2020' | date:'dd.MM.yyyy mm:HH'}}</span>
                                                                 <p class="text-black-50" style="color: #707C97;font-size: 20px;">{{comment.comment}}</p>
                                                             </div>
                                                         </div>
