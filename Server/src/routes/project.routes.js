@@ -187,7 +187,7 @@ router.get(
                .then(() =>
                   client.query(db.queries.select('likes', { project_id: projectId },
                   `
-                     u.surname, u.firstname
+                     u.surname, u.firstname, u.profile_image as like_author_profile_image
                   `,
                   `
                      LEFT JOIN users as u ON u.user_id = t.user_id
@@ -198,7 +198,10 @@ router.get(
                .then(() => client.release())
                .then(() => response.json({
                   project: project,
-                  likes: {...likes, totalweight: project.totalweight},
+                  likes: {
+                     data: likes, 
+                     totalweight: project.totalweight
+                  },
                   comments: comments
 
                }))
