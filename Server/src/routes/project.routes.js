@@ -156,7 +156,9 @@ router.get(
                .query(db.queries.select('project', { project_id: projectId },
                `
                   pc.class_name,
-                  u.firstname, u.surname
+                  u.firstname, u.surname,
+                  (SELECT SUM(l.weight) FROM likes as l WHERE l.project_id = :project_id)::int as totalweight,
+                  (SELECT COUNT(*) FROM project_comments as c WHERE c.project = :project_id)::int as comments
                `,
                `
                   LEFT JOIN project_classificator as pc ON pc.class_id = t.project_class
@@ -168,7 +170,7 @@ router.get(
                .then(() => 
                   client.query(db.queries.select('project_comments', { project: projectId },
                   `
-                     u.lastname, u.firstname, u.profile_image
+                     u.surname, u.firstname, u.lastname, u.profile_image
                   `,
                   `
                      LEFT JOIN users as u ON u.user_id = t.user
@@ -176,7 +178,13 @@ router.get(
                   )).then(db.getAll).then(res => { comments = res; })
                )
                .then(() =>
-                  client.query(db.queries.select('likes', { project_id: projectId }))
+                  client.query(db.queries.select('likes', { project_id: projectId },
+                  `
+                     u.surname, u.firstname
+                  `,
+                  `
+                     LEFT JOIN users as u ON u.user_id = t.user_id
+                  `))
                   .then(db.getAll)
                   .then(res => { likes = res; })
                )
