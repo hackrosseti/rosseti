@@ -18,7 +18,7 @@ router.get(
                 user_id: request.user.userId,
                 project_id: projectId,
                 likestatus_id: likeTypeId,
-                weight: 1
+                weight: weigh
             }))
             .then(db.getOne)
             .then((result) => response.json({ likeId: result.like_id }))
