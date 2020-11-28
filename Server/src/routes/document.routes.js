@@ -64,7 +64,7 @@ router.post(
                 );
 				return Buffer.from(content);
             })
-            .then(data => repsponse.json({ data }))
+            .then(data => response.json({ data }))
             .catch(e => handleDefault(e, response))
 );
 
