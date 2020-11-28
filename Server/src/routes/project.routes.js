@@ -175,7 +175,7 @@ router.post(
 // /api/project/getProjectByProjectId
 router.get(
    '/getProjectByProjectId',
-   // wrapAccess(auth, access.project.getProjectByProjectId),
+   wrapAccess(auth, access.project.getProjectByProjectId),
    wrapResponse((request, response) => {
       var project = null;
       var comments = null;
