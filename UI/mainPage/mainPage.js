@@ -23,6 +23,11 @@ mainPage.controller('MainPageCtrl', function ($scope, userService, infoService ,
         });
     }
 
+    $scope.createProject = function(){
+        projectService.projectStatusId = 1;
+        userService.redirectTo("createProject");
+    }
+
     $scope.redirectToProject = function(projectId){
         if(projectId) {
             projectService.projectId = projectId;

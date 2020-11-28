@@ -5,7 +5,24 @@ var createProject = angular.module('myApp.createProject', ['ngRoute']);
 createProject.controller('CreateProjectCtrl', function ($scope, userService,  $rootScope, projectService, infoService) {
 
     $scope.projectStatusId = projectService.projectStatusId;
+    if(!$scope.projectStatusId) userService.redirectTo("main");
     $scope.user = userService.User;
+    $scope.kanbanStatus = null;
+
+    getAllKanbanStatuses();
+    function getAllKanbanStatuses(){
+        projectService.getAllKanbanStatuses().then(function(response){
+            if (response && response.statuses) {
+                $scope.kanbanStatuses = response.statuses;
+                $scope.kanbanStatuses.map(function(f){ if($scope.projectStatusId == f.table_id){ $scope.kanbanStatus = f;}})
+            } else {
+                infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+            }
+        }, function (response) {
+            console.log(response)
+            infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+        });
+    }
 
     $scope.project = {};
     getAllProjectClassificators();

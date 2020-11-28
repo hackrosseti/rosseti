@@ -35,8 +35,6 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
                 if (response && response.project) {
                     $scope.project = response.project;
                     $scope.kanbanStatuses.map(function(f){ if(response.project.project_status == f.table_id){$scope.project.projectStatus = f;}})
-
-
                     if(response.likes && response.likes.data) $scope.likes = response.likes.data;
                     if(response.comments && response.comments) $scope.comments = response.comments;
                     tryDigest();
