@@ -1,19 +1,19 @@
-<h1 align="center">Система поддержки рационализаторских идей ПАО «Россети»</h1>
+<h1 align="center">Система поддержки рационализаторских идей <br>ПАО «Россети»</h1>
 
+## О нас
+Мы команда "Кострома Nova" <a href="https://ksu.edu.ru/">Костромского государственного университета.</a> 
+<a href="https://vk.com/video-176084509_456239329"Будем рады знакомству!</a>
+
+## О проекте
+Проект является реализацией кейса «Россети» Всероссийского хакатона «Цифровой прорыв»
+Ссылка на <a href="https://leadersofdigital.ru/event/214763/case/282072">кейс по хакатону </a> 
+Данный проект использует лицензию <b>MIT (The MIT License)</b> - лицензия открытого и свободного программного обеспечения
 
 ## Ссылки
 <h3><a href="http://ksutechrosset.northeurope.cloudapp.azure.com/#/login">Демо версия web сайта</a></h2>
 <h3><a href="ссылки нет">Swagger (API)</a></h2>
 <h3><a href="ссылки нет">Презентация проекта </a> </h3>
 <h3><a href="ссылки нет">Макеты веб-сайт</a> </h3>
- 
-## О проекте
-Проект является реализацией кейса «Россети» Всероссийского хакатона «Цифровой прорыв»
-Ссылка на <a href="https://leadersofdigital.ru/event/214763/case/282072">кейс по хакатону </a> 
-<b>Данный проект использует лицензию The MIT License (MIT)</b>
-
-## О нас
-Мы команда "Кострома Nova" Костромского государственного университета. <a href="https://ksu.edu.ru/">Ссылка на вуз</a> 
 
 ## Цель информационной системы
 Непрерывное совершенствование деятельности ПАО «Россети» через внедрение рационализаторских предложений.
@@ -41,9 +41,9 @@
 ## Технологии, с помощью которых происходит создание подсистемы
 
 SERVER: NodeJS 
-WEB UI: BOOTSTRAP4 + Angular JS + MdBootstrap
-MOBILE UI: React Native
-BD: Postgres 10
+<br>WEB UI: BOOTSTRAP 4 + Angular JS + MdBootstrap
+<br>MOBILE UI: React Native
+<br>BD: Postgres 10
  
 ## Описание серверной части
 Наш сервер поддерживает RESTful API, задокументированном и настроенный для тестирования в сервисе Swagger. Коммуникация между сервером и веб-клиентом (мобильной версией) осуществляется посредством протокола HTTP 1.1. Авторизация пользователя настроена через токен.
@@ -90,6 +90,23 @@ export default (request, response, next, accessArray) => {
 };
 </pre>
 
+Для работы с docx файлами используется
+<pre>
+var PizZip = require('pizzip');
+var Docxtemplater = require('docxtemplater');
+// берем шаблон и заменем в нем динамические поля
+var content = fs.readFileSync(path.resolve(__dirname, '../../template/template.docx'), 'binary');
+var zip = new PizZip(content);
+var doc = new Docxtemplater(zip);
+// для начальной версии мы заменям название рационализаторского предложения и его описание
+doc.setData({
+	project_name: project.project_name,
+	project_describe: project.project_describe
+});
+// генерируем и отдаем ввиде массива байт, на клиенте формируем файл и выкачиваем, всё просто!
+var buf = doc.getZip().generate({type: 'nodebuffer'});
+return response.json({buf})
+</pre>
 ## Описание клиентской части
 На клиенской стороне реализовано приложение AngularJS с использованием библотеки для стилистики веб приложений Bootstrap4
 Модули AngularJS приложения
@@ -109,6 +126,7 @@ service.request = function (config) {
 };
 </pre>
 <br>
+
 ## Запуск SERVER и UI
 
 Вся информация об запуске в файле <a href="https://github.com/hackrosseti/rosseti/blob/main/require.txt">require.txt</a>
