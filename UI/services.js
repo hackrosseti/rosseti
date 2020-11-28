@@ -262,7 +262,7 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
         tryDigest()
     }
 
-     service.setCookie = function(name,value,expiration){
+    service.setCookie = function(name,value,expiration){
         var expires = "";
         if (expiration) {
             var date = new Date(expiration);
@@ -470,6 +470,15 @@ myApp.factory('projectService', function ($http, $window, $q) {
         return deferred.promise;
     };
 
+    service.updateProjectStatus = function (projectId, projectStatusId) {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/project/updateProjectStatus?projectId="+projectId+"&projectStatusId="+projectStatusId ).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (error) {
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    };
 
     service.addProject = function (project) {
         var deferred = $q.defer();
@@ -493,7 +502,7 @@ myApp.factory('projectService', function ($http, $window, $q) {
 
     service.addCommentToProject = function(comment){
         var deferred = $q.defer();
-        $http.post(ipAdress + "/api/project/addCommentToProject", comment).success(function (response) {
+        $http.post(ipAdress + "/api/comment/addCommentToProject", comment).success(function (response) {
             deferred.resolve(response);
         }).error(function (error) {
             deferred.reject(error);

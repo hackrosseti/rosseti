@@ -7,6 +7,7 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
     $scope.user = userService.User;
     $scope.kanbanStatuses = null;
     $scope.projectClassificators = null;
+    $scope.projectClassificator = null;
     $scope.projects = null;
 
     getAllKanbanInfo();
@@ -174,6 +175,17 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
     }
 
     function changeStatusForProject(projectId, statusId){
+        projectService.updateProjectStatus(projectId, statusId).then(function(response){
+            if (response) {
+                getAllKanbanInfo($scope.projectClassificator);
+                tryDigest();
+            } else {
+                infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+            }
+        }, function (response) {
+            console.log(response)
+            infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+        });
         console.log(projectId)
         console.log(statusId)
     }
@@ -185,6 +197,7 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
     }
 
     $scope.getAllProjectsWithClassif = function(classifId){
+        $scope.projectClassificator = classifId;
         getAllKanbanInfo(classifId);
     }
 

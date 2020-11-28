@@ -14,12 +14,29 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
     var projectId = projectService.projectId;
     if(!projectId) userService.redirectTo("kanban");
 
-    getProjectByProjectId();
+    getAllKanbanStatuses();
+    function getAllKanbanStatuses(){
+        projectService.getAllKanbanStatuses().then(function(response){
+            if (response && response.statuses) {
+                $scope.kanbanStatuses = response.statuses;
+                getProjectByProjectId();
+            } else {
+                infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+            }
+        }, function (response) {
+            console.log(response)
+            infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+        });
+    }
+
     function getProjectByProjectId(){
         if(projectId){
             projectService.getProjectByProjectId(projectId).then(function(response){
                 if (response && response.project) {
                     $scope.project = response.project;
+                    $scope.kanbanStatuses.map(function(f){ if(response.project.project_status == f.table_id){$scope.project.projectStatus = f;}})
+
+
                     if(response.likes && response.likes.data) $scope.likes = response.likes.data;
                     if(response.comments && response.comments) $scope.comments = response.comments;
                     tryDigest();
@@ -31,7 +48,7 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
                 infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
             });
         } else{
-          console.log("projectId is null")
+            console.log("projectId is null")
         }
     }
 

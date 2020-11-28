@@ -11,7 +11,9 @@ mainPage.controller('MainPageCtrl', function ($scope, userService, infoService ,
     function getAllProjects(){
         projectService.getAllProjects().then(function(response){
             if (response && response.projects) {
-                $scope.projects = response.projects.slice(0,3);
+
+                $scope.projects = response.projects.sort(function (a, b) {if (a.project_id < b.project_id) {return 1;}if (a.project_id > b.project_id) {return -1;}return 0;}).slice(0,3);
+                $scope.allProjects = response.projects.sort(function (a, b) {if (a.project_id < b.project_id) {return 1;}if (a.project_id > b.project_id) {return -1;}return 0;});
             } else {
                 infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
             }
