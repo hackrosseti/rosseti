@@ -10,9 +10,12 @@
   "dependencies": {
     "config": "^3.3.2",
     "cross-env": "^7.0.2",
+    "docx": "^5.4.1",
+    "docxtemplater": "^3.19.7",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.5.1",
+    "pizzip": "^3.0.6",
     "request": "^2.88.2"
   },
   "devDependencies": {
