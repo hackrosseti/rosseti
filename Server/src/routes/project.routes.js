@@ -3,7 +3,7 @@ import {db, wrapResponse, wrapAccess, handleDefault} from '../utils';
 import auth from '../middleware/auth.middleware';
 import access from './../access';
 const router = Router();
-
+const docx = require("docx")
 /********************************** КЛАССИФИКАТОР *************************************/
 
 // /api/project/getAllProjectClassificators
@@ -98,7 +98,7 @@ router.post(
 router.post(
    '/updateProject',
    wrapAccess(auth, access.project.updateProject),
-   wrapResponse(async (request, response) => {
+   wrapResponse((request, response) => {
       var project = null;
       const {
          project_id, project_name, project_describe, project_status, project_class, author,
@@ -140,7 +140,7 @@ router.post(
 router.get(
    '/getProjectByProjectId',
    wrapAccess(auth, access.project.getProjectByProjectId),
-   (request, response) => {
+   wrapResponse((request, response) => {
       var project = null;
       var comments = null;
       var likes = null;
@@ -188,7 +188,72 @@ router.get(
                   handleDefault(e, response);
                })
          });
-   }
+   })
 );
+ 
+// /api/project/getByField
+router.get(
+   '/getByField',
+   // wrapAccess(auth, access.project.getByField),
+   (request, response) =>
+      request.pool
+         .query(db.queries.select('project', { [Object.keys(request.query)[0]]: Object.values(request.query)[0] }))
+         .then(db.getAll)
+         .then(res => response.json({ projects: res }))
+         .catch((e) => handleDefault(e, response))
+)
+
+ 
+ 
+var PizZip = require('pizzip');
+var Docxtemplater = require('docxtemplater');
+
+var fs = require('fs');
+var path = require('path');
+ 
+// /api/project/generateReportByProjectId
+router.get(
+   '/generateReportByProjectId',
+   //wrapAccess(auth, access.project.generateReportByProjectId),
+   wrapResponse((request, response) => {
+      const { projectId } = request.query;
+
+      request.pool
+         .query(db.queries.select('project', { project_id: projectId })).then(db.getOne)
+         .then(project => {
+			try{
+				var content = fs.readFileSync(path.resolve(__dirname, '../../template/template.docx'), 'binary');
+				var zip = new PizZip(content);
+				var doc = new Docxtemplater(zip);
+
+				doc.setData({
+					project_name: project.project_name,
+					project_describe: project.project_describe
+				});
+				
+				try {
+					doc.render();
+				} catch (error) {
+					//console.log('err',error)
+					return response.status(400).json({ message: error });
+				}
+				console.log(doc)
+				try{
+					var buf = doc.getZip().generate({type: 'nodebuffer'});
+					//fs.writeFileSync(path.resolve(__dirname, 'output.docx'), buf);
+					return response.json({buf})
+				} catch(ex){
+					//console.log(ex)
+					return response.status(400).json({ message: ex });
+				}
+			
+			} catch(ex){
+				return response.status(400).json({ message: ex });
+			}
+         })
+         .catch((e) => handleDefault(e, response))
+   })
+);
+ 
 
 module.exports = router;
