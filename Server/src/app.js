@@ -1,5 +1,6 @@
 ﻿const express = require("express");
 const {Pool} = require('pg');
+const multer = require('multer');
 import {getFromConfig, handleDefault, db} from './utils';
 
 const hostname = process.env.IP_ADDRESS || '10.0.0.6';
@@ -9,6 +10,14 @@ const savePool = (req, res, next) => {
     req.pool = pool;
     next();
 };
+const storageConfig = multer.diskStorage({
+    destination: (req, file, cb) =>{
+        cb(null, `./uploads/${req.query.projectId}/`);
+    },
+    filename: (req, file, cb) =>{
+        cb(null, file.filename);
+    }
+});
 
 var pool = null;
 const connectToDataBase = () => {
@@ -33,6 +42,7 @@ const testServer = () => {
     console.log(db.queries.project.setDocuments({ project_id: 1 }));
 }
 
+app.use(multer({storage:storageConfig}).single("filedata"));
 app.use(function (req, res, next) {
 	if(ALLOWED_ORIGINS.indexOf(req.headers.origin) > -1) {
 		res.set('Access-Control-Allow-Credentials', 'true')
@@ -57,6 +67,7 @@ app.use('/api/kanban/', require('./routes/kanban.routes'));
 app.use('/api/project/', require('./routes/project.routes'));
 app.use('/api/like/', require('./routes/like.routes'));
 app.use('/api/comment/', require('./routes/comment.routes'));
+app.use('/api/document/', require('./routes/document.routes'));
 
 app.listen(port, hostname, async () => {
     try {

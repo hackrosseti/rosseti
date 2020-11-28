@@ -34,5 +34,10 @@ export default {
     },
     "comment": {
         "add": [1]
+    },
+    "document": {
+        "upload": [1],
+        "download": [1],
+        "getAllProjectDocument": [1]
     }
 }
