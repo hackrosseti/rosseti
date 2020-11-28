@@ -33,7 +33,7 @@ router.get(
          .query(db.queries.select('project', {},
          `
             SUM(l.weight)::int as likes_weight,
-            MIN(ph.change_date) as date_create,
+            DATE(MIN(ph.change_date)) as date_create,
             u.profile_image as author_image,
             u.firstname as author_firstname,
             u.surname as author_surname,
@@ -230,7 +230,7 @@ router.get(
          .query(db.queries.select('project', { classId: request.query.classificatorId },
          `
             (SELECT SUM(l.weight)::int FROM likes as l WHERE l.project_id = t.project_id) as likes_weight,
-            (SELECT MIN(ph.change_date) FROM project_history as ph WHERE ph.project_id = t.project_id) as date_create,
+            (SELECT DATE(MIN(ph.change_date)) FROM project_history as ph WHERE ph.project_id = t.project_id) as date_create,
             u.profile_image as author_image,
             u.firstname as author_firstname,
             u.surname as author_surname,
