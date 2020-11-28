@@ -117,7 +117,11 @@ export const db = {
                GROUP BY project_id) as A
             ON A.project_id = B.project_id
             ORDER BY B.project_status
-         `)({})
+         `)({}),
+
+         getClassificators: (id) => sql(`
+            SELECT * FROM g1(:id)
+         `)({ id: id })
       }
    }
 };

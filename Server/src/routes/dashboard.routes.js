@@ -16,4 +16,17 @@ router.get(
          .catch((e) => handleDefault(e, response))
 );
 
+
+// /api/dashboard/getClassificators
+router.get(
+    '/getClassificators',
+    // wrapAccess(auth, access.dashboard.getClassificators),
+    (request, response) =>
+      request.pool
+         .query(db.queries.dashboard.getClassificators(request.query.classificatorId))
+         .then(db.getAll)
+         .then((result) => response.json({ classificators: result.map(res => res.g1) }))
+         .catch((e) => handleDefault(e, response))
+);
+
 module.exports = router;

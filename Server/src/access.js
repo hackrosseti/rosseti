@@ -42,6 +42,7 @@ export default {
         "getAllProjectDocument": [1]
     },
     "dashboard": {
-        "getProjects": [1]
+        "getProjects": [1],
+        "getClassificators": [1]
     }
 }
