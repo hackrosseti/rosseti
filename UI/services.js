@@ -322,8 +322,8 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
         var deferred = $q.defer();
         $http.get(ipAdress + "/api/user/getAll").success(function (response) {
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in getAllUsers in userService function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     }
@@ -333,8 +333,8 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
         $http.post(ipAdress + "/api/user/add", user).success(function (response, headers) {
             //console.log(headers)
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in addUser in userService function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     };
@@ -343,8 +343,8 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
         var deferred = $q.defer();
         $http.post(ipAdress + "/api/user/edit", user).success(function (response) {
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in editUser in userService function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     };
@@ -353,8 +353,8 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
         var deferred = $q.defer();
         $http.get(ipAdress + "/api/user/getUserByToken").success(function (response) {
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in getUserByToken in userService function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     };
@@ -363,8 +363,8 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
         var deferred = $q.defer();
         $http.get(ipAdress + "/api/user/login?login="+login+"&password="+password).success(function (response) {
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in login in userService function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     };
@@ -375,8 +375,8 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
         var deferred = $q.defer();
         $http.get(ipAdress + "/api/user_roles/getAll").success(function (response) {
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in getAllUserRoles in userService function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     };
@@ -390,10 +390,10 @@ myApp.factory('userProfile', function ($http, $window, $q) {
 
     service.getUserInfo = function (userId) {
         var deferred = $q.defer();
-        $http.get(ipAdress + "/userProfile/getUserProfile?userId="+userId ).success(function (response) {
+        $http.get(ipAdress + "/api/user/getUserProfile?userId="+userId ).success(function (response) {
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in getUserInfo in userProfile function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     };
@@ -410,8 +410,8 @@ myApp.factory('regionService', function ($http, $window, $q) {
         var deferred = $q.defer();
         $http.get(ipAdress + "/api/region/getAll" ).success(function (response) {
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in getAllRegions in regionService function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     };
@@ -427,8 +427,8 @@ myApp.factory('projectService', function ($http, $window, $q) {
         var deferred = $q.defer();
         $http.get(ipAdress + "/api/kanban/getAll" ).success(function (response) {
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in getAllKanbanStatuses in projectService function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     };
@@ -437,18 +437,29 @@ myApp.factory('projectService', function ($http, $window, $q) {
         var deferred = $q.defer();
         $http.get(ipAdress + "/api/project/getAllProjects" ).success(function (response) {
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in getAllProjects in projectService function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     };
+
+    service.getProjectsByClassificator = function (classificatorId) {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/project/getProjectsByClassificator?classificatorId="+classificatorId ).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (error) {
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    };
+
 
     service.addProject = function (project) {
         var deferred = $q.defer();
         $http.post(ipAdress + "/api/project/addProject", project).success(function (response) {
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in addProject in projectService function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     };
@@ -457,8 +468,8 @@ myApp.factory('projectService', function ($http, $window, $q) {
         var deferred = $q.defer();
         $http.get(ipAdress + "/api/project/getAllProjectClassificators").success(function (response) {
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in getAllProjectClassificators in projectService function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     };
@@ -467,8 +478,8 @@ myApp.factory('projectService', function ($http, $window, $q) {
         var deferred = $q.defer();
         $http.get(ipAdress + "/api/project/getProjectByProjectId?projectId="+projectId).success(function (response) {
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in getProjectByProjectId in projectService function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     };
@@ -477,8 +488,8 @@ myApp.factory('projectService', function ($http, $window, $q) {
         var deferred = $q.defer();
         $http.get(ipAdress + "/api/project/generateReportByProjectId?projectId="+projectId).success(function (response) {
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in generateReportByProjectId in projectService function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     };
@@ -494,8 +505,8 @@ myApp.factory('mainService', function ($http, $window, $q) {
         var deferred = $q.defer();
         $http.post(ipAdress + "/testPost", data).success(function (response) {
             deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in getTestRequest in mainService function');
+        }).error(function (error) {
+            deferred.reject(error);
         });
         return deferred.promise;
     };
@@ -508,7 +519,7 @@ function request($http, $q, method, url, func, service, data='') {
     (data ? $http[method](ipAdress + url, data) : $http[method](ipAdress + url)).success(function (response) {
         deferred.resolve(response);
     }).error(function (error) {
-        deferred.reject('Error in ' + func + ' in ' + service + ' function: ' + error);
+        deferred.reject(error);
     });
     return deferred.promise;
 }

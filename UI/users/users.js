@@ -32,6 +32,12 @@ users.controller('UsersCtrl', function ($scope, userService, infoService, projec
             infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
         });
     }
+    $scope.sortType ='lastname';
+    $scope.reverse =true;
+    $scope.order = function(reverse, sortType){
+        $scope.sortType = sortType;
+        $scope.reverse = reverse;
+    }
 
     function getAllUsers() {
         userService.getAllUsers().then(function (response) {

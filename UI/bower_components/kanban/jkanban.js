@@ -289,7 +289,7 @@ var dragula = require("dragula");
         // if add button is true, add button to the board
         if (addButton) {
           var btn = document.createElement("BUTTON");
-          var t = document.createTextNode(buttonContent);
+          var t = document.createTextNode(buttonContent+" Новая идея");
           btn.setAttribute(
             "class",
             "btn btn-outline-light rounded px-3 py-1 ml-2"

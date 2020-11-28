@@ -26,17 +26,17 @@
                             <thead>
                             <tr style="height: 65px;">
                                 <th class="pointer"></th>
-                                <th class="pointer">ФИО</th>
-                                <th class="pointer">Регион</th>
-                                <th class="pointer">Логин</th>
-                                <th class="pointer">Компания</th>
-                                <th class="pointer">Подразделение</th>
-                                <th class="pointer">Должность</th>
+                                <th class="pointer" ng-click="reverse1=!reverse1; order(reverse1, 'lastname')" >ФИО</th>
+                                <th class="pointer"  ng-click="reverse2=!reverse2; order(reverse2, 'region_name')">Регион</th>
+                                <th class="pointer"  ng-click="reverse3=!reverse3; order(reverse3, 'login')">Логин</th>
+                                <th class="pointer"  ng-click="reverse4=!reverse4; order(reverse4, 'company')">Компания</th>
+                                <th class="pointer"  ng-click="reverse5=!reverse5; order(reverse5, 'department')">Подразделение</th>
+                                <th class="pointer"  ng-click="reverse6=!reverse6; order(reverse6, 'position')">Должность</th>
                                 <th class="pointer" ng-if="user.role == 1">Действие</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="user in users">
+                            <tr ng-repeat="user in users |orderObjectBy:sortType:reverse">
                                 <td>{{$index+1}}</td>
                                 <td>
                                     <span>{{user.lastname + ' ' + user.firstname + ' '+ user.surname}}</span>

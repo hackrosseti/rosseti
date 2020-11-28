@@ -35,15 +35,16 @@ profile.controller('ProfileCtrl', function ($scope, userService, infoService, us
 
     $scope.problemsCount = 0;
     $scope.ideasCount = 0;
-    $scope.userAwards = [];
+    $scope.awards = [];
 
     getUserProfileInfo();
     function getUserProfileInfo(){
         if($scope.user.user_id){
             userProfile.getUserInfo($scope.user.user_id).then(function(response){
-                if(response && response.userProfile){
-                    $scope.userProfile = response.userProfile;
-
+                if(response){
+                    $scope.awards = response.awards;
+                    $scope.problemsCount = response.likes_amount;
+                    $scope.ideasCount = response.own_projects;
                 } else {
                     infoService.infoFunction(response.message, "Ошибка")
                 }

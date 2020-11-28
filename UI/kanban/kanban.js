@@ -49,6 +49,7 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
                 title: status.status_name,
                 class: borderColors[index]+",text-light,pointer",
                 item: projects
+
             };
             boards.push(board);
         })
@@ -173,16 +174,30 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
     }
 
     function getAllProjects(){
-        projectService.getAllProjects().then(function(response){
-            if (response && response.projects) {
-                $scope.projects = response.projects;
-            } else {
+        if($scope.projectClassificators){
+            projectService.getAllProjects().then(function(response){
+                if (response && response.projects) {
+                    $scope.projects = response.projects;
+                } else {
+                    infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+                }
+            }, function (response) {
+                console.log(response)
                 infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
-            }
-        }, function (response) {
-            console.log(response)
-            infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
-        });
+            });
+        } else {
+            projectService.getProjectsByClassificator($scope.projectClassificators).then(function(response){
+                if (response && response.projects) {
+                    $scope.projects = response.projects;
+                } else {
+                    infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+                }
+            }, function (response) {
+                console.log(response)
+                infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+            });
+        }
+
     }
 
     var openProject = function(el){
