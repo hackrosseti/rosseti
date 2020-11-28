@@ -106,6 +106,7 @@ statistic.controller('StatisticCtrl', function ($scope, userService, infoService
                 return data;
             });
         }
+        //data.map(function(e){Number(e).toFixed(2)})
         console.log(data)
         var boxplotData = {
             // define label tree

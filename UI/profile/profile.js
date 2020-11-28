@@ -35,6 +35,7 @@ profile.controller('ProfileCtrl', function ($scope, userService, infoService, us
 
     $scope.problemsCount = 0;
     $scope.ideasCount = 0;
+    $scope.inProjectCount = 0;
     $scope.awards = [];
 
     getUserProfileInfo();
@@ -45,6 +46,7 @@ profile.controller('ProfileCtrl', function ($scope, userService, infoService, us
                     $scope.awards = response.awards;
                     $scope.problemsCount = response.likes_amount;
                     $scope.ideasCount = response.own_projects;
+                    $scope.inProjectCount  = response.likes_amount+response.own_projects;
                 } else {
                     infoService.infoFunction(response.message, "Ошибка")
                 }

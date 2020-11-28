@@ -82,7 +82,8 @@
                 <div class="card-body">
                     <h4 class="card-title" style="margin-bottom: 29px;font-family: Montserrat, sans-serif;">Награды</h4>
                     <div class="row" >
-                        <div ng-repeat="award in awards" class="col d-flex justify-content-center align-items-center"><img style="height: 150px" ng-src="{{award.medal_url}}"/>{{award.medal_name}}</div>
+                        <div ng-repeat="award in awards" class="col d-flex justify-content-center align-items-center">
+                            <img style="height: 150px" title="{{award.medal_name}}"  ng-src="{{award.medal_url}}"/>{{award.description}}</div>
                     </div>
                 </div>
             </div>
@@ -94,7 +95,7 @@
                     <ul class="list-unstyled">
                         <li style="font-family: Montserrat, sans-serif;font-style: normal;margin-bottom: 20px;"><i class="fas fa-dot-circle" style="margin-right: 24px;color: #2a8bf2;"></i>обратил внимание на {{problemsCount}} проблем</li>
                         <li style="font-family: Montserrat, sans-serif;font-style: normal;margin-bottom: 20px;"><i class="fas fa-dot-circle" style="margin-right: 24px;color: #2a8bf2;"></i>является автором {{ideasCount}} идей</li>
-                        <li style="font-family: Montserrat, sans-serif;font-style: normal;margin-bottom: 20px;"><i class="fas fa-dot-circle" style="margin-right: 24px;color: #2a8bf2;"></i>участвовал в 20 проектах (10 внедрено)</li>
+                        <li style="font-family: Montserrat, sans-serif;font-style: normal;margin-bottom: 20px;"><i class="fas fa-dot-circle" style="margin-right: 24px;color: #2a8bf2;"></i>участвовал в {{inProjectCount}} проектах </li>
                         <li style="font-family: Montserrat, sans-serif;font-style: normal;"><i class="fas fa-dot-circle" style="margin-right: 24px;color: #2a8bf2;"></i>награждён {{awards.length}} наградами</li>
                     </ul>
                 </div>

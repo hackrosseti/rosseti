@@ -9,8 +9,9 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
     $scope.project = null;
     $scope.likes = [];
     $scope.comments = [];
+    $scope.expertLikes = [];
 
-    tryDigest();
+        tryDigest();
     var projectId = projectService.projectId;
     if(!projectId) userService.redirectTo("kanban");
 
@@ -67,6 +68,10 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
                     if(response.comments && response.comments) {
                         $scope.comments = response.comments.sort(function (a, b) {if (a.comment_id < b.comment_id) {return 1;}if (a.comment_id > b.comment_id) {return -1;}return 0;});;
                     }
+                    if(response.expertLikes && response.expertLikes) {
+                        $scope.expertLikes = response.expertLikes.sort(function (a, b) {if (a.like_id < b.like_id) {return 1;}if (a.like_id > b.like_id) {return -1;}return 0;});;
+                    }
+
                     getProjectFiles($scope.project.project_id);
                     tryDigest();
                 } else {
