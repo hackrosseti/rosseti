@@ -98,7 +98,7 @@ export const db = {
             SELECT A.*, B.class_name
             FROM
                (SELECT  project_class,
-                     COUNT(*) as countn
+                        COUNT(*) as countn
                FROM project
                GROUP BY project_class) as A
             INNER JOIN project_classificator as B ON B.class_id = A.project_class
@@ -107,12 +107,16 @@ export const db = {
       },
       dashboard: {
          getProjects: () => sql(`
-            SELECT   
-
-            FROM projecs as p
-            LEFT JOIN
-               (SELECT ) as a
-            ON 
+            SELECT 	B.project_id, B.project_status,
+                     (NOW() - A.start_date) as project_time,
+                     (NOW() - A.last_date) as status_time
+            FROM project as B
+            INNER JOIN
+               (SELECT project_id, MIN(change_date) as start_date, MAX(change_date) as last_date
+               FROM project_history
+               GROUP BY project_id) as A
+            ON A.project_id = B.project_id
+            ORDER BY B.project_status
          `)({})
       }
    }

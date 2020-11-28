@@ -7,51 +7,47 @@
  const router = Router();
  const multer = require('multer');
  
- 
  // /api/document/upload
  router.post(
      '/upload',
 	wrapAccess(auth, access.document.upload),
 	wrapResponse((request, response) => {
 		const { projectId } = request.query;
-		var projectDir = 'uploads/'+projectId;
-		if (!fs.existsSync(projectDir)){
-			fs.mkdirSync(projectDir);
-		}
+        const projectDir = `uploads/${projectId}`;
+        const upload = multer({ storage: storageConfig }).single("file");
 		const storageConfig = multer.diskStorage({
-			destination: (req, file, cb) =>{
-				//console.log(file);
-				cb(null, `uploads/${request.query.projectId}`);
+			destination: (req, file, cb) => {
+				cb(null, `uploads/${projectId}`);
 			},
-			filename: (req, file, cb) =>{
-				//console.log(file);
-				cb(null, file.originalname?file.originalname:'file.doc');
+			filename: (req, file, cb) => {
+				cb(null, file.originalname);
 			}
 		});
-		const upload = multer({storage:storageConfig}).single("file");
-		upload(request, response, function(e){
-	
-			if(e){
-				console.log(e)
+
+        if (!fs.existsSync(projectDir)){
+			fs.mkdirSync(projectDir);
+        }
+        
+		upload(request, response, error => {
+			if (error) {
 				return response.status(400).json({ message: 'Ошибка при загрузке файла' });
 			}
 	
 			let filedata = request.file;
-			
 			if (!filedata) {
 				return response.status(400).json({ message: 'Ошибка при загрузке файла' });
 			}
 		
 			request.pool
-						.query(db.queries.insert('project_documents', {
-							document_name: filedata.originalname,
-							document_link: `./uploads/${request.query.projectId}`,
-							project_id: projectId
-						}))
-						.then(db.getOne)
-						.then(res => response.json({ document: res }))
-						.catch(e => handleDefault(e, response));
-				},function(e){ console.log(e)})
+                .query(db.queries.insert('project_documents', {
+                    document_name: filedata.originalname,
+                    document_link: `./uploads/${projectId}`,
+                    project_id: projectId
+                }))
+                .then(db.getOne)
+                .then(res => response.json({ document: res }))
+                .catch(e => handleDefault(e, response));
+		})
          
      })
  );
