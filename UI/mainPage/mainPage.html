@@ -73,13 +73,13 @@
             <div class="row" style="margin-bottom: 35px;">
                 <div class="col-12 d-flex d-xl-flex align-items-xl-center">
                     <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);width: 100%;">
-                        <div class="card-body"><input class="form-control-lg" type="search" style="width: 100%;border-radius: 20px;background: rgb(247,247,247);border-width: 0px;" placeholder="Найти..."></div>
+                        <div class="card-body"><input ng-model="searchString" class="form-control-lg" type="search" style="width: 100%;border-radius: 20px;background: rgb(247,247,247);border-width: 0px;" placeholder="Найти..."></div>
                     </div>
                 </div>
             </div>
             <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);margin-bottom: 60px;">
                 <div class="card-body" style="padding-top: 0px;padding-right: 15px;padding-left: 15px;">
-                    <div ng-repeat="project in allProjects">
+                    <div ng-repeat="project in allProjects | filter:searchString">
                         <div class="row">
                             <div class="rounded mt-1 col d-xl-flex justify-content-xl-center align-items-xl-center" style="background: #8e8e8e47;height: 300px;margin-bottom: 10px;padding-right: 0px;padding-left: 0px;">
                                 <img ng-src="{{project.image? project.image : 'images/testProjectImage.png'}}" style=" padding-top: 3px;height: 300px;max-width:100%;border-top-left-radius: 10px;border-top-right-radius: 10px;">
