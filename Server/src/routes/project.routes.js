@@ -8,8 +8,6 @@ import auth from '../middleware/auth.middleware';
 import access from './../access';
 const router = Router();
 
-
-
 /********************************** КЛАССИФИКАТОР *************************************/
 
 // /api/project/getAllProjectClassificators
@@ -167,7 +165,7 @@ router.get(
                `
                   GROUP BY t.project_id, pc.class_name, u.firstname, u.surname
                `)).then(db.getOne).then(res => { project = res; })
-               .then(() =>
+               .then(() => 
                   client.query(db.queries.select('project_comments', { project: projectId },
                   `
                      u.lastname, u.firstname, u.profile_image

@@ -2,7 +2,9 @@ export default {
     "user": {
         "add": [1],
         "getAll": [1],
-        "edit": [1]
+        "edit": [1],
+
+        "getUserProfile": [1]
     },
     "region": {
         "getAll": [1],
