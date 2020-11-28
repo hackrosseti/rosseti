@@ -12,10 +12,11 @@ const savePool = (req, res, next) => {
 };
 const storageConfig = multer.diskStorage({
     destination: (req, file, cb) =>{
+		
         cb(null, `./uploads/${req.query.projectId}/`);
     },
     filename: (req, file, cb) =>{
-        cb(null, file.filename);
+        cb(null, file.originalname);
     }
 });
 
@@ -42,7 +43,7 @@ const testServer = () => {
     console.log(db.queries.project.setDocuments({ project_id: 1 }));
 }
 
-app.use(multer({storage:storageConfig}).single("filedata"));
+var upload = multer({storage:storageConfig}).single("file") ;
 app.use(function (req, res, next) {
 	if(ALLOWED_ORIGINS.indexOf(req.headers.origin) > -1) {
 		res.set('Access-Control-Allow-Credentials', 'true')
@@ -68,6 +69,7 @@ app.use('/api/project/', require('./routes/project.routes'));
 app.use('/api/like/', require('./routes/like.routes'));
 app.use('/api/comment/', require('./routes/comment.routes'));
 app.use('/api/document/', require('./routes/document.routes'));
+app.use('/api/dashboard/', require('./routes/dashboard.routes'));
 
 app.listen(port, hostname, async () => {
     try {
