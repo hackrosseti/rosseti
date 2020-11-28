@@ -407,7 +407,7 @@ myApp.factory('likeService', function ($http, $window, $q) {
 
     service.addLike = function (projectId, likeTypeId) {
         var deferred = $q.defer();
-        $http.get(ipAdress + "/api/like/add?projectId"+projectId+"&likeTypeId="+likeTypeId ).success(function (response) {
+        $http.get(ipAdress + "/api/like/add?projectId="+projectId+"&likeTypeId="+likeTypeId ).success(function (response) {
             deferred.resolve(response);
         }).error(function (error) {
             deferred.reject(error);

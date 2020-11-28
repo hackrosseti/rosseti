@@ -2,7 +2,7 @@
 
 var mainPage = angular.module('myApp.mainPage', ['ngRoute']);
 
-mainPage.controller('MainPageCtrl', function ($scope, userService, mainService,  $rootScope, projectService, likeService) {
+mainPage.controller('MainPageCtrl', function ($scope, userService, infoService ,  $rootScope, projectService, likeService) {
 
     $scope.user = userService.User;
     $scope.project = [];

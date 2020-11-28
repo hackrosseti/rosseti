@@ -25,8 +25,9 @@
                         <table class="table">
                             <thead>
                             <tr style="height: 65px;">
-                                <th class="pointer"></th>
-                                <th class="pointer" ng-click="reverse1=!reverse1; order(reverse1, 'lastname')" >ФИО</th>
+                                <th class="pointer" width="50"></th>
+                                <th class="pointer" width="50">Фото</th>
+                                <th class="pointer" width="150" ng-click="reverse1=!reverse1; order(reverse1, 'lastname')" >ФИО</th>
                                 <th class="pointer"  ng-click="reverse2=!reverse2; order(reverse2, 'region_name')">Регион</th>
                                 <th class="pointer"  ng-click="reverse3=!reverse3; order(reverse3, 'login')">Логин</th>
                                 <th class="pointer"  ng-click="reverse4=!reverse4; order(reverse4, 'company')">Компания</th>
@@ -38,8 +39,10 @@
                             <tbody>
                             <tr ng-repeat="user in users |orderObjectBy:sortType:reverse">
                                 <td>{{$index+1}}</td>
-                                <td>{{$index+1}}</td>
-                                profile_image
+                                <td>
+                                    <img ng-if="!user || !user.user_id || !user.profile_image "  src="images/icons/default-user.jpg" class="rounded-circle" style="margin-bottom: 18px;width: 50px;height: 50px;"  >
+                                    <img ng-if="user && user.user_id && user.profile_image" ng-src="{{user.profile_image}}" class="rounded-circle" style="margin-bottom: 18px;width: 50px;height: 50px;">
+                                </td>
                                 <td>
                                     <span>{{user.lastname + ' ' + user.firstname + ' '+ user.surname}}</span>
                                 </td>

@@ -2,7 +2,7 @@
 
 var mySuggestion = angular.module('myApp.mySuggestion', ['ngRoute']);
 
-mySuggestion.controller('MySuggestionCtrl', function ($scope, projectService,  userService, likeService) {
+mySuggestion.controller('MySuggestionCtrl', function ($scope, projectService, infoService, userService, likeService) {
 
     $scope.myIdeas = [];
     $scope.user = userService.User;
