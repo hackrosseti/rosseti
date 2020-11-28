@@ -261,6 +261,52 @@ router.get(
          .then(res => response.json({ projects: res }))
          .catch((e) => handleDefault(e, response))
 )
+
+//*******************************   *************************************/
+
+// /api/project/updateProjectStatus
+router.get(
+   '/updateProjectStatus',
+   wrapAccess(auth, access.project.updateProjectStatus),
+   wrapResponse((request, response) => {
+      var previousStatus = null;
+      var project = null;
+      const { projectId, projectStatusId } = request.query;
+
+      request.pool.connect()
+         .then(client => {
+            return client
+               .query(db.queries.select('project', { project_id: projectId }))
+               .then(db.getOne)
+               .then(res => { previousStatus = res.project_status; })
+
+               .then(() => client.query(db.queries.update('project', {
+                  project_status: projectStatusId
+               }, { project_id: projectId })))
+               .then(db.getOne)
+               .then(res => {
+                  if (!res) {
+                     response.status(400).json({ message: 'Не удалось сменить статус проекта' });
+                     throw 'internal';
+                  } else {
+                     project = res;
+                  }
+               })
+
+               .then(() => client.query(db.queries.insert('project_history', {
+                  project_id: projectId,
+                  changemaker: request.user.userId,
+                  previous_status: previousStatus
+               })))
+               .then(() => client.release())
+               .then(() => response.json({ projectId: project.project_id }))
+               .catch(e => {
+                  client.release();
+                  handleDefault(e, response);
+               })
+         });
+   })
+);
  
 // /api/project/generateReportByProjectId
 router.get(
