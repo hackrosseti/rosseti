@@ -19,7 +19,7 @@
                 <div class="card mb-2" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);">
                     <div class="card-body" style="padding-top: 0px;padding-right: 15px;padding-left: 15px;">
                         <div class="row" style="margin-bottom: 13px;">
-                            <div class="col d-flex d-xl-flex justify-content-xl-center align-items-xl-center" style="height: 200px;margin-bottom: 10px;padding-right: 0px;padding-left: 0px;">
+                            <div class="col d-flex d-xl-flex justify-content-xl-center align-items-xl-center" style=" margin-bottom: 10px;padding-right: 0px;padding-left: 0px;">
                                 <img ng-src="{{project.image? project.image : 'images/testProjectImage.png'}}" style="width: 100%;padding-top: 3px;height: 100%;border-top-left-radius: 10px;border-top-right-radius: 10px;">
                             </div>
                         </div>
@@ -112,16 +112,28 @@
                     <div class="tab-pane active" ng-show="selectedPage == 1" role="tabpanel" id="tab-1">
                         <div class="row" style="margin-top: 20px;">
                             <div class="col">
+                                <div class="row mb-3" style="margin-left: 5px;margin-right: 5px;">
+                                    <div class="col text-right">
+                                        <textarea ng-model="userComment" class="form-control"></textarea>
+                                        <button ng-click="sendComment(userComment)" class="btn text-right" type="button" style="height: 45px;background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;width: 250px;font-size: 16px;box-shadow: 0px 4px 20px rgba(0,0,0,0.25);">
+                                            <i class="fas fa-comment" style="margin-right: 9px;">
+                                            </i>Отправить</button>
+                                    </div>
+                                    <!--<button class="btn">Отправить</button>-->
+                                </div>
                                 <div class="row" style="margin-left: 20px;margin-right: 20px;">
                                     <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);margin-bottom: 20px;width: 100%;">
                                         <div class="card-body" style="padding-right: 15px;padding-left: 15px;">
-                                            <div class="row"  ng-if="!project.comments.length>0">
+                                            <div class="row"  ng-if="!comments.length>0">
                                                 <div class="col">Нет комментариев</div>
                                             </div>
-                                            <div class="row" ng-repeat="comment in project.comments" style="margin-bottom: 25px;">
+                                            <div class="row" ng-repeat="comment in comments" style="margin-bottom: 25px;">
                                                 <div class="col">
                                                     <div class="row">
-                                                        <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center"><img class="rounded-circle" src="{{comment.profile_image}}" style="width: 70px;"></div>
+                                                        <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center">
+                                                            <img ng-if="!comment.profile_image "  src="images/icons/default-user.jpg" class="rounded-circle"  >
+                                                            <img ng-if=" comment.profile_image" ng-src="{{comment.profile_image}}" class="rounded-circle"  >
+                                                        </div>
                                                         <div class="col d-flex flex-column justify-content-around">
                                                             <h4 class="d-flex d-xl-flex flex-row" style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">
                                                                 {{comment.surname + ' ' + comment_first_name}}</h4>
@@ -147,20 +159,26 @@
                         <div class="row" style="margin-top: 20px;">
                             <div class="col">
 
-                                <div class="row" style="margin-left: 30px;margin-right: 30px;">
+                                <div class="row"  ng-if="!likes.length>0">
+                                    <div class="col">Нет оценок</div>
+                                </div>
+                                <div class="row" ng-repeat="like in likes" style="margin-bottom: 25px;">
                                     <div class="card" style="border-radius: 10px;box-shadow: 0px 4px 20px rgba(33,37,41,0.25);margin-bottom: 20px;width: 100%;">
                                         <div class="card-body" style="padding-right: 15px;padding-left: 15px;">
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="row">
                                                         <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center">
-                                                            <img class="rounded-circle" src="images/icons/default-user.jpg" style="width: 50px;"></div>
+                                                            <img ng-if="!like.like_author_profile_image "  src="images/icons/default-user.jpg" class="rounded-circle"  >
+                                                            <img ng-if=" like.like_author_profile_image" ng-src="{{like.like_author_profile_image}}" class="rounded-circle"  >
+                                                        </div>
                                                         <div class="col d-flex flex-column justify-content-around">
-                                                            <div style="font-family: Montserrat, sans-serif;margin-bottom: 0px;">Петров Илья</div>
+                                                            <a href="#/users"  class="href-style" style="color: rgb(0,0,0);">{{like.surname + " " + like.firstname}}</a>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center"><img src="images/thumb_up.png" style="width: 41px;"></div>
+                                                <div ng-if="like.likestatus_id == 1" class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center"><img src="images/thumb_up.svg" style="width: 41px;"></div>
+                                                <div ng-if="like.likestatus_id == 2" class="col-2 d-xl-flex justify-content-xl-center align-items-xl-center"><img src="images/thumb_up.png" style="width: 41px;"></div>
                                             </div>
                                         </div>
                                     </div>

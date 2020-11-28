@@ -7,6 +7,9 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
     $scope.user = userService.User;
     $scope.selectedPage = 1;
     $scope.project = null;
+    $scope.likes = [];
+    $scope.comments = [];
+
     tryDigest();
     var projectId = projectService.projectId;
     if(!projectId) userService.redirectTo("kanban");
@@ -17,6 +20,8 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
             projectService.getProjectByProjectId(projectId).then(function(response){
                 if (response && response.project) {
                     $scope.project = response.project;
+                    if(response.likes && response.likes.data) $scope.likes = response.likes.data;
+                    if(response.comments && response.comments) $scope.comments = response.comments;
                     tryDigest();
                 } else {
                     infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
@@ -27,6 +32,28 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
             });
         } else{
           console.log("projectId is null")
+        }
+    }
+
+    $scope.sendComment = function(comment){
+        var projectId = $scope.project.project_id;
+        if(projectId && comment){
+            var comment = {
+                comment: comment,
+                projectId: projectId,
+            }
+            projectService.addCommentToProject(comment).then(function(response){
+                if (response ) {
+                    getProjectByProjectId();
+                } else {
+                    infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+                }
+            }, function (response) {
+                console.log(response);
+                infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
+            });
+        } else {
+            infoService.infoFunction("Невозможно сохранить комментарий. Передан пустой комментарий или проект не найден", "Ошибка");
         }
     }
 
@@ -57,7 +84,7 @@ createProject.controller('ProjectCtrl', function ($scope, userService, projectSe
                 infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
             });
         } else {
-            infoService.infoFunction("Невозможно сформировать отчет. ProjectId не найден", "Ошибка");
+            infoService.infoFunction("Невозможно сформировать отчет. Проект не найден", "Ошибка");
         }
     }
 

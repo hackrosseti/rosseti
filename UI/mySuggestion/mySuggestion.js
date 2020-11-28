@@ -23,10 +23,18 @@ mySuggestion.controller('MySuggestionCtrl', function ($scope, projectService, in
         });
     }
 
+    $scope.redirectToProject = function(projectId){
+        if(projectId) {
+            projectService.projectId = projectId;
+            userService.redirectTo("project");
+        } else
+            infoService.infoFunction("Невозможно открыть проект: нет id проекта", "Ошибка");
+    }
+
     $scope.like = function(projectId, likeStatusId){
         console.log(projectId, likeStatusId)
         likeService.addLike(projectId, likeStatusId).then(function(response){
-            if (response && response.projects) {
+            if (response && response.likeId) {
                 getAllProjects();
             } else {
                 infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
@@ -40,7 +48,7 @@ mySuggestion.controller('MySuggestionCtrl', function ($scope, projectService, in
     $scope.dislike = function(projectId, likeStatusId){
         console.log(projectId, likeStatusId)
         likeService.addLike(projectId, likeStatusId).then(function(response){
-            if (response && response.projects) {
+            if (response && response.likeId) {
                 getAllProjects();
             } else {
                 infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
