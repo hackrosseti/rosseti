@@ -47,7 +47,6 @@ export const db = {
       select: (table, data, additionalSelect, joins, endQuery) => {
          const queryString = `SELECT t.* ${additionalSelect ? ', ' : ''}${additionalSelect || ''}
                               FROM ${table} as t ${joins || ''} ${getWhere(data, 't')} ${endQuery || ''}`;
-         console.log(queryString);
          return wrapSql(queryString, data);
       },
       // INSERT
@@ -63,8 +62,6 @@ export const db = {
             Object.keys(data).map((key) => `${key} = :${key}`).join(', ')
          } ${getWhere(whereData)} RETURNING *`;
          const wrapData = {...data, ...whereData};
-         console.log(queryString);
-         console.log(wrapData);
          return wrapSql(queryString, wrapData);
       },
       // DELETE

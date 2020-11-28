@@ -29,14 +29,19 @@ router.get(
          .query(db.queries.select('project', {},
          `
             COUNT(l.like_id)::int as likes_сount,
-            MIN(ph.change_date) as date_create
+            MIN(ph.change_date) as date_create,
+            u.profile_image as author_image,
+            u.firstname as author_firstname,
+            u.surname as author_surname,
+            (SELECT pc.class_name FROM project_classificator as pc WHERE pc.class_id = t.project_class) as classificator
          `,
          `
             LEFT JOIN likes as l ON l.project_id = t.project_id
             LEFT JOIN project_history as ph ON ph.project_id = t.project_id
+            LEFT JOIN users as u ON u.user_id = t.author
          `,
          `
-            GROUP BY t.project_id
+            GROUP BY t.project_id, u.profile_image, u.firstname, u.surname
             ORDER BY date_create DESC
          `))
          .then(db.getAll)
@@ -51,7 +56,8 @@ router.post(
    wrapResponse((request, response) => {
       var project = null;
       const {
-         project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit
+         project_name, project_describe, project_status, project_class, author, conference_link,
+         region_id, project_offer, project_profit, date_end, image
       } = request.body;
 
       const checkProjectDoesNotExist = (project) => {
@@ -69,7 +75,8 @@ router.post(
                .then(checkProjectDoesNotExist)
 
                .then(() => client.query(db.queries.insert('project', {
-                  project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit
+                  project_name, project_describe, project_status, project_class, author, conference_link,
+                  region_id, project_offer, project_profit, date_end, image
                })))
                .then(db.getOne)
                .then((res) => {
@@ -92,28 +99,55 @@ router.post(
    '/updateProject',
    wrapAccess(auth, access.project.updateProject),
    wrapResponse(async (request, response) => {
+      var project = null;
       const {
-         project_id, project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit, date_end
+         project_id, project_name, project_describe, project_status, project_class, author,
+         conference_link, region_id, project_offer, project_profit, date_end, image
       } = request.body;
 
       if (!project_id) {
          return response.status(400).json({ message: 'Не задан ID проекта для модификации' });
       }
 
-      request.pool
-         .query(db.queries.update('project', {
-            project_name, project_describe, project_status, project_class, author, conference_link, region_id, project_offer, project_profit
-         }, { project_id: project_id }))
-         .then(db.getOne)
-         .then(project => {
-            if (project) {
-               response.json({ projectId: project.project_id });
-            } else {
-               handleDefault(new Error('Не удалось изменить данные по проекту'), response);
-            }
-         })
-         .catch((e) => handleDefault(e, response))
+      request.pool.connect()
+         .then(client => {
+            return client
+               .query(db.queries.update('project', {
+                  project_name, project_describe, project_status, project_class, author, conference_link,
+                  region_id, project_offer, project_profit, date_end, image
+               }, { project_id: project_id }))
+               .then(db.getOne)
+               .then(res => {
+                  console.log(res);
+                  if (res) {
+                     project = res;
+                     return client.query(db.queries.project.setDocuments({ project_id: res.project_id }))
+                  } else {
+                     handleDefault(new Error('Не удалось изменить данные по проекту'), response);
+                  }
+               })
+               .then(() => client.release())
+               .then(() => response.json({ projectId: project.project_id }))
+               .catch(e => {
+                  client.release();
+                  handleDefault(e, response);
+               })
+         });
    })
+);
+
+// /api/project/getProjectByProjectId
+router.get(
+   '/getProjectByProjectId',
+   wrapAccess(auth, access.project.getProjectByProjectId),
+   (request, response) => {
+      const { projectId } = request.query;
+      request.pool
+         .query(db.queries.select('project', { project_id: projectId }))
+         .then(db.getOne)
+         .then((result) => response.json({ project: result }))
+         .catch((e) => handleDefault(e, response));
+   }
 );
 
 module.exports = router;

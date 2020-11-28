@@ -82,7 +82,13 @@ router.get(
    wrapAccess(auth, access.user.getAll),
    (request, response) => 
       request.pool
-         .query(db.queries.select('users'))
+         .query(db.queries.select('users', {}, 
+         `
+            r.region_name
+         `,
+         `
+            LEFT JOIN regions as r ON r.region_id = t.region_id
+         `))
          .then(db.getAll)
          .then((result) => response.json({ users: result }))
          .catch((e) => handleDefault(e, response))
@@ -95,12 +101,13 @@ router.post(
    wrapResponse((request, response) => {
       var user = null;
       const {
-         login, role, password, firstname, lastname, surname, company, department, position, region_id, email, education, dob, experience
+         login, role, password, firstname, lastname, surname, company, department,
+         position, region_id, email, education, dob, experience, profile_image
       } = request.body;
 
       const checkUserDoesNotExist = (user) => {
          if (user) {
-            response.status(400).json({ message: "Такой пользователь уже существует" });
+            response.status(400).json({ message: "Пользователь с таким логином уже существует" });
             throw 'internal';
          }
       };
@@ -113,7 +120,8 @@ router.post(
                .then(checkUserDoesNotExist)
 
                .then(() => client.query(db.queries.insert('users', {
-                  login, role, password, firstname, lastname, surname, company, department, position, region_id, email, education, dob, experience
+                  login, role, password, firstname, lastname, surname, company, department,
+                  position, region_id, email, education, dob, experience, profile_image
                })))
                .then(db.getOne)
                .then((res) => {
@@ -132,28 +140,57 @@ router.post(
 );
 
 // /api/user/edit
-// router.post(
-//    '/edit',
-//    // wrapAccess(auth, access.user.edit),
-//    wrapResponse(async (request, response) => {
-//       const {
-//          login, role, password, firstname, lastname, surname, company, department, position, region_id
-//       } = request.body;
+router.post(
+   '/edit',
+   wrapAccess(auth, access.user.edit),
+   wrapResponse((request, response) => {
+      var user = null;
+      const {
+         login, role, password, firstname, lastname, surname, company, department, position, region_id, user_id,
+         email, education, dob, experience, profile_image
+      } = request.body;
+      const checkUserDoesNotExist = (user) => {
+         if (user) {
+            response.status(400).json({ message: "Пользователь с таким логином уже существует" });
+            throw 'internal';
+         }
+      };
 
-//       const user = await request.client
-//          .query(db.queries.update('users', {
-//             role, password, firstname, lastname, surname, company, department, position, region_id
-//          }, { user_id }))
-//          .then((result) => {
-//             if (db.getOne(result)) {
-//                return request.client.query(db.queries.user.setDocuments())
-//             }
-//          })
-//          .then(db.getOne)
-//          .catch((e) => handleDefault(e, response));
-      
-//       console.log(user);
-//       response.status(201).json({ message: "Пользователь изменен", user });
-//    }));
+      if (!user_id) {
+         return response.status(400).json({ message: 'Не задан ID пользователя для модификации' });
+      }
+
+      request.pool.connect()
+         .then(client => {
+            return client
+               .query(db.queries.select('users', { user_id }))
+               .then(db.getOne)
+               .then(user => {
+                  if (login !== user.login) {
+                     return client.query(db.queries.select('users', { login })).then(db.getOne).then(checkUserDoesNotExist)
+                  }
+               })
+               
+               .then(() => client.query(db.queries.update('users', {
+                  login, role, password, firstname, lastname, surname, company,
+                  department, position, region_id, email, education, dob, experience, profile_image
+               }, { user_id })))
+               .then(db.getOne)
+               .then(res => {
+                  if (res) {
+                     user = res;
+                     return client.query(db.queries.user.setDocuments({ user_id: res.user_id }))
+                  } else {
+                     handleDefault(new Error('Не удалось изменить данные по пользователю'), response);
+                  }
+               })
+               .then(() => client.release())
+               .then(() => response.json({ userId: user.user_id }))
+               .catch(e => {
+                  client.release();
+                  handleDefault(e, response);
+               })
+         });
+   }));
 
 module.exports = router;
