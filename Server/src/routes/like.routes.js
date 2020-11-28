@@ -26,9 +26,12 @@ router.get(
         let weight = 1;
         var like = null;
         switch (likeTypeId) {
-            case 1: weight = 1; break;
-            case 2: weight = -1; break;
-            default: weight = 1
+            case 1: weight = 1; 
+			break;
+            case 2: weight = -1; 
+			break
+			case 3: weight = 10; 
+			break;
         }
 
         request.pool.connect()
