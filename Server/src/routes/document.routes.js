@@ -1,4 +1,6 @@
 const {Router} = require('express');
+const fs = require('fs');
+const path = require('path');
 import {db, wrapResponse, wrapAccess, handleDefault} from '../utils';
 import auth from '../middleware/auth.middleware';
 import access from './../access';
@@ -40,7 +42,12 @@ router.post(
             }))
             .then(db.getOne)
             .then(document => {
-                
+                const content = fs.readFileSync(path.resolve(
+                    __dirname,
+                    `./uploads/${document.project_id}/${document.document_link}${document.document_name}`),
+                    'binary'
+                );
+				return Buffer.from(content);
             })
             .then(data => repsponse.json({ data }))
             .catch(e => handleDefault(e, response))
