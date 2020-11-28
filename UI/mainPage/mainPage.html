@@ -35,7 +35,7 @@
                     </div>
                     <p class="card-text" ng-click="redirectToProject(idea.project_id)" style="margin-bottom: 30px;">{{idea.project_describe.substring(0, 55)}}..<br><a href="">Читать далее...</a><br></p>
                     <div class="row">
-                        <div class="col">
+                        <div class="col text-nowrap">
                             <img ng-if="!idea.author_image "  src="images/icons/default-user.jpg" class="rounded-circle" style="width: 50px;height: 50px"  >
                             <img ng-if="idea.author_image" ng-src="{{idea.author_image}}" class="rounded-circle" style="width: 50px;height: 50px" >
                             <a href="#/users"  class="href-style" style="color: rgb(0,0,0);">{{idea.author_surname + " " + idea.author_firstname}}
@@ -99,7 +99,7 @@
                         </div>
                         <p class="card-text" ng-click="redirectToProject(project.project_id)" style="margin-bottom: 30px;">{{project.project_describe.substring(0, 55)}}..<br><a href="">Читать далее...</a><br></p>
                         <div class="row">
-                            <div class="col">
+                            <div class="col text-nowrap">
                                 <img style="width: 50px;height: 50px" ng-if="!project.author_image "  src="images/icons/default-user.jpg" class="rounded-circle"  >
                                 <img style="width: 50px;height: 50px" ng-if="project.author_image" ng-src="{{project.author_image}}" class="rounded-circle"  >
                                 <a href="#/users"  class="href-style" style="color: rgb(0,0,0);">{{project.author_surname + " " + project.author_firstname}}
