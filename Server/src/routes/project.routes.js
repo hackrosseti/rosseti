@@ -98,7 +98,7 @@ router.post(
 router.post(
    '/updateProject',
    wrapAccess(auth, access.project.updateProject),
-   wrapResponse(async (request, response) => {
+   wrapResponse((request, response) => {
       var project = null;
       const {
          project_id, project_name, project_describe, project_status, project_class, author,
@@ -140,7 +140,7 @@ router.post(
 router.get(
    '/getProjectByProjectId',
    wrapAccess(auth, access.project.getProjectByProjectId),
-   (request, response) => {
+   wrapResponse((request, response) => {
       var project = null;
       var comments = null;
       var likes = null;
@@ -188,7 +188,35 @@ router.get(
                   handleDefault(e, response);
                })
          });
-   }
+   })
+);
+
+// /api/project/getByField
+router.get(
+   '/getByField',
+   // wrapAccess(auth, access.project.getByField),
+   (request, response) =>
+      request.pool
+         .query(db.queries.select('project', { [Object.keys(request.query)[0]]: Object.values(request.query)[0] }))
+         .then(db.getAll)
+         .then(res => response.json({ projects: res }))
+         .catch((e) => handleDefault(e, response))
+)
+
+// /api/project/generateReportByProjectId
+router.get(
+   '/generateReportByProjectId',
+   wrapAccess(auth, access.project.generateReportByProjectId),
+   wrapResponse((request, response) => {
+      const { projectId } = request.query;
+
+      request.pool.connect()
+         .query(db.queries.select('project', { project_id: projectId })).then(db.getOne)
+         .then(project => {
+
+         })
+         .catch((e) => handleDefault(e, response))
+   })
 );
 
 module.exports = router;
