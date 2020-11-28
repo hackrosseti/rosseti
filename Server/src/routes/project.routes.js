@@ -89,9 +89,17 @@ router.post(
 
                .then(() => client.query(db.queries.project.setDocuments({ project_id: project.project_id })))
 
-               // .then(() => client.query(db.queries.insert('project_history', {
-
-               // })))
+               .then(() => client.query(db.queries.insert('project_history', {
+                  project_id: project.project_id,
+                  changemaker: request.user.userId
+               })))
+               .then(db.getOne)
+               .then(res => {
+                  if (!res) {
+                     response.status(400).json({ message: 'Не удалось назначить статус проекту' });
+                     throw 'internal';
+                  }
+               })
                .then(() => client.release())
                .then(() => response.status(201).json({ message: "Проект создан", projectId: project.project_id }))
                .catch(e => {
