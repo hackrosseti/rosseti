@@ -29,6 +29,7 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
 
     var boards = [];
     function createCanban(){
+
         boards = [];
         angular.forEach($scope.kanbanStatuses, function (status, index){
             var projects = [];
@@ -56,7 +57,8 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
             boards.push(board);
         })
         setTimeout(function (){
-
+            const myNode = document.getElementById("myKanban");
+            myNode.textContent = '';
             var KanbanTest = new jKanban({
                 element: "#myKanban",
                 gutter: "10px",
@@ -125,8 +127,7 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
 
     function getAllProjects(classificatorId){
         if(!classificatorId){
-            const myNode = document.getElementById("myKanban");
-            myNode.textContent = '';
+
             projectService.getAllProjects().then(function(response){
                 if (response && response.projects) {
                     $scope.projects = response.projects;
@@ -138,8 +139,7 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
                 infoService.infoFunction(response.message ? response.message : userService.defaultError, "Ошибка");
             });
         } else {
-            const myNode = document.getElementById("myKanban");
-            myNode.textContent = '';
+
             console.log("Get project by classificatorId:"+classificatorId)
             $scope.projects = [];
             projectService.getProjectsByClassificator(classificatorId).then(function(response){

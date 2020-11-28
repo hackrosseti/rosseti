@@ -36,13 +36,13 @@
                     </div>
                     <p class="card-text" ng-click="redirectToProject(idea.project_id)" style="margin-bottom: 30px;">{{idea.project_describe.substring(0, 40)}}..<br><a href=""><br>Читать далее...</a><br></p>
                     <div class="row">
-                        <div class="col">
+                        <div class="col text-nowrap">
                             <img ng-if="!user || !user.user_id || !user.profile_image "  src="images/icons/default-user.jpg" class="rounded-circle"  >
                             <img ng-if="user && user.user_id && user.profile_image" ng-src="{{user.profile_image}}" class="rounded-circle"  >
                             <a href="#/users"  class="text-nowrap href-style" style="color: rgb(0,0,0);">{{user.surname + " " + user.firstname}}
-                        </a>
+                            </a>
                         </div>
-                        <div class="col d-flex justify-content-xl-end align-items-xl-center">
+                        <div class="col text-nowrap d-flex justify-content-xl-end align-items-xl-center">
                             <img ng-click="like(idea.project_id, 1)" class="pointer"  src="images/thumb_up.svg" style="margin-right: 15px;">
                             <p style="margin-right: 15px;margin-bottom: 0px;font-family: Montserrat, sans-serif;color: rgb(18,132,0);font-weight: bold;">
                                 {{idea.likes_weight ? idea.likes_weight  : 0}}
