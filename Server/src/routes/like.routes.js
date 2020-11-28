@@ -10,7 +10,9 @@ router.get(
     wrapAccess(auth, access.like.add),
     (request, response) => {
         const { projectId, likeTypeId } = request.query;
-
+		var weigh = 0;
+		if(likeTypeId==1) weigh = 1;
+		if(likeTypeId==2) weigh = -1;
         request.pool
             .query(db.queries.insert('likes', {
                 user_id: request.user.userId,
