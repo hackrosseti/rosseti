@@ -214,7 +214,7 @@ var path = require('path');
 // /api/project/generateReportByProjectId
 router.get(
    '/generateReportByProjectId',
-   //wrapAccess(auth, access.project.generateReportByProjectId),
+   wrapAccess(auth, access.project.generateReportByProjectId),
    wrapResponse((request, response) => {
       const { projectId } = request.query;
 
