@@ -52,10 +52,11 @@ export const db = {
       },
       // INSERT
       insert: (table, data) => {
+		 // console.log(table, data);
          const queryString = `INSERT INTO ${table} as t (${Object.keys(data).join(', ')}) VALUES (${
             Object.keys(data).map((key) => `:${key}`).join(', ')
          }) RETURNING *`;
-         // console.log(queryString);
+         
          return wrapSql(queryString, data);
       },
       // UPDATE

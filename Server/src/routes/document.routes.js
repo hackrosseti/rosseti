@@ -13,43 +13,45 @@ router.post(
     '/upload',
     wrapAccess(auth, access.document.upload),
     wrapResponse((request, response) => {
+		 const { projectId } = request.query;
+		 var projectDir = 'uploads/'+projectId;
+		if (!fs.existsSync(projectDir)){
+			fs.mkdirSync(projectDir);
+		}
+		 const storageConfig = multer.diskStorage({
+		 	destination: (req, file, cb) =>{
+		 		//console.log(file);
+		 		cb(null, `uploads/${request.query.projectId}`);
+		 	},
+		 	filename: (req, file, cb) =>{
+		 		//console.log(file);
+		 		cb(null, file.originalname?file.originalname:'file.doc');
+		 	}
+		 });
+		 const upload = multer({storage:storageConfig}).single("file");
+		 upload(request, response, function(e){
+
+		 	if(e){
+		 		console.log(e)
+		 		return response.status(400).json({ message: 'Ошибка при загрузке файла' });
+		 	}
+
+		 	let filedata = request.file;
+		 	 
+		 	if (!filedata) {
+		 		return response.status(400).json({ message: 'Ошибка при загрузке файла' });
+		 	}
 		 
-		// const storageConfig = multer.diskStorage({
-		// 	destination: (req, file, cb) =>{
-		// 		console.log(file);
-		// 		cb(null, `uploads`);
-		// 	},
-		// 	filename: (req, file, cb) =>{
-		// 		console.log(file);
-		// 		cb(null, file.originalname?file.originalname:'file.doc');
-		// 	}
-		// });
-		// const upload = multer({storage:storageConfig}).single("file");
-		// upload(request, response, function(e){
-		// 	//console.log("4",request)
-		// 	if(e){
-		// 		console.log(e)
-		// 		return response.status(400).json({ message: 'Ошибка при загрузке файла' });
-		// 	}
-		// 	console.log("5")
-		// 	const { projectId } = request.query;
-		// 	//console.log(request)
-		// 	let filedata = request.file;
-		// 	console.log(filedata)
-		// 	if (!filedata) {
-		// 		return response.status(400).json({ message: 'Ошибка при загрузке файла' });
-		// 	}
-	
-		// 	request.pool
-		// 		.query(db.queries.insert('project_documents'), {
-					document_name: filedata.originalname,
-					document_link: `./uploads`,
-		// 			project_id: projectId
-		// 		})
-		// 		.then(db.getOne)
-		// 		.then(res => response.json({ document: res }))
-		// 		.catch(e => handleDefault(e, response));
-		// },function(e){ console.log(e)})
+		 	request.pool
+						.query(db.queries.insert('project_documents', {
+							document_name: filedata.originalname,
+							document_link: `./uploads/${request.query.projectId}`,
+							project_id: projectId
+						}))
+						.then(db.getOne)
+						.then(res => response.json({ document: res }))
+						.catch(e => handleDefault(e, response));
+				},function(e){ console.log(e)})
         
     })
 );
