@@ -26,6 +26,7 @@ export default {
         "getProjectByProjectId": [1],
         "getProjectsByClassificator": [1],
 
+        "updateProjectStatus": [1],
         "generateReportByProjectId": [1]
     },
     "like": {
