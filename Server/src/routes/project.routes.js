@@ -30,7 +30,13 @@ router.get(
      request.pool
         .query(db.queries.project.getSortedClassificators())
         .then(db.getAll)
-        .then((result) => response.json({ classificators: result }))
+        .then((result) => response.json({ classificators: [
+           {
+               project_class: 1,
+               class_name: "Все"
+           },
+           ...result
+         ]}))
         .catch((e) => handleDefault(e, response))
 );
 
