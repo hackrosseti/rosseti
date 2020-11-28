@@ -22,6 +22,18 @@ router.get(
          .catch((e) => handleDefault(e, response))
 );
 
+// /api/project/getSortedClassificators
+router.get(
+   '/getSortedClassificators',
+   wrapAccess(auth, access.project.getSortedClassificators),
+   (request, response) =>
+     request.pool
+        .query(db.queries.project.getSortedClassificators())
+        .then(db.getAll)
+        .then((result) => response.json({ classificators: result }))
+        .catch((e) => handleDefault(e, response))
+);
+
 /********************************* ПРОЕКТЫ *****************************************/
 
 // /api/project/getAllProjects

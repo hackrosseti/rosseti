@@ -69,6 +69,7 @@ app.use('/api/project/', require('./routes/project.routes'));
 app.use('/api/like/', require('./routes/like.routes'));
 app.use('/api/comment/', require('./routes/comment.routes'));
 app.use('/api/document/', require('./routes/document.routes'));
+app.use('/api/dashboard/', require('./routes/dashboard.routes'));
 
 app.listen(port, hostname, async () => {
     try {

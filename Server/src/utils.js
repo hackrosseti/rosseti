@@ -92,7 +92,28 @@ export const db = {
          setDocuments: (project_id) => sql(`
             UPDATE project as p
             SET document = to_tsvector(project_name || '. ' || project_describe) ${getWhere(project_id, 'p')}
-         `)(project_id)
+         `)(project_id),
+
+         getSortedClassificators: () => sql(`
+            SELECT A.*, B.class_name
+            FROM
+               (SELECT  project_class,
+                     COUNT(*) as countn
+               FROM project
+               GROUP BY project_class) as A
+            INNER JOIN project_classificator as B ON B.class_id = A.project_class
+            ORDER BY A.countn DESC
+         `)({})
+      },
+      dashboard: {
+         getProjects: () => sql(`
+            SELECT   
+
+            FROM projecs as p
+            LEFT JOIN
+               (SELECT ) as a
+            ON 
+         `)({})
       }
    }
 };

@@ -17,6 +17,7 @@ export default {
     },
     "project": {
         "getAllProjectClassificators": [1],
+        "getSortedClassificators": [1],
 
         "getAllProjects": [1],
         "addProject": [1],
@@ -39,5 +40,8 @@ export default {
         "upload": [1],
         "download": [1],
         "getAllProjectDocument": [1]
+    },
+    "dashboard": {
+        "getProjects": [1]
     }
 }
