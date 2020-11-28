@@ -109,7 +109,7 @@ statistic.controller('StatisticCtrl', function ($scope, userService, infoService
         console.log(data)
         var boxplotData = {
             // define label tree
-            labels: $scope.kanbanStatuses.map(function(e) {return e.status_name}),
+            labels: $scope.kanbanStatuses.filter(function(e){return existProjectStatus.includes(e.table_id)}).map(function(e) {return e.status_name}),
             datasets: [{
                 label: 'Время',
                 backgroundColor: 'rgba(255,0,0,0.5)',
