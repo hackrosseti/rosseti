@@ -1,9 +1,15 @@
 const {Router} = require('express');
+const PizZip = require('pizzip');
+const Docxtemplater = require('docxtemplater');
+const fs = require('fs');
+const path = require('path');
 import {db, wrapResponse, wrapAccess, handleDefault} from '../utils';
 import auth from '../middleware/auth.middleware';
 import access from './../access';
 const router = Router();
-const docx = require("docx")
+
+
+
 /********************************** КЛАССИФИКАТОР *************************************/
 
 // /api/project/getAllProjectClassificators
@@ -194,7 +200,7 @@ router.get(
 // /api/project/getByField
 router.get(
    '/getByField',
-   // wrapAccess(auth, access.project.getByField),
+   wrapAccess(auth, access.project.getByField),
    (request, response) =>
       request.pool
          .query(db.queries.select('project', { [Object.keys(request.query)[0]]: Object.values(request.query)[0] }))
@@ -202,14 +208,6 @@ router.get(
          .then(res => response.json({ projects: res }))
          .catch((e) => handleDefault(e, response))
 )
-
- 
- 
-var PizZip = require('pizzip');
-var Docxtemplater = require('docxtemplater');
-
-var fs = require('fs');
-var path = require('path');
  
 // /api/project/generateReportByProjectId
 router.get(
@@ -217,40 +215,25 @@ router.get(
    wrapAccess(auth, access.project.generateReportByProjectId),
    wrapResponse((request, response) => {
       const { projectId } = request.query;
+      const template = '../../template/template.docx';
 
       request.pool
          .query(db.queries.select('project', { project_id: projectId })).then(db.getOne)
          .then(project => {
-			try{
-				var content = fs.readFileSync(path.resolve(__dirname, '../../template/template.docx'), 'binary');
-				var zip = new PizZip(content);
-				var doc = new Docxtemplater(zip);
+				const content = fs.readFileSync(path.resolve(__dirname, template), 'binary');
+				const zip = new PizZip(content);
+				const doc = new Docxtemplater(zip);
 
 				doc.setData({
 					project_name: project.project_name,
 					project_describe: project.project_describe
 				});
 				
-				try {
-					doc.render();
-				} catch (error) {
-					//console.log('err',error)
-					return response.status(400).json({ message: error });
-				}
-				console.log(doc)
-				try{
-					var buf = doc.getZip().generate({type: 'nodebuffer'});
-					//fs.writeFileSync(path.resolve(__dirname, 'output.docx'), buf);
-					return response.json({buf})
-				} catch(ex){
-					//console.log(ex)
-					return response.status(400).json({ message: ex });
-				}
-			
-			} catch(ex){
-				return response.status(400).json({ message: ex });
-			}
+            doc.render();
+            
+            return doc.getZip().generate({ type: 'nodebuffer' });
          })
+         .then((result) => response.json({ result }))
          .catch((e) => handleDefault(e, response))
    })
 );
