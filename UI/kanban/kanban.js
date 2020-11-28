@@ -20,7 +20,7 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
                 console.log($scope.kanbanStatuses, $scope.projectClassificators, $scope.projects)
                 createCanban();
             }
-        }, 300)
+        }, 300);
     }
 
     var itemsColors = ['text-secondary', 'text-secondary', 'text-info', 'text-dark', 'text-warning', 'text-success', 'text-danger', 'text-success', 'text-danger', 'text-info', 'text-info']
@@ -136,33 +136,6 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
     }
 
 
-    /* var projects = [
-         { id:"_text", projectId: 123, title: "Идея у меня есть такая то", click: openProject, drop: changeProjectStatus, class: [itemsColors[0]]},
-         { id:"_text", projectId: 1234, title: "Как это сделать? а хз как", click: openProject, drop: changeProjectStatus, class: [itemsColors[1]] }
-     ];
-
-     var boards = [
-         {
-             id: "_problem", title: "Проблема", class: "text-light,pointer,bg-secondary",
-             item: [projects[0]]
-         }, {
-             id: "_idea", title: "Идея проекта", class: "text-light,pointer,bg-info",
-             item: [projects[1]]
-         }, {
-             id: "_hadi", title: "HADI", class: "text-light,pointer,bg-dark",
-             item: []
-         }, {
-             id: "_working", title: "Разработка", class: "text-light,pointer,bg-warning",
-             item: []
-         }, {
-             id: "_in_review", title: "Внедрение", class: "text-light,pointer,bg-danger",
-             item: []
-         }, {
-             id: "_done", title: "Внедрено", class: "text-light,pointer,bg-success",
-             item: []
-         }
-     ];*/
-
     function getAllKanbanStatuses(){
         projectService.getAllKanbanStatuses().then(function(response){
             if (response && response.statuses) {
@@ -237,7 +210,7 @@ kanban.controller('KanbanCtrl', function ($scope, mainService, $window, $rootSco
 
     function getProjectById(projectId){
         //console.log(projectId)
-        userService.projectId = projectId;
+        projectService.projectId = projectId;
         userService.redirectTo("project");
     }
 

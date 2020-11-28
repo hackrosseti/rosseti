@@ -21,7 +21,7 @@
         <div class="col-9" style="margin-right: 24px;">
             <div class="card mb-2">
                 <div class="card-body" style="padding: 0px;">
-                    <div class="table-responsive" ng-if="users && users.length>0">
+                    <div class="table-responsive"  ng-if="users && users.length>0">
                         <table class="table">
                             <thead>
                             <tr style="height: 65px;">
@@ -57,16 +57,16 @@
                                     <span>{{user.position}}</span>
                                 </td>
                                 <td>
-                                    <div class="btn-group " ng-class="{'open': user.isOpenedEdit}">
+                                    <div  ng-mouseleave="user.isOpenedEdit= false" class="btn-group " ng-class="{'open': user.isOpenedEdit}">
 
                                         <div class="pointer">
                                             <i ng-click="user.isOpenedEdit=!user.isOpenedEdit" class="fas fa-ellipsis-h fa-lg"></i>
                                         </div>
-                                        <ul class="dropdown-menu p-2" style="margin-left: -100px;">
+                                        <ul  ng-mouseenter="user.isOpenedEdit= true"  class="dropdown-menu p-2" style="margin-left: -100px;">
                                             <li><a href="" ng-click="editUserModal(user)"><i class="fa fa-pencil fa-fw"></i>&nbsp;Редактировать</a></li>
                                             <li><a href="" onclick="alert('not realized')"><i class="fa fa-trash-o fa-fw"></i>&nbsp;Удалить</a></li>
                                             <li class="divider"></li>
-                                            <li><a ng-click="user.isOpenedEdit=!user.isOpenedEdit" href=""><i class="fa fa-close"></i>&nbsp;Закрыть</a></li>
+                                            <li><a ng-click="user.isOpenedEdit=!user.isOpenedEdit && !inUserTableHover" href=""><i class="fa fa-close"></i>&nbsp;Закрыть</a></li>
                                         </ul>
                                     </div>
                                 </td>

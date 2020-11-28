@@ -18,8 +18,8 @@ editUser.controller('EditUserModalCtrl', function ($scope, $uibModalInstance, us
 
     function getAllUserRoles(){
         userService.getAllUserRoles().then(function(response){
-            if(response && response.user_roles){
-                $scope.userRoles = response.user_roles;
+            if(response && response.users_roles){
+                $scope.userRoles = response.users_roles;
             } else {
                 setDefaultRoles();
                 infoService.infoFunction(response.message, "Ошибка");

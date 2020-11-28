@@ -11,8 +11,8 @@
                     </div>
                     <div class="row">
                         <div class="col d-flex justify-content-between">
-                            <h4 style="margin-bottom: 30px;font-family: Montserrat, sans-serif;font-size: 20px;color: #707c97;">Категория</h4>
-                            <h4 style="margin-bottom: 30px;font-family: Montserrat, sans-serif;font-size: 20px;color: #707c97;">Дата</h4>
+                            <h4 style="margin-bottom: 30px;font-family: Montserrat, sans-serif;font-size: 20px;color: #707c97;">{{idea.classificator}}</h4>
+                            <h4 style="margin-bottom: 30px;font-family: Montserrat, sans-serif;font-size: 20px;color: #707c97;">{{idea.date_create ? idea.date_create : '28.11.2020'}}</h4>
                         </div>
                     </div>
                     <div class="row">
@@ -20,7 +20,7 @@
                             <h4 style="font-family: Montserrat, sans-serif;font-weight: bold;">{{idea.project_name}}</h4>
                         </div>
                     </div>
-                    <p class="card-text" style="margin-bottom: 30px;">{{idea.project_describe}}<a href="">Читать далее...</a><br></p>
+                    <p class="card-text" style="margin-bottom: 30px;">{{idea.project_describe}}<br><a href="">Читать далее...</a><br></p>
                     <div class="row">
                         <div class="col"><img class="rounded-circle" src="images/24.png" style="margin-right: 15px;"><a href="#" style="color: rgb(0,0,0);">ФИ автора</a></div>
                         <div class="col d-flex justify-content-xl-end align-items-xl-center"><img src="images/thumb_up.svg" style="margin-right: 15px;">

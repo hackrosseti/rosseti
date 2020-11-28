@@ -525,7 +525,7 @@ var dragula = require("dragula");
             customCssIconHandler = customCssHandler + "_icon";
           }
 
-          result = "<div id="+projectId+" class='item_handle "+customCssHandler+"'><i class='item_handle "+customCssIconHandler+"'></i></div><div>" + result + "</div>";
+          result = "<div id="+projectId+" class='item_handle "+customCssHandler+"'><i class='item_handle "+customCssIconHandler+"'></i></div><div class='pointer href-style'>" + result + "</div>";
         } else {
           result = self.options.itemHandleOptions.customHandler.replace("%s", result);
         }
