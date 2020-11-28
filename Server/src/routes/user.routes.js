@@ -193,4 +193,48 @@ router.post(
          });
    }));
 
+// /api/user/getUserProfile
+router.get(
+   '/getUserProfile',
+   wrapAccess(auth, access.user.getUserProfile),
+   (request, response) => {
+      var awards = null;
+      var likes_amount = null;
+      var own_projects = null;
+      const { userId } = request.query;
+
+      request.pool.connect()
+         .then(client => {
+            return client
+               .query(db.queries.select('users_awards', { user_id: userId },
+               `
+                  a.medal_name, a.medal_url
+               `,
+               `
+                  LEFT JOIN awards as a ON a.medal_id = t.medal_id
+               `)).then(db.getAll).then(res => { awards = res; })
+               .then(() =>
+                  client.query(db.queries.select('likes', { user_id: userId }))
+                     .then(db.getAll)
+                     .then(res => { likes_amount = res.length; })
+               )
+               .then(() =>
+                  client.query(db.queries.select('project_group', { user: userId }))
+                  .then(db.getAll)
+                  .then(res => { own_projects = res.length; })
+               )
+               .then(() => client.release())
+               .then(() => response.json({
+                  awards: awards,
+                  likes_amount: likes_amount,
+                  own_projects: own_projects
+               }))
+               .catch(e => {
+                  client.release();
+                  handleDefault(e, response);
+               })
+         });
+   }
+);
+
 module.exports = router;
